@@ -1,0 +1,238 @@
+﻿<div>
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th></th>
+                <th colspan="2" class="text-center">Paid By</th>
+                <th colspan="7" class="text-center">Purchase Order</th>
+                <th></th>
+                <th colspan="3" class="text-center">Claim</th>
+                <th colspan="3" class="text-center">Allowed</th>
+                <th colspan="2" class="text-center" ng-hide="ngModel.header.secondaryCarrier">HCPCS</th>
+                <th colspan="3" class="text-center" ng-show="ngModel.header.secondaryCarrier">HCPCS</th>
+                <th width="20"></th>
+            </tr>
+            <tr>
+                <th>Part Number</th>
+                <th class="text-center">IPG</th>
+                <th class="text-center">Ins.</th>
+
+                <th class="text-right">Qty.</th>
+                <th class="text-right">AIC</th>
+                <th class="text-right">Unit</th>
+                <th class="text-right">Total</th>
+
+                <th class="text-right text-nowrap">Line Tax</th>
+                <th class="text-right text-nowrap">Line Ship</th>
+                <th class="text-right text-nowrap">Line Total</th>
+
+                <th class="text-right">Mult.</th>
+                <th class="text-right">Qty.</th>
+                <th class="text-center" width="100">Unit</th>
+                <th class="text-center">Total</th>
+
+                <th class="text-center">%</th>
+                <th class="text-center text-nowrap">Unit</th>
+                <th class="text-center text-nowrap">Total</th>
+
+                <th class="text-center">Initial</th>
+                <th class="text-center" width="100">Primary</th>
+                <th class="text-center" width="100" ng-show="ngModel.header.secondaryCarrier">Secondary</th>
+                <th width="20"></th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            <tr ng-repeat="item in parts | filter : filterClaimParts | orderBy : [ 'displaySortOrder' ] "
+                ng-class="{'strikeout': item.debitedQuantity + item.quantity <= 0  }">
+
+                <td class="text-info cursor-help text-nowrap">
+                    <div popover="{{item.partName}}"
+                         popover-trigger="mouseenter"
+                         popover-placement="right">
+                        <span class="glyphicon glyphicon glyphicon-hand-right" ng-show="item.quantity < 0" style="margin-right:5px;"></span>
+                        {{item.partSku}}
+                    </div>
+                </td>
+
+                <td class="text-center">{{ item.partPrice.isPaidForByIpg | asYesNo }}</td>
+                <td class="text-center">{{ item.partPrice.isPaidForByIns | asYesNo }}</td>
+
+                <td class="text-right">{{ item.partPrice.poQuantity }}</td>
+                <td class="text-right">{{ item.partCost.maicUnitCost | currency : '$' : 2 }}</td>
+                <td class="text-right">{{ item.partPrice.poUnitCost | currency:'$': 2 }}</td>
+                <td class="text-right">{{ item.partCost.poLineCost | currency:'$': 2 }}</td>
+
+                <td class="text-right">{{ item.partCost.poEstimatedLineTax | currency:'$': 2 }}</td>
+                <td class="text-right">{{ item.partCost.poEstimatedLineShipping | currency:'$': 2 }}</td>
+                <td class="text-right">{{ item.partPrice.poTotalLineCost | currency:'$': 2 }}</td>
+
+                <td class="text-right">{{item.partPrice.multiplier}}</td>
+
+                <td class="text-right">{{ item.partPrice.billedQuantity | number }}</td>
+                <td class="text-right">
+                    <div ng-hide="billedAmountEditable()">{{item.partPrice.billedUnitPrice | currency:'$': 2}}</div>
+                    <input type="number" class="form-control text-right" required
+                           ng-change="recalcPartPrice(item)"
+                           ng-model="item.partPrice.billedUnitPrice"
+                           ng-model-options="{debounce:500}"
+                           ng-show="billedAmountEditable()"
+                           name="billedUnitPrice_{{item.id}}"
+                           style="width: 90px;" />
+                </td>
+
+                <td class="text-right text-info">
+                    <div popover="{{item.partPrice.processingNotes | formatProcessingNote}}" popover-trigger="mouseenter">
+                        {{item.partPrice.billedLineAmt | currency:'$': 2 }}
+                    </div>
+                </td>
+
+                <td class="text-right text-nowrap">
+                    {{item.partPrice.expReimbursePct | number : 2 }}%
+                </td>
+                <td class="text-right">
+                    {{item.partPrice.expReimburseUnitPrice | currency : '$' : 2 }}
+                </td>
+                <td class="text-right">
+                    {{ item.partPrice.expReimburseLineAmt | currency:'$':2 }}
+                </td>
+
+                <td class="text-center">{{item.partPrice.hcpcsCode}}</td>
+                <td class="text-center" width="125" style="min-width: 125px;">
+                    <div ng-show="!primaryHcpcsEditable(item)">
+                        {{item.partPrice.billedHcpcsCodeOnPri}}
+                    </div>
+                    <ipg-code-select code="item.partPrice.billedHcpcsCodeOnPri"
+                                     code-id="item.partPrice.billedHcpcsIdOnPri"
+                                     ng-change="hcpcsUpdated(item)"
+                                     ng-model="item.partPrice.billedHcpcs"
+                                     ng-show="primaryHcpcsEditable(item)"
+                                     code-type="HCPCS"></ipg-code-select>
+                </td>
+                <td class="text-center" width="125" style="min-width: 125px;" ng-show="ngModel.header.secondaryCarrier">
+                    <div ng-show="!secHcpcsEditable(item)">
+                        {{item.partPrice.billedHcpcsCodeOnSec ? item.partPrice.billedHcpcsCodeOnSec : 'SAME'}}
+                    </div>
+                    <ipg-code-select code="item.partPrice.billedHcpcsCodeOnSec"
+                                     code-id="item.partPrice.billedHcpcsIdOnSec"
+                                     ng-change="hcpcsUpdated(item)"
+                                     ng-model="item.partPrice.billedHcpcsSec"
+                                     code-type="HCPCS"
+                                     place-holder-text="SAME"
+                                     ng-show="secHcpcsEditable(item)"
+                                     sizing="sm"></ipg-code-select>
+                </td>
+                <td>
+                    <span class="glyphicon glyphicon-asterisk  text-danger"
+                          ng-show="item.partPrice.modified || item.partCost.modified"></span>
+                </td>
+            </tr>
+
+            <tr>
+
+                <th colspan="6" class="text-right">Parts Cost:</th>
+
+                <th class="text-right">
+                    {{ parts | sumByProperty: 'partCost.poLineCost' | currency:'$':2}}
+                </th>
+                <th colspan="2" class="text-right">Total Cost:</th>
+                <th class="text-right">
+                    {{ parts | sumByProperty: 'partPrice.poTotalLineCost' | currency:'$': 2 }}
+                </th>
+
+                <td colspan="3"></td>
+                <th class="text-right">
+                    {{ parts | sumByProperty: 'partPrice.billedLineAmt' | currency:'$': 2 }}
+                </th>
+
+                <td colspan="2"></td>
+                <th class="text-right">
+                    {{ parts | sumByProperty: 'partPrice.expReimburseLineAmt' | currency:'$': 2 }}
+                </th>
+
+                <td colspan="4"></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div class="row hidden-print">
+
+        <div class="col-sm-12 text-center">
+            
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="reCalculateCosts()"
+                    ng-hide="ngModel.caseInEditMode || !reCalculate"
+                    ng-disabled="reCalcInProgress || saveAndPrintInProgress || savingPartPrices">
+                <div ng-hide="reCalcInProgress">
+                    <span class="glyphicon glyphicon-refresh"></span> Re-Calculate
+                </div>
+                <span ng-show="reCalcInProgress">Re-Calculating ...</span>
+            </button>
+
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="calculateEstimates()"
+                    ng-hide="ngModel.caseInEditMode || !reCalculateEstimates"
+                    ng-disabled="reCalcEstInProgress">
+                <div ng-hide="reCalcEstInProgress">
+                    <span class="glyphicon glyphicon-refresh"></span> Re-Calculate Estimates
+                </div>
+                <span ng-show="reCalcEstInProgress">Re-Calculating ...</span>
+            </button>
+
+            <button class="btn btn-default"
+                    ng-click="print()"
+                    ng-show="printEstimates"
+                    type="button">
+                <span class="glyphicon glyphicon-print"></span> Print
+            </button>
+
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="savePartsToActualParts()"
+                    ng-hide="ngModel.caseInEditMode || !saveAndPrint"
+                    ng-disabled="isSaveAndPrintDisabled()">
+                <span class="glyphicon glyphicon-save"></span>
+                {{saveAndPrintInProgress ? 'Saving ...' : 'Save and Print'}}
+            </button>
+
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="savePartsToActualParts()"
+                    ng-hide="ngModel.caseInEditMode || !saveAndPrint"
+                    ng-disabled="isOvrdArEstDisabled()">
+                <span class="glyphicon glyphicon-save"></span>
+                {{saveAndPrintInProgress ? 'Overriding ...' : 'Override AR Estimates'}}
+            </button>
+
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="savePartPrices()"
+                    ng-show="ngModel.caseInEditMode"
+                    ng-disabled="!ngModel.anyPriceModified || savingPartPrices">
+                <div ng-hide="savingPartPrices">
+                    <span class="glyphicon glyphicon-save"></span> Save
+                </div>
+                <span ng-show="savingPartPrices">Saving ...</span>
+            </button>
+
+            <a class="btn btn-danger"
+               ng-hide="ngModel.caseInEditMode"
+               ng-click="onClose()">
+                <span class="glyphicon glyphicon-remove"></span> Close
+            </a>
+
+            <a class="btn btn-danger"
+               ng-show="ngModel.caseInEditMode"
+               ng-click="onCancelClick()">
+                <span class="glyphicon glyphicon-remove"></span> Cancel
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

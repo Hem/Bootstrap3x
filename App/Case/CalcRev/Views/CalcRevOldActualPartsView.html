@@ -1,0 +1,92 @@
+﻿<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Pay</th>
+            <th></th>
+            <th class="text-center" colspan="2">Unit Cost</th>
+            <th class="text-center" colspan="2">Maic</th>
+            <th class="text-center" colspan="4">Calculated</th>
+            <th class="text-center" colspan="3">Billed</th>
+            <th class="text-center" colspan="2">Allowed</th>
+            <th>HCPCS</th>
+        </tr>
+        <tr>
+            <th>Sku</th>
+            <th>Fac.</th>
+            <th>Qty.</th>
+            <th>Discount</th>
+            <th>Entered</th>
+            <th>Enabled</th>
+            <th>Amt. $</th>
+            <th>Unit $</th>
+            <th>L. Tax $</th>
+            <th>L. Ship $</th>
+            <th>L. Total $</th>
+            <th>Qty</th>
+            <th>Unit $</th>
+            <th>Line $</th>
+            <th>Unit $</th>
+            <th>Line $</th>
+            <th>HCPCS</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="ap in parts | orderBy : ['displaySortOrder']" 
+        ng-class="{'strikeout': ap.debitedQuantity + ap.quantity <= 0}">
+            <td class="text-info cursor-help">
+                <div popover="{{ap.partName}}" popover-trigger="mouseenter">
+                    {{ap.partSku}}
+                </div>
+            </td>
+            <td>{{ap.payFacility}}</td>
+            <td class="text-right">{{ap.quantity}}</td>
+            <td class="text-right">{{ap.mfrDiscUnitCost | currency:'$': 2}}</td>
+            <td class="text-right">{{ap.enteredUnitCost | currency:'$': 2}}</td>
+            <td class="text-info cursor-help">
+                <div popover="{{ap.maicDisableReason | maicDisabledReasonsEnumToText}}" popover-trigger="mouseenter">
+                    {{ap.macEnabled}} [{{ap.maicDisableReason}}]
+                </div>
+            </td>
+            <td class="text-right">{{ap.mac | currency:'$': 2}}</td>
+
+            <td class="text-right">{{ap.calculatedUnitCost | currency:'$': 2}}</td>
+            <td class="text-right">{{ap.calculatedLineTax | currency:'$': 2}}</td>
+            <td class="text-right">{{ap.calculatedLineShipping | currency:'$': 2}}</td>
+            <td class="text-right">{{ap.calculatedLineCost | currency:'$': 2}}</td>
+
+
+            <td class="text-right">{{ap.billedQuantity}}</td>
+            <td class="text-right">{{ap.billedUnitPrice | currency:'$':2 }}</td>
+            <td class="text-right">{{ap.billedLineAmt | currency:'$':2 }}</td>
+            <td class="text-right">{{ap.allowedUnitPrice | currency:'$':2 }}</td>
+            <td class="text-right">{{ap.allowedLineAmt | currency:'$':2 }}</td>
+            <td>{{ap.hcpcsCode}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right text-info">
+                {{ parts | sumByProperty : 'calculatedLineCost' | currency:'$': 2 }}
+            </td>
+            <td></td>
+            <td></td>
+            <td class="text-right text-info">
+                {{ parts | sumByProperty : 'billedLineAmt' | currency:'$': 2 }}
+            </td>
+            <td></td>
+            <td class="text-right text-info">
+                {{ parts | sumByProperty : 'allowedLineAmt' | currency:'$': 2 }}
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

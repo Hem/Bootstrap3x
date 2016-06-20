@@ -1,0 +1,53 @@
+﻿<div master-page>
+
+    <fieldset>
+
+        <legend>
+            <div class="row">
+                <div class="col-sm-12"> {{case.header.name}} </div>
+            </div>
+        </legend>
+
+
+        <div class="col-xl-3 col-sm-6">
+            <case-info-view ng-model="case"></case-info-view>
+        </div>
+
+        <div class="col-xl-3 col-sm-6">
+            <case-carrier-info-view ng-model="case"
+                                    primary-carrier="estimatedCaseModel.estimatedPriceSummary.primaryCarrier"
+                                    home-plan-carrier="estimatedCaseModel.estimatedPriceSummary.homePlanCarrier"
+                                    fee-schedule="estimatedCaseModel.estimatedPriceSummary.feeSchedule"
+                                    price-rule-group="estimatedCaseModel.estimatedPriceSummary.priceRuleGroup"
+                                    secondary-carrier="estimatedCaseModel.estimatedPriceSummary.secondaryCarrier">
+
+            </case-carrier-info-view>
+        </div>
+
+        <div class="col-xl-3  col-sm-6">
+            <case-benefits-view ng-model="case"></case-benefits-view>
+        </div>
+
+
+        <div class="col-xl-3 col-sm-6">
+            <case-billed-charges-view ng-model="case"
+                                      price-summary="estimatedCaseModel.estimatedPriceSummary"
+                                      responsibility="estimatedCaseModel.estimatedResp"
+                                      edit-inline="true"></case-billed-charges-view>
+        </div>
+
+        <div class="col-xl-12">
+            <calc-rev-claim-parts-view ng-model="case"
+                                       parts="estimatedCaseModel.parts"
+                                       print-estimates="true"
+                                       re-calculate-estimates="true"></calc-rev-claim-parts-view>
+        </div>
+
+    </fieldset>
+
+</div>
+
+
+
+
+

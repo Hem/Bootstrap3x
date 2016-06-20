@@ -1,0 +1,16 @@
+﻿<div class="input-group"angular>
+    <input type="text"
+           name="{{name}}"
+           class="form-control"
+           datepicker-popup="MM/dd/yyyy"
+           ng-model="ngModel"
+           ng-change="ngChange()"
+           is-open="isOpen"
+           close-text="Close"
+           ng-disabled="disabled"/>
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default form-control" ng-click="openDatePicker($event)" ng-disabled="disabled">
+            <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+    </span>
+</div>

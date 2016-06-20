@@ -1,0 +1,82 @@
+﻿
+<div class="form-group" style="padding-top: 10px;">
+    <label class="col-sm-2 control-label">Name:</label>
+    <div class="col-sm-4" ng-class="{ 'has-error': form.patfirstname.$invalid }">
+        <input type="text" name="patfirstname" ng-model="procedure.PatFirstName" class="form-control" placeholder="First Name" required="required" />
+    </div>
+    <div class="col-sm-2" ng-class="{ 'has-error': form.patmiddlename.$invalid }">
+        <input type="text" name="patmiddlename" ng-model="procedure.PatMiddleName" class="form-control" placeholder="Middle Name" required="required" />
+    </div>
+    <div class="col-sm-4" ng-class="{ 'has-error': form.patlastname.$invalid }">
+        <input type="text" name="patlastname" ng-model="procedure.PatLastName" class="form-control" placeholder="Last Name" required="required" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Marital Status:</label>
+    <div class="col-sm-4">
+        <input type="text" name="patMaritalStatus" ng-model="procedure.PatMaritalStatus" class="form-control" placeholder="Marital Status" />
+    </div>
+    <label class="col-sm-2 control-label">SSN:</label>
+    <div class="col-sm-4">
+        <input type="text" name="patSsn" ng-model="procedure.PatSsn" class="form-control" placeholder="Patient SSN" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Date of Birth:</label>
+    <div class="col-sm-4" ng-class="{ 'has-error': form.patdob.$invalid }">
+        <input type="date" name="patdob" ng-model="procedure.PatDob" class="form-control" placeholder="Patient DOB" required="required" />
+    </div>
+    <label class="col-sm-2 control-label">Gender:</label>
+    <div class="col-sm-4">
+        <label class="radio-inline">
+            <input type="radio" ng-model="procedure.PatGender" value="Male">
+            Male
+        </label>
+
+        <label class="radio-inline">
+            <input type="radio"  ng-model="procedure.PatGender" value="Female">
+            Female
+        </label>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Home Phone:</label>
+    <div class="col-sm-4 control-label">
+        <input type="text" name="patHomePhone" ng-model="procedure.PatHomePhone" class="form-control"
+               placeholder="Home Phone"/>
+    </div>
+    <label class="col-sm-2 control-label">Work Phone:</label>
+    <div class="col-sm-4 control-label">
+        <input type="text" name="patWorkPhone" ng-model="procedure.PatWorkPhone" class="form-control"
+               placeholder="Work Phone"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Address:</label>
+    <div class="col-sm-10">
+        <input type="text" name="patAddress" ng-model="procedure.PatAddress" class="form-control" 
+               placeholder="Patient Address"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Address:</label>
+    <div class="col-sm-4">
+        <input type="text" name="patCity" ng-model="procedure.PatCity" class="form-control"
+               placeholder="Patient City"/>
+    </div>
+    <div class="col-sm-4">
+        <input type="text" name="patState" ng-model="procedure.PatState" class="form-control"
+               placeholder="Patient State"/>
+    </div>
+    <div class="col-sm-2">
+        <input type="text" name="patZipcode" ng-model="procedure.PatZipCode" class="form-control"
+               placeholder="Patient Zip" />
+    </div>
+</div>
+

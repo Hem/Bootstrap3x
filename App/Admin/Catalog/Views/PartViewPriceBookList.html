@@ -1,0 +1,39 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-12 panel-title">
+                Price Books
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="row priceBook">
+            <form name="FormData.priceBookUpdateForm" role="form" class="form-horizontal" novalidate>
+                <table class="table table-condensed table-bordered priceBookTable">
+                    <thead>
+                        <tr>
+                            <th>Price Book Name</th>
+                            <th>Discount %</th>
+                            <th>Effective Date</th>
+                            <th>Expiration Date</th>
+                            <th>MSRP</th>
+                            <th>Discount Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="priceBookPart in priceBookPartModel.priceBookPartList | orderBy : 'priceBookId'">
+                            <td>{{priceBookPart.priceBook.name}}</td>
+                            <td>{{priceBookPart.priceBook.discountPercent}}%</td>
+                            <td>{{priceBookPart.priceBook.startDate | date:'shortDate'}}</td>
+                            <td>{{priceBookPart.priceBook.endDate | date:'shortDate'}}</td>
+                            <td class="text-right">{{priceBookPart.unitPrice | currency}}</td>
+                            <td class="text-right">{{priceBookPart.discountPrice | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,11 @@
+﻿<div class="btn-group">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ngModel}} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="pageSize in pageSizes">
+            <a ng-click="onChange(pageSize)" href="javascript:void(0)">{{pageSize}}</a>
+        <li>
+           
+    </ul>
+</div>

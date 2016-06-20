@@ -1,0 +1,18 @@
+﻿<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+
+            <button ng-click="toggleLeftNavPanel()"
+                    class="btn btn-default btn-sm pull-left left-nav-toggle">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
+
+            <a class="navbar-brand" ng-href="{{baseUrl}}">Insight NG</a>
+
+        </div>
+
+    </div>
+</nav>
+
+<left-nav-header header="header" ng-repeat="header in mainNavItems" />

@@ -1,0 +1,157 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-7 panel-title">
+                Associated Parts in {{model.selectedPriceBook.name}}
+            </div>
+            <div class="pull-right margin-right-10">
+                <!-- ReSharper disable Html.TagNotResolved -->
+                <ipg-page-size-select ng-model="priceBookPartModel.params.pageSize">
+
+                </ipg-page-size-select>
+                <!-- ReSharper restore Html.TagNotResolved -->
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="form-group-sm col-sm-12">
+            <form role="form">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="Search part" ng-model="searchKey">
+                </div>
+
+                <div class="checkbox col-sm-2 text-center">
+                    <label>
+                        <input type="checkbox" ng-model="modifiedOnly" />Modified Only
+                    </label>
+                    
+                </div>
+
+            </form>
+            <div ng-form="partsListForm" role="form" novalidate>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th><a href="javascript:void(0)" ng-click="sortBy('part.partNumber')">Model Number</a></th>
+                            <th><a href="javascript:void(0)" ng-click="sortBy('part.name')">Part Name</a></th>
+                            <th><a href="javascript:void(0)" ng-click="sortBy('part.hcpcsCode')">HCPCS</a></th>
+                            <th><a href="javascript:void(0)" ng-click="sortBy('unitPrice')">MSRP</a></th>
+                            <th><a href="javascript:void(0)" ng-click="sortBy('discountPrice')">Discount Price</a></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="priceBookPart in priceBookPartModel.priceBookPartList
+                    | limitTo : priceBookPartModel.params.pageSize : (priceBookPartModel.params.pageIndex - 1)  * priceBookPartModel.params.pageSize
+                    | filter  : searchKey
+                    | filter  : (modifiedOnly || undefind) && modifiedOnly"
+                            ng-class="{'strikeout' : priceBookPart.deleted}">
+                            <td>{{priceBookPart.part.partNumber || priceBookPart.part.partSku}}</td>
+                            <td>{{priceBookPart.part.name}}</td>
+                            <td>{{priceBookPart.part.hcpcsCode.code || priceBookPart.part.hcpcsCode}}</td>
+                            <td>
+                                <ng-form name="partunitprice">
+                                    <div class="input-group input-group-sm" ng-class="{ 'has-error': partunitprice.$dirty && partunitprice.$invalid }" style="width: 115px">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text"
+                                               ng-model="priceBookPart.unitPrice"
+                                               class="form-control text-right input-sm"
+                                               ng-disabled="priceBookPart.deleted"
+                                               ng-change="onUnitPriceChange(priceBookPart)"
+                                               money
+                                               required
+                                               min="0"
+                                               max="999999.99"
+                                               precision="2"
+                                               popover-trigger="mouseenter"
+                                               popover="{{partunitprice.$error.max || partunitprice.$error.required? 'Maximum Range is 999999.99.' : ''}}"/>
+
+                                    </div>
+                                </ng-form>
+                            </td>
+                            <td class="text-right">
+                                <ng-form name="partdiscountPrice" ng-hide="model.selectedPriceBook.discountPercent  > 0">
+                                    <div class="input-group input-group-sm" ng-class="{ 'has-error': partdiscountPrice.$dirty && partdiscountPrice.$invalid }" style="width: 115px">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text"
+                                               ng-model="priceBookPart.discountPrice"
+                                               class="form-control text-right"
+                                               ng-disabled="priceBookPart.deleted"
+                                               ng-change="onDiscountPriceChange(priceBookPart)"
+                                               required
+                                               money
+                                               min="0"
+                                               max="{{priceBookPart.unitPrice}}"
+                                               precision="2"
+                                               popover-trigger="mouseenter"
+                                               popover="{{partdiscountPrice.$error.max || partdiscountPrice.$error.required? 'Must not be greater than MSRP.' : ''}}" />
+                                    </div>
+                                </ng-form>
+
+                                <span ng-show="model.selectedPriceBook.discountPercent  > 0">${{priceBookPart.discountPrice | number: 2}}</span>
+                            </td>
+                            <td>
+                                <button type="button" ng-click="onDelete(priceBookPart)" class="btn btn-sm btn-primary" ng-hide="priceBookPart.deleted">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                                <button type="button" ng-click="onUndoDelete(priceBookPart)" class="btn btn-sm btn-info" ng-show="priceBookPart.deleted">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </td>
+                            <td><span class="glyphicon glyphicon-asterisk text-danger" ng-show="priceBookPart.modified || priceBookPart.added"></span> </td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+
+                                <div class="clearfix">
+                                    <!-- ReSharper disable Html.TagNotResolved -->
+                                    <div class="col-sm-3 col-sm-offset-5" style="padding-top: 8px;">
+                                        <button type="button"
+                                                class="btn btn-primary btn-sm "
+                                                ng-click="onSaveAll()"
+                                                ng-disabled="!ipgVariables.hasUnsavedData || $$childTail.partsListForm.$invalid">
+                                            <span class="glyphicon glyphicon-floppy-disk"></span>
+                                            Save
+                                        </button>
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm"
+                                                ng-click="onCancel()"
+                                                ng-disabled="!ipgVariables.hasUnsavedData"
+                                                >
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                            Cancel
+                                        </button>
+
+                                        <a class="btn btn-info btn-sm" ng-click="onBack()">
+                                            <span class="glyphicon glyphicon-backward"></span> Back
+                                        </a>
+                                    </div>
+                                    <pagination total-items="priceBookPartModel.params.totalCount"
+                                                items-per-page="priceBookPartModel.params.pageSize"
+                                                max-size="20"
+                                                ng-model="priceBookPartModel.params.pageIndex"
+                                                class="pagination-sm"
+                                                boundary-links="true"
+                                                style="margin: 8px; float: right;">
+                                    </pagination>
+
+                                    <!-- ReSharper restore Html.TagNotResolved -->
+                                </div>
+
+
+                            </td>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

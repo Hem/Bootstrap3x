@@ -1,0 +1,98 @@
+﻿
+
+<div class="panel panel-default panel-no-header-color">
+
+    <div class="panel-heading">
+        <strong class="panel-title">Historic Invoices for {{caseInfo.name}}</strong>
+        <br/>
+        <span class="panel-title">{{actualPart.partSku}} - {{actualPart.partName}}</span>
+    </div>
+    
+    <div class="panel-body">
+
+        <div ng-show="!loadingInvoiceHistory && invoiceHistory.length === 0" class="text-center text-danger">
+            <span> No invoice found.</span>
+        </div>
+
+        <div class="panel panel-default panel-no-header-color" ng-repeat="item in invoiceHistory| orderBy: '-actualDateOfService'">
+            <div class="panel-heading">
+                <span class="panel-title">{{item.patientProcedureName}} - {{item.actualDateOfService | date}}</span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <table class="table table-condensed table-no-border table-header-primary">
+                            <thead>
+                                <tr>
+                                    <th>PO Name</th>
+                                    <th class="text-center" width="10">Quantity</th>
+                                    <th class="text-right">Cost Override</th>
+                                    <th class="text-right">Tax</th>
+                                    <th class="text-right">Shipping</th>
+                                    <th class="text-center">Select</th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="ap in item.actualParts">
+                                <td>{{ap.poName}}</td>
+                                <td class="text-center">{{ap.quantity}}</td>
+                                <td class="text-right">{{ap.enteredUnitCost | currency}}</td>
+                                <td class="text-right">{{ap.enteredLineTax | currency}}</td>
+                                <td class="text-right">{{ap.enteredLineShipping | currency}}</td>
+                                <td class="text-center">
+                                    <input type="radio"
+                                           ng-model="actualPart.linkedActualPartId"
+                                           ng-value="ap.id"
+                                           ng-disabled="ap.debitActualPartId"
+                                           ng-click="updatePartFlag(ap, item)" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-condensed table-no-border table-header-primary">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Select</th>
+                                    <th class="text-left">Date</th>
+                                    <th class="text-left">Document</th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="doc in item.documents">
+                                <td class="text-center">
+                                    <input type="radio"
+                                           ng-model="actualPart.documentId"
+                                           ng-value="doc.documentId"
+                                           ng-click="updateDocumentFlag(doc, item)" />
+                                </td>
+                                <td class="text-left">{{doc.dateEntered | date : 'MM/dd/yyyy HH:mm'}}</td>
+                                <td class="text-left" >
+                                    <a ng-href="{{'/api/document/get/' + doc.documentFileIdentifier}}" target="_blank">{{doc.name}}</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="btn btn-primary pull-right btn-sm"
+                     ng-disabled="!updatedHistoricInvoiceSelection"
+                     ng-click="!updatedHistoricInvoiceSelection || LinkToPrevInvoiceDocument()">
+                    <span class="glyphicon glyphicon-ok"></span> Apply
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="btn btn-danger pull-left btn-sm"
+                     ng-click="close()">
+                    <span class="glyphicon glyphicon-remove"></span> Close
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

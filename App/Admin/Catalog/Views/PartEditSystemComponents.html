@@ -1,0 +1,121 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-12 panel-title">
+                System Components
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <form name="FormData.SystemComponents" role="form" novalidate class="form-horizontal">
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Kit: </label>
+                    <div class="checkbox col-sm-6">
+                        <label>
+                            <input type="checkbox" ng-model="partModel.selectedPart.isMainKitPart" ng-disabled="partKits.length" />{{partModel.selectedPart.isMainKitPart ? "Yes": "No"}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Bill as System: </label>
+                    <div class="checkbox col-sm-6">
+                        <label>
+                            <input type="checkbox" ng-model="partModel.selectedPart.kitBillIndividualParts" />{{partModel.selectedPart.kitBillIndividualParts ? "Bill One Line": "Bill Separate Lines"}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"> System Type: </label>
+                    <div class="col-sm-6">
+
+                        <ipg-entity-select name="KitTemplate" ng-model="partModel.selectedPart.kitTemplate" 
+                                           entity-id="part.kitTemplate.id"
+                                           place-holder-text="Please select a System Type"
+                                           entity-type="SYSTEM_TYPE"
+                                           min-chars-to-filter="1"
+                                           load-all-records="true"></ipg-entity-select>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-8" ng-show="partModel.selectedPart.isMainKitPart">
+                <div class="well well-sm form-group">
+
+                    <div class="col-md-10">
+                        <ipg-part-select include-main-kit="false" ng-model="selectedItem" on-part-select="onPartSelect(selectedItem)"></ipg-part-select>
+                    </div>
+
+                    <div class="col-md-1 input-group">
+                        <button type="button" class="btn btn-sm btn-primary"
+                                ng-click="onAddToKitClick(selectedItem)"
+                                ng-disabled="partInKit">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Add To Kit
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Model Number</th>
+                                <th>Part Name</th>
+                                <th>Quantity</th>
+                                <th>HCPCS</th>
+                                <th>Unit Price</th>
+                                <th>Keyword</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tr ng-repeat="kitpart in partKits" ng-class="{'line-through' : kitpart.deleted}">
+                            <td>{{kitpart.modelNumber}}</td>
+                            <td>{{kitpart.partName}}</td>
+                            <td>
+                                <div ng-class="{ 'has-error': FormData.SystemComponents.kitQuantity.$invalid }">
+                                    <input name="kitQuantity" type="number" required ng-model="kitpart.quantity" min="1" class="form-control" ng-disabled="kitpart.deleted" style="width: 50px" />
+                                </div>
+                            </td>
+                            <td>{{kitpart.hcpcs}}</td>
+                            <td>{{kitpart.listPrice}}</td>
+                            <td>{{kitpart.keyword}}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" ng-click="onDeleteFromKitClick(kitpart)" ng-disabled="kitpart.deleted"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+                        </tr>
+
+                        <!--<tr ng-repeat="newkitpart in tempPartKits">
+                            <td>{{newkitpart.modelNumber}}</td>
+                            <td>{{newkitpart.partName}}</td>
+                            <td>
+                                <div ng-class="{ 'has-error': FormData.SystemComponents.kitQuantity.$invalid }">
+                                    <input name="kitQuantity" type="number" required ng-model="newkitpart.quantity" min="1" class="form-control" style="width: 50px" />
+                                </div>
+                            </td>
+                            <td>{{newkitpart.hcpcs}}</td>
+                            <td>{{newkitpart.listPrice }}</td>
+                            <td>{{newkitpart.keyword}}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" ng-click="onDeleteFromKitClick(newkitpart)" ng-disabled="newkitpart.deleted"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+                        </tr>-->
+
+                    </table>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+</div>
+

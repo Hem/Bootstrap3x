@@ -1,0 +1,68 @@
+﻿<div master-page>
+    <div class="container">
+        <fieldset>
+
+            <legend>
+                Patient Intake:
+                <span class="pull-right">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model="wizardMode" />
+                        <span class="text-info small">Wizard Mode</span>
+                    </label>
+                </span>
+            </legend>
+
+
+            <form name="form" role="form" class="form-horizontal" novalidate>
+
+                <div ng-hide="wizardMode">
+                    <fieldset>
+                        <legend>Step 1</legend>
+                        <ng-include src="'~/App/Case/Intake/Views/CaseIntakeView_Step1.html'"></ng-include>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Step 2</legend>
+                        <ng-include src="'~/App/Case/Intake/Views/CaseIntakeView_Step2.html'"></ng-include>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Step 3</legend>
+                        <ng-include src="'~/App/Case/Intake/Views/CaseIntakeView_Step3.html'"></ng-include>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Step 4</legend>
+                        <ng-include src="'~/App/Case/Intake/Views/CaseIntakeView_Step4.html'"></ng-include>
+                    </fieldset>
+                </div>
+
+                <wizard on-finish="wizardFinished()" name="caseIntake" ng-show="wizardMode">
+                    <wz-step title="Step 1">
+                        <ng-include src="'~/App/Case/Intake/Views/CaseIntakeView_Step1.html'"></ng-include>
+                    </wz-step>
+
+                    <wz-step title="Step 2">
+                        <ng-include src="'~/App/Case/Intake/Views/CaseIntakeView_Step2.html'"></ng-include>
+                    </wz-step>
+
+                    <wz-step title="Step 3">
+                        <ng-include src="'~/App/Case/Intake/Views/CaseIntakeView_Step3.html'"></ng-include>
+                    </wz-step>
+
+                    <wz-step title="Step 4">
+                        <ng-include src="'~/App/Case/Intake/Views/CaseIntakeView_Step4.html'"></ng-include>
+                    </wz-step>
+
+                    <div class="row clearfix">
+                        <div class="col-sm-12 text-center">
+                            <input type="button" class="btn btn-info" wz-previous value="Previous" style="width: 125px;" />
+                            <input type="button" class="btn btn-info" wz-next value="Next" style="width: 125px;" />
+                        </div>
+                    </div>
+                </wizard>
+
+            </form>
+            <div>
+                {{procedure}}
+            </div>
+        </fieldset>
+    </div>
+</div>

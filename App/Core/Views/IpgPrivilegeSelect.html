@@ -1,0 +1,12 @@
+﻿<ui-select ng-model="ngModel" theme="bootstrap" on-select="onSelect($item, $model)" title="Please select a privilege">
+
+    <ui-select-match  placeholder="Please select a privilege">
+        <div>{{$select.selected.name}}</div>
+    </ui-select-match>
+
+    <ui-select-choices  repeat="item in list | orderBy : module.name | orderBy : name | filter: $select.search" group-by="getGroupByName"  >
+        <div ng-bind-html="item.name  | highlight: $select.search"></div>
+        <small>{{item.description}}</small>
+    </ui-select-choices>
+
+</ui-select>

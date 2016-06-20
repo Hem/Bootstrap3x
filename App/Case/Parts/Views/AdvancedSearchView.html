@@ -1,0 +1,201 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">Advanced Search</div>
+
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-condensed table-no-border">
+
+                    <tbody>
+                        <tr>
+                            <th class="text-nowrap text-right">Part Number:</th>
+                            <td>
+                                <input class="form-control"
+                                       ng-enter="search()"
+                                       ng-model="params.partNumber" />
+                            </td>
+
+                            <th class="text-nowrap text-right">Part Name:</th>
+                            <td>
+
+                                <input class="form-control"
+                                       ng-enter="search()"
+                                       ng-model="params.partName" />
+                            </td>
+
+                            <th class="text-nowrap text-right">Manufacturer:</th>
+                            <td>
+                                <input class="form-control"
+                                       ng-enter="search()"
+                                       ng-model="params.mfrName" />
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th class="text-nowrap text-right">HCPCS:</th>
+                            <td>
+                                <input class="form-control"
+                                       ng-enter="search()"
+                                       ng-model="params.hcpcs" />
+                            </td>
+
+                            <th class="text-nowrap text-right">Category:</th>
+                            <td>
+                                <input class="form-control"
+                                       ng-enter="search()"
+                                       ng-model="params.category" />
+                            </td>
+
+                            <th class="text-nowrap text-right">Keyword:</th>
+                            <td>
+                                <input class="form-control"
+                                       ng-enter="search()"
+                                       ng-model="params.keyword" />
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button"
+                        ng-click="search()"
+                        ng-enter="search()"
+                        ng-disabled="searchInProgress"
+                        style="margin-bottom: 20px"
+                        class="btn btn-sm btn-primary center-block">
+                    <span class="glyphicon glyphicon-search"></span>
+                    {{searchInProgress ? 'Searching...' : 'Search'}}
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <strong class="pull-left"
+                        ng-show="params.totalCount > 0">
+                    Selected Count: {{selectedParts.length}}
+                </strong>
+            </div>
+
+            <div class="col-md-6">
+                <strong class="pull-right"
+                        ng-show="params.totalCount > 0 && !loadingParts">
+                    {{((params.pageIndex - 1) * 10) + ' - ' + (((params.pageIndex - 1) * 10) + partsList.length) + ' of ' + params.totalCount}}
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Part Number</th>
+                            <th>Part Name</th>
+                            <th>Manufacturer</th>
+                            <th>HCPCS</th>
+                            <th>Category</th>
+                            <th>Keyword</th>
+                            <th>Box Quantity</th>
+                            <th class="text-right">MSRP</th>
+                            <th class="text-right">Discount Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="part in partsList">
+                            <td>
+                                <input type="checkbox"
+                                       ng-model="part.selected"
+                                       ng-change="onSelectionChange(part)" />
+                            </td>
+                            <td>{{part.partNumber}}</td>
+                            <td>{{part.name}}</td>
+                            <td>{{part.manufacturerName}}</td>
+                            <td>{{part.hcpcsCode}}</td>
+                            <td>{{part.categoryName}}</td>
+                            <td>{{part.keyword}}</td>
+                            <td class="text-center">{{part.boxQuantity}}</td>
+                            <td class="text-right">
+                                {{part.listPrice | currency}}
+                            </td>
+                            <td class="text-right">
+                                {{part.discountPrice | currency}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <strong class="pull-left"
+                        ng-show="params.totalCount > 0">
+                    Selected Count: {{selectedParts.length}}
+                </strong>
+            </div>
+
+            <div class="col-md-3">
+                <button type="button"
+                        ng-click="quickAdd()"
+                        ng-disabled="!anyPartSelected"
+                        class="btn btn-sm btn-primary pull-right">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Quick Add
+                </button>
+            </div>
+
+            <div class="col-md-3">
+                <button type="button"
+                        ng-click="close()"
+                        class="btn btn-sm btn-danger pull-left">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Close
+                </button>
+            </div>
+
+            <div class="col-md-3">
+                <strong class="pull-right"
+                        ng-show="params.totalCount > 0 && !loadingParts">
+                    {{((params.pageIndex - 1) * 10) + ' - ' + (((params.pageIndex - 1) * 10) + partsList.length) + ' of ' + params.totalCount}}
+                </strong>
+            </div>
+
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="clearfix">
+            <pagination total-items="params.totalCount"
+                        items-per-page="params.pageSize"
+                        max-size="10"
+                        ng-model="params.pageIndex"
+                        ng-change="onPageIndexChange()"
+                        class="pagination-sm"
+                        boundary-links="true"
+                        style="margin: 8px; float: right;">
+            </pagination>
+        </div>
+    </div>
+    <!-- overwrite the pagination template! -->
+    <script id="template/pagination/pagination.html" type="text/ng-template">
+        <ul class="pagination">
+            <li ng-if="boundaryLinks" ng-class="{disabled: noPrevious()}"><a href="" ng-click="selectPage(1)" title="First Page"> <span class="glyphicon glyphicon-fast-backward"></span></a></li>
+            <li ng-if="directionLinks" ng-class="{disabled: noPrevious()}"><a href="" ng-click="selectPage(page - 1)" title="Previous Page"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+            <li ng-repeat="page in pages track by $index" ng-class="{active: page.active}"><a href="" ng-click="selectPage(page.number)">{{page.text}}</a></li>
+            <li ng-if="directionLinks" ng-class="{disabled: noNext()}"><a href="" ng-click="selectPage(page + 1)" title="Next Page"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+            <li ng-if="boundaryLinks" ng-class="{disabled: noNext()}"><a href="" ng-click="selectPage(totalPages)" title="Last Page"><span class="glyphicon glyphicon-fast-forward"></span> </a></li>
+        </ul>
+    </script>
+</div>

@@ -1,0 +1,29 @@
+﻿<div>
+    <div class="well well-sm bg-light-blue">
+        <div class="row">
+            <div class="col-md-6">
+                <ipg-part-select include-main-kit="true"
+                                 ng-model="selectedPart"
+                                 place-holder-text="'Add part to case'"
+                                 on-part-select="onPartSelect(selectedItem)"></ipg-part-select>
+            </div>
+
+            <div class="col-md-1">
+
+                <button type="button" class="btn btn-sm btn-primary"
+                        ng-click="onAddPartClick(selectedPart)"
+                        ng-disabled="!selectedPart || addingPartsToCase || caseInfo.locked">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    {{addingPartsToCase ? 'Adding' : 'Add'}}
+                </button>
+
+            </div>
+
+            <div class="col-md-5" style="cursor: pointer">
+                <a class="pull-right" ng-click="showAdvancedSearch()">Advanced Search</a>
+            </div>
+        </div>
+    </div>
+   
+</div>
+

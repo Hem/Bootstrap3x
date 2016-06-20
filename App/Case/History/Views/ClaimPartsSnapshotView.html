@@ -1,0 +1,118 @@
+﻿<div>
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th></th>
+                <th colspan="2" class="text-center">Paid By</th>
+                <th colspan="6" class="text-center">Purchase Order</th>
+                <th></th>
+                <th colspan="3" class="text-center">Claim</th>
+                <th colspan="3" class="text-center">Allowed</th>
+                <th colspan="3" class="text-center">HCPCS</th>
+            </tr>
+            <tr>
+                <th>Part Number</th>
+                <th class="text-center">IPG</th>
+                <th class="text-center">Ins.</th>
+
+                <th class="text-right">Qty.</th>
+                <th class="text-right">Unit</th>
+                <th class="text-right">Total</th>
+
+                <th class="text-right text-nowrap">Line Tax</th>
+                <th class="text-right text-nowrap">Line Ship</th>
+                <th class="text-right text-nowrap">Line Total</th>
+
+                <th class="text-right">Mult.</th>
+                <th class="text-right">Qty.</th>
+                <th class="text-center" width="100">Unit</th>
+                <th class="text-center">Total</th>
+
+                <th class="text-center">%</th>
+                <th class="text-center text-nowrap">Unit</th>
+                <th class="text-center text-nowrap">Total</th>
+
+                <th class="text-center">Initial</th>
+                <th class="text-center" width="100">Primary</th>
+                <th class="text-center" width="100">Secondary</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            <tr ng-repeat="item in mergedPriceAndCosts | orderBy : ['partSku', '-quantity' ] ">
+                <td class="text-info cursor-help text-nowrap">
+                    <div popover="{{item.partPrice.partName}}" popover-trigger="mouseenter">{{item.partPrice.partSku}}</div>
+                </td>
+
+                <td class="text-center">{{ item.partPrice.isPaidForByIpg | asYesNo }}</td>
+                <td class="text-center">{{ item.partPrice.isPaidForByIns | asYesNo }}</td>
+
+                <td class="text-right">{{ item.partPrice.poQuantity }}</td>
+                <td class="text-right">{{ item.partPrice.poUnitCost | currency:'$': 2 }}</td>
+                <td class="text-right">{{ item.partCost.poLineCost | currency:'$': 2 }}</td>
+
+                <td class="text-right">{{ item.partCost.poEstimatedLineTax | currency:'$': 2 }}</td>
+                <td class="text-right">{{ item.partCost.poEstimatedLineShipping | currency:'$': 2 }}</td>
+                <td class="text-right">{{ item.partCost.poTotalLineCost | currency:'$': 2 }}</td>
+
+                <td class="text-right">{{item.partPrice.multiplier}}</td>
+
+                <td class="text-right">{{ item.partPrice.billedQuantity | number }}</td>
+                <td class="text-right">
+                    {{item.partPrice.billedUnitPrice}}
+                </td>
+
+                <td class="text-right text-info">
+                    <div popover="{{item.partPrice.processingNotes | formatProcessingNote}}" popover-trigger="mouseenter">
+                        {{item.partPrice.billedLineAmt | currency:'$': 2 }}
+                    </div>
+                </td>
+
+                <td class="text-right text-nowrap">
+                    {{item.partPrice.expReimbursePct | number : 2 }}%
+                </td>
+                <td class="text-right">
+                    {{item.partPrice.expReimburseUnitPrice | currency : '$' : 2 }}
+                </td>
+                <td class="text-right">
+                    {{ item.partPrice.expReimburseLineAmt | currency:'$':2 }}
+                </td>
+
+                <td  class="text-center" >{{item.partPrice.hcpcsCode}}</td>
+                <td class="text-center" width="125" style="min-width: 125px;">
+                    {{item.partPrice.billedHcpcsCodeOnPri}}
+                </td>
+                <td class="text-center" width="125" style="min-width: 125px;">
+                    {{item.partPrice.billedHcpcsCodeOnSec}}
+                </td>
+            </tr>
+
+            <tr>
+
+                <th colspan="5">Parts Cost:</th>
+                
+                <th class="text-right">
+                    {{ mergedPriceAndCosts | sumByProperty: 'partCost.poLineCost' | currency:'$':2}}
+                </th>
+                <th colspan="2">Total Cost:</th>
+                <th class="text-right">
+                    {{ mergedPriceAndCosts | sumByProperty: 'partPrice.poTotalLineCost' | currency:'$': 2 }}
+                </th>
+
+                <td colspan="3"></td>
+                <th class="text-right">
+                    {{ mergedPriceAndCosts | sumByProperty: 'partPrice.billedLineAmt' | currency:'$': 2 }}
+                </th>
+
+                <td colspan="2"></td>
+                <th class="text-right">
+                    {{ mergedPriceAndCosts | sumByProperty: 'partPrice.expReimburseLineAmt' | currency:'$': 2 }}
+                </th>
+
+                <td colspan="4"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,29 @@
+﻿<nav ng-show="viewModelHelper.showPageHeader"
+     class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#insightNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <button ng-click="toggleLeftNavPanel()"
+                    class="btn btn-default btn-sm pull-left left-nav-toggle">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
+            <a class="navbar-brand" ng-href="{{baseUrl}}">Insight NG</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-right" id="insightNavBar">
+            <ul class="nav navbar-nav">
+                <!--<li class="text-right" ng-show="currentUser.hasPermission('VIEW_CASE')"><a href="/Case#/Search">Case Search</a></li>
+                <li class="text-right" ng-show="currentUser.hasPermission('SYS_ADMIN') || currentUser.hasPermission('MANAGE_PO_CONTRACTS')"><a href="/Admin/Catalog#/Parts">Parts Administrator</a></li>
+                <li class="text-right" ng-show="currentUser.hasPermission('SYS_ADMIN') || currentUser.hasPermission('MANAGE_USERS')"><a href="/Admin/Security#/Roles">Roles</a></li>
+                <li class="text-right" ng-show="currentUser.hasPermission('MANAGE_CLAIM_CONTRACTS')"><a href="/Admin/carrier#/CarrierRuleGroups">Carrier Pricing Rules</a></li>
+                <li class="text-right" ng-show="currentUser.hasPermission('MANAGE_CLAIM_CONTRACTS')"><a href="/Admin/ClaimPriceRules#/RuleGroupList">Pricing Rules Administration</a></li>-->
+                <li class="text-right"><a href="{{APP_CONSTANTS.insight_url}}"><span style="margin-right: 10px">|</span>Insight<span style="margin-left: 10px">|</span></a></li>
+                <li class="text-right"><a href="">Welcome {{currentUser.getDisplayName()}}</a> </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>

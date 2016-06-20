@@ -1,0 +1,61 @@
+﻿<ng-form name="FormData">
+    <div>
+        <div style="margin-bottom: 20px">
+            <div class='btn-toolbar pull-right'>
+                <button type="button" class="btn btn-primary" ng-click="onSave()"
+                        ng-disabled="FormData.detailForm.$invalid
+                    || FormData.categoryForm.$invalid
+                    || FormData.manufacturerSummaryForm.$invalid
+                    || FormData.priceBookUpdateForm.$invalid">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+                </button>
+
+                <button type="button" class="btn btn-danger" ng-click="onCancel()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+                </button>
+            </div>
+            <h3>{{state.params.partId? 'Edit: ': 'Create New Part' }} {{partModel.selectedPart.name}}</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <form name="FormData.detailForm" role="form" class="form-horizontal" novalidate>
+                    <div ng-include="'~/App/Admin/Catalog/Views/PartEditDetail.html'"></div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form name="FormData.categoryForm" role="form" class="form-horizontal" novalidate>
+                    <div ng-include="'~/App/Admin/Catalog/Views/PartEditCategory.html'"></div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div ng-include="'~/App/Admin/Catalog/Views/PartEditManufacturer.html'"></div>
+            </div>
+            <div class="col-md-8">
+                <div ng-include="'~/App/Admin/Catalog/Views/PartEditPriceBook.html'"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class='btn-toolbar pull-right'>
+                    <button type="button" class="btn btn-primary" ng-click="onSave()"
+                            ng-disabled="FormData.detailForm.$invalid
+                        || FormData.categoryForm.$invalid
+                        || FormData.manufacturerSummaryForm.$invalid
+                        || FormData.priceBookUpdateForm.$invalid">
+                        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+                    </button>
+
+                    <button type="button" class="btn btn-danger" ng-click="onCancel()">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-form>
+

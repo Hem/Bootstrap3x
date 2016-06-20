@@ -1,0 +1,114 @@
+﻿
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-11">
+                <span class="col-sm-8 margin-top-5 padding-left-5">Upload Associated Parts for PriceBook - {{model.selectedPriceBook.name}}</span>
+                <span class="col-sm-2 text-right margin-top-5">Effective: {{model.selectedPriceBook.startDate | date: 'shortDate'}}</span>
+                <span class="col-sm-2 text-right margin-top-5">Expiration: {{model.selectedPriceBook.endDate | date: 'shortDate' }}</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-warning pull-right margin-right-10" ng-click="isCollapsed = !isCollapsed">{{isCollapsed | asYesNo: '+ Show Detail': '- Hide Detail'}}</button>
+            <!--<a class="btn btn-warning" data-toggle="collapse" href="#priceBookDetail">+ Show Detail</a>-->
+        </div>
+        </div>
+    <div collapse="isCollapsed">
+        <div class="panel-body">
+
+            <div class="col-sm-8">
+                <table class="table table-condensed table-no-border">
+                    <tbody>
+                        <tr>
+                            <td style="width:100px" class="text-right"> <strong>Manufacturer: </strong></td>
+                            <td><span>{{model.selectedPriceBook.manufacturer.name}}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><strong>Carriers:</strong></td>
+                            <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.carriers)}}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><strong>Distributors:</strong></td>
+                            <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.distributors)}}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><strong>States:</strong></td>
+                            <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.states)}}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><strong>Physicians:</strong></td>
+                            <td><span>{{arrayHelper.joinToFullNameString(model.selectedPriceBook.physicians)}}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><strong>Facilities:</strong></td>
+                            <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.facilities)}}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><strong>Note:</strong></td>
+                            <td><span class="col-sm-10">{{model.selectedPriceBook.note}}</span></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-sm-4">
+                <table class="table table-condensed table-no-border">
+                    <tbody>
+                        <tr>
+                            <td class="text-right" style="width:120px"><strong>Priority:</strong></td>
+                            <td><span>{{model.selectedPriceBook.selectWeight}}</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-right"><strong>Discount:</strong></td>
+                            <td><span>{{model.selectedPriceBook.discountPercent}}%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    
+    <div class="panel-body">
+        <div class="col-sm-1 form-group">
+            <span class="btn btn-info btn-file" ng-disabled="uploadModel.priceBookUploadList.length || uploadModel.uploader.queue.length">
+                Select File <input type="file" nv-file-select uploader="uploadModel.uploader" ng-disabled="uploadModel.uploader.queue.length || uploadModel.priceBookUploadList.length" />
+            </span>
+        </div>
+
+        <div class="col-sm-11 margin-top-5" ng-show="uploadModel.uploader.queue.length">
+            <div class="col-sm-4">
+                <label class="col-sm-3">File Name: </label>
+                <span>{{uploadModel.uploader.queue[0].file.name}}</span>
+            </div>
+
+            <div class="col-sm-4" ng-show="uploadModel.uploader.isHTML5">
+                <label class="col-sm-3">Progress:</label>
+                <div class="progress" style="margin-bottom: 0;">
+                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploadModel.uploader.queue[0].progress + '%' }"></div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <span class="col-sm-3">Status: </span>
+                <span ng-show="uploadModel.uploader.queue[0].isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                <span ng-show="uploadModel.uploader.queue[0].isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                <span ng-show="uploadModel.uploader.queue[0].isError"><i class="glyphicon glyphicon-remove"></i></span>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-success btn-sm" ng-click="uploadModel.uploader.queue[0].upload()"
+                        ng-disabled="uploadModel.uploader.queue[0].isReady || uploadModel.uploader.queue[0].isUploading || uploadModel.uploader.queue[0].isSuccess">
+                    <span class="glyphicon glyphicon-upload"></span> Import
+                </button>
+
+                <button type="button" class="btn btn-danger btn-sm" ng-click="uploadModel.uploader.clearQueue()" ng-disabled="!uploadModel.uploader.queue.length">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div ng-include="'~/app/Admin/PriceBook/Views/PriceBookFileUploadList.html'"></div>
+</div>

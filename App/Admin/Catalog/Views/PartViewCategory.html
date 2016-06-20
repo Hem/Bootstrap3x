@@ -1,0 +1,50 @@
+﻿<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-12 panel-title">
+                Categorization
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <table class="table table-condensed table-no-border">
+            <tbody>
+            <tr>
+                <td class="text-right" style="width: 120px"><strong>Part Type:</strong></td>
+                <td>{{partModel.selectedPart.type.name}}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><strong>Keyword:</strong></td>
+                <td>{{partModel.selectedPart.keyword.name}}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><strong>Body Region:</strong></td>
+                <td>{{partModel.selectedPart.bodyRegion.name}}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><strong>Category:</strong></td>
+                <td>{{partModel.selectedPart.category.name}}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><strong>Material:</strong></td>
+                <td>{{partModel.selectedPart.material.name}}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><strong>Claim Tier:</strong></td>
+                <td>{{partModel.selectedPart.claimPriceTier.name}}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><strong>HCPCS:</strong></td>
+                <td>{{partModel.selectedPart.hcpcsCode.code}}</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+

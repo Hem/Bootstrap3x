@@ -1,0 +1,18 @@
+﻿<div>
+
+    <h3>IN TEMPLATE</h3>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        <tr ng-repeat="item in records">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td><button ng-click="selectMe(item)">SELECT ME</button></td>
+        </tr>
+    </table>
+
+
+</div>

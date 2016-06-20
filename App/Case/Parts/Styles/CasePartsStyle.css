@@ -1,0 +1,38 @@
+﻿.bg-light-blue {
+    background-color: #D9EDF7;
+}
+
+.border-bottom-2 {
+    border: 1px solid grey;
+    margin-bottom: 2px;
+}
+
+.margin-right-5 {
+    margin-right: 5px;
+}
+
+.input-width-md {
+    width:160px;
+}
+
+#poTypeAddPart .ui-select-bootstrap > .ui-select-choices {
+     width: 130% !important;
+}
+
+#printOnPoReason .ui-select-bootstrap > .ui-select-choices {
+     width: 120% !important;
+}
+
+#printOnClaimReason  .ui-select-bootstrap > .ui-select-choices {
+     width: 140% !important;
+}
+
+.table-header-primary > thead > tr {
+    color: #fff;
+    background-color: #337ab7 !important;
+    border-color: #337ab7;
+}
+
+.panel-no-header-color > .panel-heading {
+    background-color: transparent !important;
+}

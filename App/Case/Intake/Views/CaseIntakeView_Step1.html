@@ -1,0 +1,195 @@
+﻿<div class="form-group" style="padding-top: 10px;">
+    <label class="col-sm-2 control-label">Referal Type:</label>
+    <div class="col-sm-10">
+        
+        <label for="referalTypeFac" class="radio-inline btn btn-default"
+               ng-class=" { 'btn-info' : procedure.ReferalType === 'Facility Referral' } ">
+            <input type="radio" name="referalType" id="referalTypeFac"
+                   ng-model="procedure.ReferalType" value="Facility Referral" required="required">
+            Facility
+        </label>
+
+        <label for="referalTypeIns" class="radio-inline btn btn-default"
+               ng-class="{'btn-info' : procedure.ReferalType === 'Payer Direct' } ">
+            <input type="radio" name="referalType" id="referalTypeIns" ng-model="procedure.ReferalType" value="Payer Direct" required="required">
+            Insurance
+        </label>
+
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Surgery Date:</label>
+    <div class="col-sm-4">
+        <input type="date" ng-model="procedure.SurgeryScheduledDate" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Fac Patient Id:</label>
+    <div class="col-sm-10">
+        <input type="text" ng-model="procedure.FacPatientId" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group">
+
+    <label class="col-sm-2 control-label">Facility:</label>
+
+    <div class="col-sm-10" ng-class="{ 'has-error': form.facility.$invalid }">
+        <ipg-entity-select name="facility" required ng-model="procedure.Facility" entity-id="procedure.FacilityId"
+                           place-holder-text="Please select a facility"
+                           entity-type="FACILITY"></ipg-entity-select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Physician:</label>
+    <div class="col-sm-10" ng-class="{ 'has-error': form.physician.$invalid }">
+        <ipg-person-entity-select required name="physician" ng-model="procedure.Physician" entity-id="procedure.PhysicianId"
+                                  place-holder-text="Please select a physician"
+                                  entity-type="PHYSICIAN"></ipg-person-entity-select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Procedure:</label>
+    <div class="col-sm-10" ng-class="{ 'has-error': form.procedure.$invalid }">
+        <ipg-entity-select required name="procedure"
+                           ng-model="procedure.Procedure" entity-id="procedure.ProcedureId"
+                           place-holder-text="Please select a procedure"
+                           entity-type="PROCEDURE_TYPE"></ipg-entity-select>
+    </div>
+
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Dx. Code 1:</label>
+    <div class="col-sm-10" ng-class="{ 'has-error': form.dxcode1.$invalid }">
+        <ipg-code-entry name="dxcode1" required
+                        ng-model="procedure.DxCode1"
+                        code-description="procedure.DxCode1Name"
+                        place-holder-text="Dx Code 1"
+                        code-lookup-url="'~/api/Codes/DiagnosticCode'"></ipg-code-entry>
+    </div>
+</div>
+
+<div class="form-group">
+    <!--ng-hide="!procedure.DxCode1 && !procedure.DxCode2"-->
+    <label class="col-sm-2 control-label">Dx. Code 2:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.DxCode2"
+                        code-description="procedure.DxCode2Name"
+                        place-holder-text="Dx Code 2"
+                        code-lookup-url="'~/api/Codes/DiagnosticCode'"></ipg-code-entry>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Dx. Code 3:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.DxCode3"
+                        code-description="procedure.DxCode3Name"
+                        place-holder-text="Dx Code 3"
+                        code-lookup-url="'~/api/Codes/DiagnosticCode'"></ipg-code-entry>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Dx. Code 4:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.DxCode4"
+                        code-description="procedure.DxCode4Name"
+                        place-holder-text="Dx Code 4"
+                        code-lookup-url="'~/api/Codes/DiagnosticCode'"></ipg-code-entry>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Dx. Code 5:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.DxCode5"
+                        code-description="procedure.DxCode5Name"
+                        place-holder-text="Dx Code 5"
+                        code-lookup-url="'~/api/Codes/DiagnosticCode'"></ipg-code-entry>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Dx. Code 6:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.DxCode6"
+                        code-description="procedure.DxCode6Name"
+                        place-holder-text="Dx Code 6"
+                        code-lookup-url="'~/api/Codes/DiagnosticCode'"></ipg-code-entry>
+    </div>
+</div>
+
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">CPT 1:</label>
+    <div class="col-sm-10" ng-class="{ 'has-error': form.cptcode1.$invalid }">
+        <ipg-code-entry name="cptcode1" required
+                        ng-model="procedure.CptCode1"
+                        code-description="procedure.CptCode1Name"
+                        place-holder-text="CPT Code 1"
+                        code-lookup-url="'~/api/Codes/CptCode'"></ipg-code-entry>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">CPT 2:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.CptCode2"
+                        code-description="procedure.CptCode2Name"
+                        place-holder-text="CPT Code 2"
+                        code-lookup-url="'~/api/Codes/CptCode'"></ipg-code-entry>
+    </div>
+</div>
+
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">CPT 3:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.CptCode3"
+                        code-description="procedure.CptCode3Name"
+                        place-holder-text="CPT Code 3"
+                        code-lookup-url="'~/api/Codes/CptCode'"></ipg-code-entry>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">CPT 4:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.CptCode4"
+                        code-description="procedure.CptCode4Name"
+                        place-holder-text="CPT Code 4"
+                        code-lookup-url="'~/api/Codes/CptCode'"></ipg-code-entry>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">CPT 5:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.CptCode5"
+                        code-description="procedure.CptCode5Name"
+                        place-holder-text="CPT Code 5"
+                        code-lookup-url="'~/api/Codes/CptCode'"></ipg-code-entry>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">CPT 6:</label>
+    <div class="col-sm-10">
+        <ipg-code-entry ng-model="procedure.CptCode6"
+                        code-description="procedure.CptCode6Name"
+                        place-holder-text="CPT Code 6"
+                        code-lookup-url="'~/api/Codes/CptCode'"></ipg-code-entry>
+    </div>
+</div>

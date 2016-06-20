@@ -1,0 +1,154 @@
+﻿<div>
+<table class="table table-bordered table-striped table-condensed">
+<thead>
+
+<tr>
+    <th></th>
+    <th class="text-center"></th>
+    <th style="width: 2px;"></th>
+    <th colspan="4" class="text-center">Unit Cost</th>
+
+    <th style="width: 2px;"></th>
+    <th colspan="2" class="text-center">Entered</th>
+    <th style="width: 2px;"></th>
+    <th colspan="5" class="text-center">MAIC</th>
+    <th style="width: 2px;"></th>
+    <th colspan="6" class="text-center">Purchase Order</th>
+</tr>
+<tr>
+    <th>Part Number</th>
+    <th class="text-center">Pay Fac.</th>
+
+    <th style="width: 2px;"></th>
+    <th class="text-right">MSRP</th>
+    <th class="text-right">Discount</th>
+    <th class="text-right">Entered</th>
+    <th class="text-right">Estimated</th>
+
+    <th style="width: 2px;"></th>
+
+    <th class="text-right">Tax</th>
+    <th class="text-right">Shipping</th>
+
+    <th style="width: 2px;"></th>
+
+    <th class="text-center">Enabled</th>
+    <th class="text-center">Reason</th>
+
+    <th class="text-right">AIC</th>
+    <th class="text-right">MAIC %</th>
+    <th class="text-right">Allowed</th>
+
+    <th style="width: 2px;"></th>
+
+    <th class="text-right">Qty.</th>
+    <th class="text-right">Unit</th>
+    <th class="text-right text-nowrap">Parts Cost</th>
+    <th class="text-right text-nowrap">Line Tax</th>
+    <th class="text-right text-nowrap">Line Ship</th>
+    <th class="text-right text-nowrap">Line Total</th>
+</tr>
+</thead>
+
+<tbody>
+<tr ng-repeat="item in actualPartCosts | orderBy : ['partSku', '-quantity' ]">
+
+    <td class="text-info cursor-help text-nowrap">
+        <div popover-trigger="mouseenter" popover="{{item.partName}}">{{item.partSku}}</div>
+    </td>
+
+    <td class="text-center">
+        <div>
+            {{ item.payFacilityFlag | asYesNo }}
+        </div>
+    </td>
+
+
+    <th style="width: 2px;"></th>
+
+    <td class="text-right">{{item.mfrListPrice | currency:'$': 2}}</td>
+
+    <td class="text-right">{{item.mfrDiscountUnitCost | currency:'$': 2}}</td>
+
+
+    <td class="text-right text-nowrap">
+        {{item.enteredUnitCost | currency: '$' : 2 }}
+    </td>
+
+    <td class="text-right">{{ item.estimatedUnitCost | currency: '$' : 2 }}</td>
+
+
+    <th style="width: 2px;"></th>
+    <td class="text-right">{{ item.enteredLineTax | currency: '$' : 2 }}</td>
+
+    <td class="text-right">
+        {{ item.enteredLineShipping | currency: '$' : 2 }}
+    </td>
+
+    <th style="width: 2px;"></th>
+
+    <td class="text-center">
+        {{item.maicIsEnabled | asYesNo }}
+    </td>
+
+    <td class="text-info text-center cursor-help">
+        <div popover-trigger="mouseenter"
+             ng-show="item.partSku !== 'admin_fee'"
+             popover="{{ item.maicCalcReasons | maicEnumToText }}">
+            [{{item.maicCalcReasons}}]
+        </div>
+    </td>
+
+
+
+    <td class="text-right">
+        {{ item.maicUnitCost | currency : '$' : 2 }}
+    </td>
+
+
+
+    <td class="text-right">
+        {{ item.maicReimbursePct | number : 2 }}
+    </td>
+
+    <td class="text-right">
+        {{ item.maicUnitCost * (item.maicReimbursePct / 100) | currency:'$': 2 }}
+    </td>
+
+
+    <th style="width: 2px;"></th>
+
+
+
+    <td class="text-right">
+        {{item.quantityUsed}}
+    </td>
+    <td class="text-right">{{item.poUnitCost | currency:'$': 2}}</td>
+    <td class="text-right">{{item.poLineCost | currency:'$': 2}}</td>
+    <td class="text-right">{{item.poEstimatedLineTax | currency:'$': 2}}</td>
+    <td class="text-right">{{item.poEstimatedLineShipping | currency:'$': 2}}</td>
+    <td class="text-right">{{item.poTotalLineCost | currency:'$': 2}}</td>
+</tr>
+
+<tr>
+    <th colspan="19" class="text-right">Total:</th>
+    <th class="text-right">
+        {{ actualPartCosts | sumByProperty : 'poLineCost' | currency:'$': 2 }}
+    </th>
+    <th class="text-right">
+        {{ actualPartCosts | sumByProperty : 'poEstimatedLineTax' | currency:'$': 2 }}
+    </th>
+    <th class="text-right">
+        {{ actualPartCosts | sumByProperty : 'poEstimatedLineShipping' | currency:'$': 2 }}
+    </th>
+    <th class="text-right">
+        {{ actualPartCosts | sumByProperty : 'poTotalLineCost' | currency:'$': 2 }}
+    </th>
+</tr>
+
+</tbody>
+
+</table>
+
+
+</div>

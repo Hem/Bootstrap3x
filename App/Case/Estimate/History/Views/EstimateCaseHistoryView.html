@@ -1,0 +1,50 @@
+﻿<div master-page>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-sm-8 panel-title">
+                    History: {{header.name}}
+                </div>
+                <div class="col-sm-2 text-right pull-right hidden-print">
+                    <a class="btn btn-primary btn-sm"
+                       ng-click="print()">
+                        <span class="glyphicon glyphicon-print"></span> Print
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped table-condensed" style="max-height: 100px">
+                <thead>
+                    <tr>
+                        <th>Reason</th>
+                        <th>Time</th>
+                        <th>Created By</th>
+                        <th class="hidden-print">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="historyItem in history | orderBy: '-dateTimeCreated' ">
+                        <td>{{historyItem.snapshotReason.name}}</td>
+                        <td>{{historyItem.dateTimeCreated | date: 'medium'}}</td>
+                        <td>{{historyItem.createdBy.lastName}}, {{historyItem.createdBy.firstName}}</td>
+                        <td class="hidden-print">
+                            <a class="btn btn-default btn-sm right"
+                               href="/Case/EstimateHistory#/Snapshot/{{historyItem.patientProcedureId}}/{{historyItem.id}}">
+                                <span class="glyphicon glyphicon-search"></span> View
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-12 col-md-offset-6">
+                    <a class="btn btn-danger text-center hidden-print"
+                       ng-click="close()">
+                        <span class="glyphicon glyphicon-remove"></span> Close
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

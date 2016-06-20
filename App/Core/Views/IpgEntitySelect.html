@@ -1,0 +1,24 @@
+﻿<span class="input-group" ng-class="{ 'input-group-sm' : 'sizing ==  displaySmall '}">
+
+    <ui-select ng-model="ngModel" theme="bootstrap" title="{{placeHolderText}}"
+               ng-disabled="disabled"
+               ng-required="required"
+               on-select="onSelect($item, $model)">
+
+        <ui-select-match placeholder="{{placeHolderText}}">
+            <div>{{$select.selected[displayMember]}}</div>
+        </ui-select-match>
+
+        <ui-select-choices repeat="item in list | filter: $select.search | orderBy: displayMember"
+                           refresh="filterRecords($select.search)"
+                           refresh-delay="500">
+            <div ng-bind-html="item[displayMember] | highlight: $select.search"></div>
+        </ui-select-choices>
+
+    </ui-select>
+
+    <a class="input-group-addon" ng-click="clearSelected()">
+        <span class="glyphicon glyphicon-remove"></span>
+    </a>
+
+</span>

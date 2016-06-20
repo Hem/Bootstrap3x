@@ -1,0 +1,209 @@
+﻿<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-7 panel-title">
+                Create New Price Book
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <form name="priceBookForm" role="form" class="form-horizontal" novalidate>
+
+            <div class="form-group">
+
+                <label class="col-sm-2 control-label">
+                    Name:
+                </label>
+
+                <div class="col-sm-10" ng-class="{ 'has-error': priceBookForm.priceBookName.$invalid}">
+                    <input type="text"
+                           name="priceBookName"
+                           check-duplicate-name
+                           ng-model="model.selectedPriceBook.name"
+                           class="form-control"
+                           required
+                           popover-trigger="mouseenter"
+                           popover="{{priceBookForm.priceBookName.$error.duplicate || priceBookForm.priceBookName.$error.required? 'Unique name is required.' : ''}}"/>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Manufacturer:
+                </label>
+                <div class="col-sm-10"
+                     ng-class="{ 'has-error': priceBookForm.manufacturer.$invalid}">
+                    <ipg-entity-select name="manufacturer"
+                                       required
+                                       ng-model="model.selectedPriceBook.manufacturer"
+                                       entity-id="model.selectedPriceBook.mfrId"
+                                       place-holder-text="Please select a manufacturer"
+                                       filter-metadata="mfgDropDownMetadata"
+                                       popover-trigger="mouseenter"
+                                       popover="{{priceBookForm.manufacturer.$error.required? 'Manufacturer must be selected.' : ''}}"
+                                       entity-type="MANUFACTURER"></ipg-entity-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Start Date:
+                </label>
+                <div class="col-sm-4" ng-class="{ 'has-error': priceBookForm.startDate.$invalid}">
+                    <ipg-date-picker name="startDate"
+                                     required
+                                     popover="{{priceBookForm.startDate.$error.required || priceBookForm.startDate.$error.lessThan ? 'Start date must be before End Date.' : ''}}"
+                                     popover-trigger="mouseenter"
+                                     less-than="model.selectedPriceBook.endDate"
+                                     ng-model="model.selectedPriceBook.startDate"></ipg-date-picker>
+                </div>
+
+                <label class="col-sm-2 control-label">
+                    End Date:
+                </label>
+                <div class="col-sm-4" ng-class="{ 'has-error': priceBookForm.endDate.$invalid}">
+                    <ipg-date-picker name="endDate"
+                                     required
+                                     popover="{{priceBookForm.endDate.$error.required || priceBookForm.endDate.$error.greaterThan ? 'End date must be after Start Date' : ''}}"
+                                     popover-trigger="mouseenter"
+                                     greater-than="model.selectedPriceBook.startDate"
+                                     ng-model="model.selectedPriceBook.endDate"></ipg-date-picker>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Percentage:
+                </label>
+                <div class="col-sm-4">
+                    <div class="input-group" ng-class="{ 'has-error': priceBookForm.discountPercent.$invalid}">
+                        <input type="text"
+                               name="discountPercent"
+                               ng-model="model.selectedPriceBook.discountPercent"
+                               min="0"
+                               max="100"
+                               precision="2"
+                               money
+                               max-digits="3"
+                               class="form-control"
+                               popover-trigger="mouseenter"
+                               popover="{{priceBookForm.discountPercent.$error.max || priceBookForm.discountPercent.$error.min? 'Percentage must be between 0 and 100.' : ''}}">
+                        <span class="input-group-addon">%</span>
+                    </div>
+
+                </div>
+
+                <label class="col-sm-2 control-label">
+                    Priority:
+                </label>
+                <div class="col-sm-4" ng-class="{ 'has-error': priceBookForm.selectWeight.$invalid}">
+                    <input type="number" 
+                           name="selectWeight"
+                           ng-model="model.selectedPriceBook.selectWeight"
+                           required
+                           min="1" max="1000"
+                           max-digits="4"
+                           class="form-control"
+                           popover-trigger="mouseenter"
+                           popover="{{priceBookForm.selectWeight.$error.max || priceBookForm.selectWeight.$error.min? 'Weight must be between 0 and 1000.' : ''}}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Carriers:
+                </label>
+                <div class="col-sm-10">
+                    <ipg-entity-multi-select entity-type="CARRIER"
+                                             ng-model="model.selectedPriceBook.carriers"
+                                             place-holder-text="Please search for a carrier"
+                                             associated-entity-id="model.selectedPriceBook.id">
+                    </ipg-entity-multi-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    States:
+                </label>
+                <div class="col-sm-10">
+                    <ipg-entity-multi-select entity-type="STATE"
+                                             place-holder-text="Please search for a state"
+                                             ng-model="model.selectedPriceBook.states"
+                                             associated-entity-id="model.selectedPriceBook.id"
+                                             load-all-records="true">
+                    </ipg-entity-multi-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Physicians:
+                </label>
+                <div class="col-sm-10">
+                    <ipg-person-multi-select entity-type="PHYSICIAN"
+                                             ng-model="model.selectedPriceBook.physicians"
+                                             place-holder-text="Please search for a physician"
+                                             associated-entity-id="model.selectedPriceBook.id">
+                    </ipg-person-multi-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Distributors:
+                </label>
+                <div class="col-sm-10">
+                    <ipg-entity-multi-select entity-type="DISTRIBUTOR"
+                                             ng-model="model.selectedPriceBook.distributors"
+                                             place-holder-text="Please search for a distributor"
+                                             associated-entity-id="model.selectedPriceBook.id">
+                    </ipg-entity-multi-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Facilities:
+                </label>
+                <div class="col-sm-10">
+                    <ipg-entity-multi-select entity-type="FACILITY"
+                                             place-holder-text="Please search for a facility"
+                                             ng-model="model.selectedPriceBook.facilities"
+                                             associated-entity-id="model.selectedPriceBook.id">
+                    </ipg-entity-multi-select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="col-sm-2 control-label">
+                    Notes:
+                </label>
+                <div class="col-sm-10">
+                    <textarea ng-model="model.selectedPriceBook.note"
+                              name="notes"
+                              class="form-control notes-textarea"
+                              rows="4"
+                              maxlength="4000"></textarea>
+                </div>
+            </div>
+
+            <div class="btn-toolbar pull-right">
+                <button type="button" class="btn btn-primary btn-sm" ng-click="onSave()"
+                        ng-disabled="priceBookForm.$invalid || !priceBookForm.$dirty">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+                </button>
+
+                <a class="btn btn-info btn-sm" ng-click="reset()" ng-disabled="!priceBookForm.$dirty">
+                    <span class="glyphicon glyphicon-refresh"></span> Reset
+                </a>
+
+                <a class="btn btn-info btn-sm" ng-click="onBack()" >
+                    <span class="glyphicon glyphicon-backward"></span> Back
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

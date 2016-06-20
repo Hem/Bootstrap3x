@@ -1,0 +1,32 @@
+﻿<div ng-show="showNavigation">
+
+    <top-nav-view></top-nav-view>
+
+    <div class="container-fluid body-content main-content">
+        <div id="wrapper" class="toggled">
+            <div id="sidebar-wrapper" class="hidden-print">
+                <left-nav-view></left-nav-view>
+            </div>
+            <div id="page-content-wrapper">
+                <div ng-transclude></div>
+                <hr/>
+                <footer>
+                    <p>&copy; {{now | date : 'yyyy'}} - Insight Next Generation.</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div ng-hide="showNavigation">
+
+    <div class="container-fluid body-content main-content">
+        <div ng-transclude></div>
+        <hr/>
+        <footer>
+            <p>&copy; {{now | date : 'yyyy'}} - Insight Next Generation.</p>
+        </footer>
+    </div>
+
+</div>

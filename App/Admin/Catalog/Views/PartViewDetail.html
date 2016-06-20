@@ -1,0 +1,68 @@
+﻿<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-12 panel-title">
+                Part Detail
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <table class="table table-condensed table-no-border">
+            <tbody>
+            <tr>
+                <td colspan="1" style="width:130px" class="text-right"><strong>Part Name:</strong></td>
+                <td colspan="3">{{partModel.selectedPart.name}}</td>
+            </tr>
+            <tr>
+                <td colspan="1" class="text-right"><strong>Model Number:</strong></td>
+                <td colspan="1">{{partModel.selectedPart.partNumber}}</td>
+                <td colspan="1" style="width:150px" class="text-right"><strong>UDI:</strong></td>
+                <td colspan="1">{{partModel.selectedPart.udi}}</td>
+            </tr>
+            <tr>
+                <td colspan="1" class="text-right"><strong>Manufacturer:</strong></td>
+                <td colspan="3">{{partModel.selectedPart.manufacturer.name}}</td>
+            </tr>
+            <tr>
+                <td colspan="1" class="text-right"><strong>Part Size:</strong></td>
+                <td colspan="1">{{partModel.getFormatPartSize()}}</td>
+                <td colspan="1" class="text-right"><strong>Box Quantity:</strong></td>
+                <td colspan="1">{{partModel.selectedPart.boxQuantity}}</td>
+            </tr>
+            <tr>
+                <td colspan="1" class="text-right"><strong>Usage Units:</strong></td>
+                <td colspan="1">{{partModel.selectedPart.multiplier}}</td>
+                <td colspan="1" class="text-right"><strong>Max Qty per Case:</strong></td>
+                <td colspan="1">{{partModel.selectedPart.maxQuantityPerCase}}</td>
+            </tr>
+            <tr>
+                <td colspan="1" class="text-right"><strong>Enforce Max Qty:</strong></td>
+                <td colspan="1">{{ partModel.selectedPart.enforceMaxQuantity | asYesNo }}</td>
+                <td colspan="1" class="text-right"><strong>Date Discontinued:</strong></td>
+                <td colspan="1">{{partModel.selectedPart.dateDiscontinued | date:'MM/dd/yyyy' }}</td>
+            </tr>
+            <tr>
+                <td colspan="1" class="text-right"><strong>Active:</strong></td>
+                <td colspan="1">{{partModel.selectedPart.active? "Yes": "No"}}</td>
+                <td colspan="1" class="text-right"><strong>Date Modified:</strong></td>
+                <td colspan="1">{{partModel.selectedPart.dateModified | date:'MM/dd/yyyy' }}</td>
+            </tr>
+            <tr>
+                <td colspan="1" class="text-right"><strong>Notes:</strong></td>
+                <td colspan="3">{{partModel.selectedPart.notes}}</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+
+
+

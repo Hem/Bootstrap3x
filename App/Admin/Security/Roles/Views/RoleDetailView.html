@@ -1,0 +1,53 @@
+﻿<form name="form" role="form" class="form-horizontal" novalidate>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Role: {{model.selectedRole.name}} ({{model.selectedRole.id}})
+        </div>
+        <div class="panel-body">
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Name:</label>
+                    <div class="col-sm-6">
+                        <input type="text" ng-model="model.selectedRole.name" class="form-control" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Description:</label>
+                    <div class="col-sm-6">
+                        <input type="text" ng-model="model.selectedRole.roleDescription" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-info btn-sm" ng-click="onClickSave()" ng-disabled="form.$invalid"
+                                ng-hide="model.mode === 'delete'">
+                            <span class="glyphicon glyphicon-save"></span> Save
+                        </button>
+                        <button class="btn btn-danger btn-sm" ng-click="onClickDelete()" ng-show="model.mode === 'delete'">
+                            <span class="glyphicon glyphicon-trash"></span> Yes! Delete
+                        </button>
+                        <button class="btn btn-warning btn-sm" ui-sref="roleList" ng-show="model.mode === 'delete'">
+                            <i class="glyphicon glyphicon-ban-circle"></i> Never mind!
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="text-center">
+                    <a class="btn btn-info btn-sm" ui-sref="roleList.detail.privs({roleId: model.selectedRoleId, mode: model.mode})">
+                        <span class="glyphicon glyphicon-edit"></span> Privileges
+                    </a>
+                    <a class="btn btn-info btn-sm" ui-sref="roleList.detail.users({roleId: model.selectedRoleId, mode: model.mode})">
+                        <span class="glyphicon glyphicon-user"></span> Users
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+<div ui-view ng-cloak></div>

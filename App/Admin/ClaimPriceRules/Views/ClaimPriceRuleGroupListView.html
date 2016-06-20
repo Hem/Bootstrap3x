@@ -1,0 +1,44 @@
+﻿<div master-page>
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">Claim Pricing Rule Groups:</div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in records">
+                                <td>{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>
+                                    <a class="btn btn-info" tooltip="View"
+                                       ui-sref="claimPriceRuleGroups.detail({id: item.id, mode:'view'})">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                    </a>
+                                    <a class="btn btn-info" tooltip="Edit"
+                                       ui-sref="claimPriceRuleGroups.detail({id: item.id, mode:'edit'})">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xs-12">
+            <div ui-view ng-cloak></div>
+        </div>
+    </div>
+</div>
+
+

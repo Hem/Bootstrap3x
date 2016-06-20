@@ -1,0 +1,64 @@
+﻿<div master-page>
+    <fieldset>
+
+        <legend>
+            <div class="row">
+                <div class="col-sm-10">
+                    {{header.procedureName}}
+                </div>
+                <div class="col-sm-2 text-right pull-right hidden-print">
+                    <a class="btn btn-default btn-sm"
+                       ng-click="print()">
+                        <span class="glyphicon glyphicon-print"></span> Print
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>
+                        By - {{ header.createdBy.lastName }}, {{ header.createdBy.firstName }} ({{header.dateTimeCreated | date : 'MM/dd/yyyy h:mm a'}})
+                    </h5>
+                </div>
+            </div>
+        </legend>
+
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-6"
+                 ng-include="'~/App/Case/History/Views/CaseInfoSnapshotView.html'">
+            </div>
+
+            <div class="col-xl-3 col-sm-6"
+                 ng-include="'~/App/Case/History/Views/CarrierInfoSnapshotView.html'"></div>
+
+            <div class="col-xl-3  col-sm-6"
+                 ng-include="'~/App/Case/History/Views/BenefitsSnapshotView.html'">
+            </div>
+
+            <div class="col-xl-3 col-sm-6"
+                 ng-include="'~/App/Case/History/Views/BilledChargesSnapshotView.html'">
+            </div>
+
+            <div class="col-xl-12 clearfix pull-left">
+                <fieldset>
+                    <div ng-include="'~/App/Case/History/Views/ClaimPartsSnapshotView.html'"></div>
+                </fieldset>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-md-offset-6  hidden-print">
+                <a class="btn btn-default"
+                   ng-href="/Case/EstimateHistory#/{{header.patientProcedureId}}">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Go Back
+                </a>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+
+
+
+

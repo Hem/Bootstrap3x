@@ -1,0 +1,73 @@
+﻿<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <span class="panel-title">Billed Charges:</span>
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed">
+
+        <tr>
+            <th width="125" class="text-nowrap text-right">Parts Cost:</th>
+            <td class="text-right">
+                {{ header.costSummary.partsCost | currency : '$' : 2 }}
+            </td>
+
+            <th width="125" class="text-nowrap text-right">Total Cost:</th>
+            <td class="text-right">
+                {{ header.costSummary.totalCost | currency : '$' : 2 }}
+            </td>
+        </tr>
+
+        <tr>
+            <th class="text-right">Billed:</th>
+            <td class="text-right"
+                title="{{ngModel.totalBilledInBandingReason}}"
+                ng-class="{'errorLabel' : ngModel.totalBilledInBanding}">
+                {{ header.priceSummary.billedAmount | currency : '$' : 2 }}
+            </td>
+
+            <th class="text-nowrap text-right">Est. Allowed:</th>
+            <td class="text-right">
+                {{ header.priceSummary.estAllowedAmount | currency : '$' : 2 }}
+            </td>
+        </tr>
+
+        <tr>
+            <th class="text-right">Carrier Writeoff:</th>
+            <td class="text-right">
+                {{ (header.procedureResponsibility.overrideCarrierWriteOff) ? header.procedureResponsibility.carrierWriteOff_Ovrrd : header.procedureResponsibility.carrierWriteoffAmount | currency : '$' : 2}}
+            </td>
+
+            <th class="text-right">Patient Writeoff:</th>
+            <td class="text-right">
+                {{ (header.procedureResponsibility.overridePatientWriteOff) ? header.procedureResponsibility.patientWriteOff_Ovrrd : header.procedureResponsibility.patientWriteoffAmount | currency : '$' : 2 }}
+            </td>
+        </tr>
+
+        <tr>
+            <th class="text-right">Profit Margin:</th>
+            <td class="text-right">
+                {{ header.procedureResponsibility.profitPct | number : 2}}%
+            </td>
+
+            <th class="text-right">Profit:</th>
+            <td class="text-right">
+                {{ header.procedureResponsibility.profitAmount | currency : '$' : 2}}
+            </td>
+        </tr>
+
+        <tr>
+            <th class="text-right">Carrier Resp:</th>
+            <td class="text-right">
+                {{ header.procedureResponsibility.carrierResponsibility | currency : '$' : 2}}
+            </td>
+            <th class="text-right">Patient Resp:</th>
+            <td class="text-right">
+                {{ header.procedureResponsibility.patientResponsibility | currency : '$' : 2 }}
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+

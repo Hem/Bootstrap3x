@@ -1,0 +1,290 @@
+﻿<div ng-form="calcRevPoForm">
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+
+            <tr>
+                <th></th>
+                <th class="text-center"></th>
+                <th style="width: 2px;"></th>
+                <th colspan="4" class="text-center">Unit Cost</th>
+
+                <th style="width: 2px;"></th>
+                <th colspan="2" class="text-center">Entered</th>
+                <th style="width: 2px;"></th>
+                <th colspan="5" class="text-center">MAIC</th>
+                <th style="width: 2px;"></th>
+                <th colspan="6" class="text-center">Purchase Order</th>
+                <th width="20"></th>
+
+            </tr>
+            <tr>
+                <th>Part Number</th>
+                <th class="text-center">Pay Fac.</th>
+
+                <th style="width: 2px;"></th>
+                <th class="text-right">MSRP</th>
+                <th class="text-right">Discount</th>
+                <th class="text-right">Entered</th>
+                <th class="text-right">Estimated</th>
+
+                <th style="width: 2px;"></th>
+
+                <th class="text-right">Tax</th>
+                <th class="text-right">Shipping</th>
+
+                <th style="width: 2px;"></th>
+
+                <th class="text-center">Enabled</th>
+                <th class="text-center">Reason</th>
+
+                <th class="text-right">AIC</th>
+                <th class="text-right">MAIC %</th>
+                <th class="text-right">Allowed</th>
+
+                <th style="width: 2px;"></th>
+
+                <th class="text-right">Qty.</th>
+                <th class="text-right">Unit</th>
+                <th class="text-right text-nowrap">Parts Cost</th>
+                <th class="text-right text-nowrap">Line Tax</th>
+                <th class="text-right text-nowrap">Line Ship</th>
+                <th class="text-right text-nowrap">Line Total</th>
+                <th width="20"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="item in parts | orderBy : [ 'displaySortOrder' ] | filter : filterPoParts "
+            ng-class="{'strikeout': item.debitedQuantity + item.quantity <= 0  }">
+
+
+            <td class="text-info cursor-help text-nowrap">
+
+                <div popover-trigger="mouseenter"
+                     popover-placement="right"
+                     popover="{{item.partName}}">
+                    <span class="glyphicon glyphicon glyphicon-hand-right" ng-show="item.quantity < 0" style="margin-right:5px;"></span>
+                    {{item.partSku}}
+                </div>
+            </td>
+
+            <td class="text-center">
+                <div ng-hide="isUnitCostEditable(item)">
+                    {{ item.partCost.payFacilityFlag | asYesNo }}
+                </div>
+                <div class="checkbox" ng-show="isUnitCostEditable(item)">
+                    <label>
+                        <input type="checkbox" ng-model="item.partCost.payFacilityFlag" ng-change="updatePartCost(item)"/>
+                        {{ item.partCost.payFacilityFlag | asYesNo }}
+                    </label>
+                </div>
+            </td>
+
+
+            <th style="width: 2px;"></th>
+
+            <td class="text-right">{{item.partCost.mfrListPrice | currency:'$': 2}}</td>
+
+            <td class="text-right">{{item.partCost.mfrDiscountUnitCost | currency:'$': 2}}</td>
+
+
+            <td class="text-right text-nowrap"
+                ng-hide="isUnitCostEditable(item)">
+                {{item.partCost.enteredUnitCost | currency: '$' : 2 }}
+            </td>
+            <td class="text-right text-nowrap"
+                ng-show="isUnitCostEditable(item)">
+                <input type="number"
+                       class="form-control text-right pull-right"
+                       required
+                       ng-change="updatePartCost(item)"
+                       ng-model="item.partCost.enteredUnitCost"
+                       ng-model-options="{debounce:500}"
+                       name="enteredUnitCost_{{item.id}}"
+                       style="min-width: 80px; max-width: 100px;"/>
+            </td>
+
+
+            <td class="text-right">{{ item.partCost.estimatedUnitCost | currency: '$' : 2 }}</td>
+
+
+            <th style="width: 2px;"></th>
+            <td class="text-right">{{ item.partCost.enteredLineTax | currency: '$' : 2 }}</td>
+
+            <td class="text-right"
+                ng-hide="isUnitCostEditable(item)">
+                {{ item.partCost.enteredLineShipping | currency: '$' : 2 }}
+            </td>
+
+            <td class="text-right" ng-show="isUnitCostEditable(item)">
+                <input type="number"
+                       class="form-control text-right pull-right"
+                       required
+                       ng-change="updatePartCost(item)"
+                       ng-model="item.partCost.enteredLineShipping"
+                       ng-model-options="{debounce:500}"
+                       name="enteredLineShipping_{{item.id}}"
+                       style="min-width: 80px; max-width: 100px;"/>
+            </td>
+
+            <th style="width: 2px;"></th>
+
+            <td class="text-center">
+                {{item.partCost.maicIsEnabled | asYesNo }}
+            </td>
+
+            <td class="text-info text-center cursor-help">
+                <div popover-trigger="mouseenter"
+                     ng-show="item.partSku !== 'admin_fee'"
+                     popover="{{ item.partCost.maicCalcReasons | maicEnumToText }}">
+                    [{{item.partCost.maicCalcReasons}}]
+                </div>
+            </td>
+
+
+
+            <td class="text-right"
+                ng-hide="isMacEditable(item)">
+                {{ item.partCost.maicUnitCost | currency : '$' : 2 }}
+            </td>
+            <td class="text-right" ng-show="isMacEditable(item)">
+                <input type="number" class="form-control text-right pull-right"
+                       required
+                       ng-change="updatePartCost(item)"
+                       ng-model="item.partCost.maicUnitCost"
+                       ng-model-options="{debounce:500}"
+                       name="maicUnitCost_{{item.id}}"
+                       step="0.01"
+                       style="min-width: 80px; max-width: 100px;"/>
+            </td>
+
+
+
+            <td class="text-right">
+                {{ item.partCost.maicReimbursePct | number : 2 }}
+            </td>
+
+            <td class="text-right">
+                {{ item.partCost.maicUnitCost * (item.partCost.maicReimbursePct / 100) | currency:'$': 2 }}
+            </td>
+
+            <th style="width: 2px;"></th>
+
+            <td class="text-right"
+                ng-hide="isUnitCostEditable(item)">
+                {{item.partCost.quantityUsed}}
+            </td>
+            <td class="text-right"
+                ng-class="{'has-error': calcRevPoForm.poQuantity_{{$index}}.$invalid}"
+                ng-show="isUnitCostEditable(item)">
+                <input type="number"
+                       class="form-control text-right pull-right"
+                       required
+                       ng-change="updatePartCost(item)"
+                       ng-model="item.partCost.quantityUsed"
+                       ng-model-options="{debounce:500}"
+                       ipg-error-tooltip
+                       max="99"
+                       name="poQuantity_{{$index}}"
+                       style="min-width: 60px; max-width: 70px;"/>
+            </td>
+
+
+            <td class="text-right">{{item.partCost.poUnitCost | currency:'$': 2}}</td>
+            <td class="text-right">{{item.partCost.poLineCost | currency:'$': 2}}</td>
+            <td class="text-right">{{item.partCost.poEstimatedLineTax | currency:'$': 2}}</td>
+            <td class="text-right">{{item.partCost.poEstimatedLineShipping | currency:'$': 2}}</td>
+            <td class="text-right">{{item.partCost.poTotalLineCost | currency:'$': 2}}</td>
+
+
+            <td>
+                <span class="glyphicon glyphicon-asterisk text-danger" ng-show="item.partCost.modified"></span>
+            </td>
+
+        </tr>
+
+            <tr>
+                <th colspan="19" class="text-right">Total:</th>
+                <th class="text-right">
+                    {{ parts | sumByProperty : 'partCost.poLineCost' | currency:'$': 2 }}
+                </th>
+                <th class="text-right">
+                    {{ parts | sumByProperty : 'partCost.poEstimatedLineTax' | currency:'$': 2 }}
+                </th>
+                <th class="text-right">
+                    {{ parts | sumByProperty : 'partCost.poEstimatedLineShipping' | currency:'$': 2 }}
+                </th>
+                <th class="text-right">
+                    {{ parts | sumByProperty : 'partCost.poTotalLineCost' | currency:'$': 2 }}
+                </th>
+                <th></th>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+<div class="row">
+
+        <div class="col-sm-12 text-center">
+
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="reCalculateCosts()"
+                    ng-hide="ngModel.caseInEditMode"
+                    ng-disabled="reCalcInProgress || saveAndPrintInProgress || savingPartCosts">
+                <div ng-hide="reCalcInProgress">
+                    <span class="glyphicon glyphicon-refresh"></span> Re-Calculate
+                </div>
+                <span ng-show="reCalcInProgress">Re-Calculating ...</span>
+            </button>
+
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="savePartsToActualParts()"
+                    ng-hide="ngModel.caseInEditMode"
+                    ng-disabled="isSaveAndPrintDisabled()">
+                <div ng-hide="saveAndPrintInProgress">
+                    <span class="glyphicon glyphicon-save"></span> Save and Print
+                </div>
+                <span ng-show="saveAndPrintInProgress">Saving ...</span>
+            </button>
+
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="savePartsToActualParts()"
+                    ng-hide="ngModel.caseInEditMode"
+                    ng-disabled="isOvrdArEstDisabled()">
+                <span class="glyphicon glyphicon-save"></span>
+                {{saveAndPrintInProgress ? 'Overriding ...' : 'Override AR Estimates'}}
+            </button>
+
+            <button class="btn btn-primary"
+                    type="button"
+                    ng-click="savePartCosts()"
+                    ng-show="ngModel.caseInEditMode"
+                    ng-disabled="!ngModel.anyCostModified || savingPartCosts || calcRevPoForm.$invalid">
+                <div ng-hide="savingPartCosts">
+                    <span class="glyphicon glyphicon-save"></span> Save
+                </div>
+                <span ng-show="savingPartCosts">Saving ...</span>
+            </button>
+
+            <a class="btn btn-danger"
+               ng-hide="ngModel.caseInEditMode"
+               ng-click="onClose()">
+                <span class="glyphicon glyphicon-remove"></span> Close
+            </a>
+
+            <a class="btn btn-danger"
+               ng-show="ngModel.caseInEditMode"
+               ng-click="onCancelClick()">
+                <span class="glyphicon glyphicon-remove"></span> Cancel
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

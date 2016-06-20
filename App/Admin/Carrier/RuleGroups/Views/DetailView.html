@@ -1,0 +1,148 @@
+﻿<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-8 panel-title">
+                {{record.carrier.name || "Please select a carrier" }}
+            </div>
+        </div>
+    </div>
+
+    <div class="well-sm text-danger text-center" ng-show="{{inDeleteMode}}">
+        <h4>Please confirm you wish to delete this mapping!</h4>
+    </div>
+
+    <div class="panel-body" ng-show="{{inViewMode}}">
+        <table class="table table-bordered">
+            <tr>
+                <th class="text-right">From:</th>
+                <td>{{record.startDate | date : 'MM/dd/yyyy' }}</td>
+                <th>To:</th>
+                <td>{{record.endDate | date : 'MM/dd/yyyy'}}</td>
+            </tr>
+            <tr>
+                <th class="text-right">Carrier:</th>
+                <td colspan="3">{{record.carrier.name}}</td>
+            </tr>
+            <tr>
+                <th class="text-right">Rule Set:</th>
+                <td colspan="3">{{record.priceRuleGroup.name}}</td>
+            </tr>
+            <tr ng-show="{{inDeleteMode}}">
+                <th class="text-right">Confirm</th>
+                <td colspan="3">
+                    <button type="button" class="btn btn-danger" ng-click="confirmDeleteRecord()">
+                        <i class="glyphicon glyphicon-trash"></i> Yes! Please Delete
+                    </button>
+
+                    <a class="btn btn-info" ui-sref="carrierRuleGroups">
+                        <i class="glyphicon glyphicon-ban-circle"></i> Never mind!
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+
+    <div class="panel-body" ng-hide="{{inViewMode}}">
+        <form name="form" role="form" class="form-horizontal" novalidate>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">From:</label>
+                <div class="col-sm-4">
+                    <div class="input-group" ng-class="{ 'has-error': form.startDate.$invalid }">
+                        <input type="text"
+                               name="name"
+                               class="form-control"
+                               datepicker-popup="MM/dd/yyyy"
+                               ng-model="record.startDate"
+                               is-open="record.startDateOpened"
+                               ng-required="true"
+                               close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" 
+                                    ng-click="openDatePicker($event, record, 'startDateOpened')">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <label class="col-sm-1 control-label">To:</label>
+
+                <div class="col-sm-4">
+                    <div class="input-group" ng-class="{ 'has-error': form.startDate.$invalid }">
+                        <input type="text" class="form-control" name="endDate"
+                               datepicker-popup="MM/dd/yyyy"
+                               ng-model="record.endDate"
+                               is-open="record.endDateOpened"
+                               ng-required="true"
+                               close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="openDatePicker($event, record, 'endDateOpened')">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Carrier:</label>
+                <div class="col-sm-9" ng-class="{ 'has-error': form.carrier.$invalid }">
+                    <ipg-entity-select name="carrier"
+                                       ng-required="true"
+                                       ng-model="record.carrier"
+                                       entity-id="record.carrierId"
+                                       ng-change="loadCarrierRules(record.carrierId)"
+                                       disabled="!inAddMode"
+                                       place-holder-text="Please select a Carrier"
+                                       entity-type="CARRIER">
+                    </ipg-entity-select>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Rule Set:</label>
+                <div class="col-sm-9" ng-class="{ 'has-error': form.priceRuleGroup.$invalid }">
+                    <ipg-entity-select ng-required="true" 
+                                       name="priceRuleGroup"
+                                       ng-model="record.priceRuleGroup"
+                                       load-all-records ="true"
+                                       entity-id="record.ruleGroupId"
+                                       disabled="!inAddMode"
+                                       place-holder-text="Please select a Pricing Rule"
+                                       entity-type="CLAIM_PRICE_RULE_GROUP">
+                    </ipg-entity-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-1 col-sm-offset-2">
+                    <button class="btn btn-info btn-sm" ng-click="onSaveClick()" ng-disabled="!form.$dirty || form.$invalid">
+                        <span class="glyphicon glyphicon-save"></span> Save
+                    </button>
+
+                </div>
+                <div class="col-sm-1">
+                    <a class="btn btn-danger btn-sm" ng-click="cancel()">
+                        <i class="glyphicon glyphicon-remove"></i> Cancel
+                    </a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div> <!-- Panel -->
+
+
+
+
+
+

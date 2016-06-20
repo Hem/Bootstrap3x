@@ -1,0 +1,151 @@
+/*!
+ * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Toggle Styles */
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #e7e7e7;;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    z-index: 2000;
+    bottom: 0;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+    margin-top: 70px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+.wrapper-margin-expanded {
+    margin-top: 400px;
+}
+
+@media print {
+    #wrapper {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 0;
+    }
+}
+
+@media print {
+    /*Hide page header and footer(containing url and date)*/
+    @page {
+        margin: 0;
+    }
+    /*Hide left navigation when printing*/
+    #wrapper {
+        padding-left: 0 !important;
+    }
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 250px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+
+    #insightNavBar.in #page-content-wrapper {
+        margin-top: 400px;
+    }
+
+    .wrapper-margin-expanded {
+        margin-top: 0;
+    }
+}
+
+.leftNavItemHeader {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    border: 1px solid #ddd;
+    color: #fff !important;
+    background-color: #337ab7;
+}
+
+a.leftNavItemHeader {
+    text-decoration: none;
+}
+
+.leftNavItem {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.list-group {
+    margin-bottom: 0;
+}
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition: all linear 0.1s;
+}
+
+.animate-show.ng-hide {
+  line-height: 0;
+  opacity: 0;
+}
+
+.left-nav-toggle {
+    margin-right: 15px;
+    margin-top: 10px;
+}

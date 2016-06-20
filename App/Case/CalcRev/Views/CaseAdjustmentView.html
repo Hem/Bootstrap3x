@@ -1,0 +1,134 @@
+﻿<div class="panel panel-primary form-group-sm">
+    <div class="panel-heading">
+        <span class="panel-title">Adjustment:</span>
+        <button class="btn btn-primary btn-sm pull-right"
+                ng-disabled="adjustment.saveInProgress"
+                ng-click="flip()">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+    </div>
+    <ng-form name="adjustmentAddForm">
+        <table class="table table-condensed table-header-adj">
+            <tr>
+                <td width="250">
+                    <ipg-code-select name="carAdj" required
+                                     ng-model="adjustment.newAdjustment.reason"
+                                     code-id="adjustment.newAdjustment.reason.id"
+                                     code="adjustment.newAdjustment.reason.code"
+                                     place-holder-text="Adjustment reason"
+                                     load-all-records ="true"
+                                     code-type="ADJUSTMENTREASON"
+                                     min-chars-to-filter="1"></ipg-code-select>
+                </td>
+
+                <td width="100">
+                    <input type="number"
+                           class="form-control text-right"
+                           step="0.01"
+                           required
+                           placeholder="Amount"
+                           ng-model="adjustment.newAdjustment.negativeAdjustmentAmount"
+                           name="carrierWriteOff">
+                </td>
+
+                <td width="20">
+                    <button type="button"
+                            class="btn btn-sm btn-primary pull-left"
+                            ng-disabled="isAddDisabled()"
+                            ng-click="adjustment.add()">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </td>
+            </tr>
+            <tr id="memAdjNote" ng-show="(case.header.planType == 'Workers Comp' || case.header.procedureBenefit.carrierCoinsurancePct == 100)">
+                <td class="text-danger" colspan="3">
+                    *Note: Member Adjustments cannot be made if case is WC or if “Carrier Coins” is 100%.
+                </td>
+            </tr>
+        </table>
+    </ng-form>
+
+    <ng-form name="adjustmentContentForm">
+        <table class="table table-striped table-bordered table-condensed table-content-adj">
+            <tr ng-repeat="cachedAdj in adjustment.cachedAdjustments">
+
+                <td width="250">
+                    <h6>{{cachedAdj.reason.code}}</h6>
+                </td>
+
+                <td width="100">
+                    <input type="number"
+                           class="form-control text-right"
+                           step="0.01"
+                           required
+                           ng-model="cachedAdj.negativeAdjustmentAmount"
+                           name="patientWriteOff">
+                </td>
+
+                <td width="20">
+                    <button type="button"
+                            class="btn btn-sm btn-primary pull-left"
+                            ng-click="adjustment.removeCached(cachedAdj)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+
+            <tr ng-repeat="adj in adjustment.caseModel.header.adjustments | filter: { reason: {isEnabled: true}}" ng-class="{strikeout: adj.isDeleted}">
+
+                <td width="250">
+                    <h6>{{adj.reason.code}}</h6>
+                </td>
+
+                <td width="100">
+                    <input type="number"
+                           class="form-control text-right"                           
+                           step="0.01"
+                           required
+                           ng-show="!adj.isDeleted && !((case.header.planType == 'Workers Comp' || case.header.procedureBenefit.carrierCoinsurancePct == 100) && adj.reason.entityCode == 'P')"
+                           ng-model="adj.negativeAdjustmentAmount"
+                           ng-change="adj.isModified = true;adjustment.anyAdjustmentModified = true;"
+                           name="patientWriteOff">
+                    <h6 ng-show="adj.isDeleted || ((case.header.planType == 'Workers Comp' || case.header.procedureBenefit.carrierCoinsurancePct == 100) && adj.reason.entityCode == 'P')">{{adj.negativeAdjustmentAmount}}</h6>
+                </td>
+
+                <td width="20">
+                    <button type="button"
+                            class="btn btn-sm btn-primary pull-left"
+                            ng-show="!adj.isDeleted"
+                            ng-click="adj.isDeleted = true;adjustment.listModified = true;">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary pull-left flipped-share"
+                            ng-show="adj.isDeleted"
+                            ng-click="adj.isDeleted = false">
+                        <span class="glyphicon glyphicon-share-alt"></span>
+                    </button>
+                </td>
+            </tr>
+
+        </table>
+    </ng-form>
+
+    <table class="table table-condensed">
+        <tr popover="{{getDisableReasonForSave()}}"
+            popover-placement="bottom"
+            popover-trigger="mouseenter">
+            <td colspan="3">
+                <button type="button"
+                        class="btn btn-sm btn-danger"
+                        ng-disabled="adjustment.saveInProgress"
+                        ng-click="cancel();flip()">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel
+                </button>
+                <button type="button"
+                        class="btn-sm btn btn-primary pull-right"
+                        id="saveAdjustment"
+                        ng-disabled="isSaveDisabled()"
+                        ng-click="saveAdjustments()">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> {{adjustment.saveInProgress ? 'Saving' : 'Save'}}
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,17 @@
+﻿<div>
+    <ui-select multiple ng-model="selectedPersons" theme="bootstrap" sortable="true"
+               ng-disabled="isDisabled" title="{{placeHolderText}}"
+               on-select="onSelect($item, $model)"
+               on-remove="onRemoveChoice($item)" style="min-height: 34px" >
+        <ui-select-match placeholder="{{placeHolderText}}">
+            <i class="text-info">{{$item.firstName + ', ' + $item.lastName}}</i>
+        </ui-select-match>
+
+        <ui-select-choices repeat="item in list | filter:$select.search"
+                           refresh="filterRecords($select.search)"
+                           refresh-delay="500">
+            {{item.firstName + ', ' + item.lastName}}
+        </ui-select-choices>
+    </ui-select>
+
+</div>

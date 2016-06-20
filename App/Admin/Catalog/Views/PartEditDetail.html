@@ -1,0 +1,198 @@
+﻿<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-12 panel-title">
+                Part Detail
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Model Number:</label>
+
+                <div class="col-sm-8" ng-class="{ 'has-error': FormData.detailForm.partNumber.$invalid }">
+                    <input type="text" 
+                           name="partNumber"
+                           ng-model="partModel.selectedPart.partNumber"
+                           ng-pattern="/^[A-Za-z0-9_ .-]*$/"
+                           class="form-control"
+                           required
+                           ng-model-options="{debounce:2000}"
+                            popover-trigger="mouseenter"
+                           popover="{{FormData.detailForm.partNumber.$error.pattern || FormData.detailForm.partNumber.$error.required? 'Part Number required and can only include(Alpha-Numeric _ . - space' : ''}}">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">UDI:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model="partModel.selectedPart.udi">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Part Name:
+                </label>
+
+                <div class="col-sm-10" ng-class="{ 'has-error': FormData.detailForm.partName.$invalid }">
+                    <input type="text"
+                           name="partName"
+                           ng-model="partModel.selectedPart.name"
+                           ng-pattern="/^[A-Za-z0-9_. /#()-]*$/"
+                           class="form-control"
+                           required="required"
+                           popover-trigger="mouseenter"
+                           popover="{{FormData.detailForm.partName.$error.pattern || FormData.detailForm.partName.$error.required? 'Part Name required and can only include(Alpha-Numeric _ . / # () - space' : ''}}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label class="col-sm-2 control-label">Manufacturer:</label>
+                <div class="col-sm-10" ng-class="{ 'has-error': FormData.detailForm.manufacturer.$invalid }">
+
+                    <ipg-entity-select name="manufacturer" required ng-model="partModel.selectedPart.manufacturer" entity-id="part.manufacturerId"
+                                       place-holder-text="Please select a manufacturer"
+                                       entity-type="MANUFACTURER"></ipg-entity-select>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Size:
+                </label>
+
+                <div class="col-sm-2">
+                    <select ng-model="partModel.selectedPart.size.measurement" class="form-control">
+                        <option value="">UOM</option>
+                        <option value="CM">CM</option>
+                        <option value="MM">MM</option>
+                        <option value="CC">CC</option>
+                        <option value="INCH">INCH</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-2" ng-show="partModel.selectedPart.size.measurement && partModel.selectedPart.size.measurement=='CC'">
+                    <input type="number" ng-model="partModel.selectedPart.size.volume" class="form-control" placeholder="Volume" />
+                </div>
+                <div class="col-sm-2" ng-hide="!partModel.selectedPart.size.measurement ||partModel.selectedPart.size.measurement=='CC'">
+                    <input type="number" ng-model="partModel.selectedPart.size.length" class="form-control" placeholder="Length" />
+                </div>
+                <div class="col-sm-2" ng-hide="!partModel.selectedPart.size.measurement || partModel.selectedPart.size.measurement=='CC'">
+                    <input type="number" ng-model="partModel.selectedPart.size.height" class="form-control" placeholder="Height" />
+                </div>
+                <div class="col-sm-2" ng-hide="!partModel.selectedPart.size.measurement ||partModel.selectedPart.size.measurement=='CC'">
+                    <input type="number" ng-model="partModel.selectedPart.size.width" class="form-control" placeholder="Width" />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Usage Units:</label>
+
+                <div class="col-sm-4">
+                    <input type="text"
+                           ng-model="partModel.selectedPart.multiplier"
+                           ipg-whole-number
+                           class="form-control">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Max Qty per Case:</label>
+
+                <div class="checkbox col-sm-8">
+                    <label>
+                        <input type="checkbox" ng-model="partModel.selectedPart.enforceMaxQuantity">{{partModel.selectedPart.enforceMaxQuantity ? "Enforce": "Do Not Enforce"}}
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Active:</label>
+
+                <div class="checkbox col-sm-8">
+                    <label>
+                        <input type="checkbox" ng-model="partModel.selectedPart.active">{{partModel.selectedPart.active? "Yes" : "No"}}
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label class="col-sm-4 control-label">Box Quantity:</label>
+
+                <div class="col-sm-8" ng-class="{ 'has-error': FormData.detailForm.boxQuantity.$invalid }">
+                    <input type="text"
+                           name="boxQuantity"
+                           ng-model="partModel.selectedPart.boxQuantity"
+                           ipg-positive-integer
+                           class="form-control"
+                           required="required">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Max Qty:</label>
+
+                <div class="col-sm-8" ng-class="{ 'has-error': FormData.detailForm.maxQuantityPerCase.$invalid }">
+                    <input type="text"
+                           name="maxQuantityPerCase"
+                           ng-required="partModel.selectedPart.enforceMaxQuantity"
+                           min="1"
+                           ipg-whole-number
+                           ng-model="partModel.selectedPart.maxQuantityPerCase" 
+                           class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Discontinued On:</label>
+
+                <div class="col-sm-8" ng-class="{ 'has-error': FormData.detailForm.startDateTime.$invalid }">
+                    <ipg-date-picker name="startDateTime" 
+                                     ng-model="partModel.selectedPart.dateDiscontinued"
+                                     ng-required="!partModel.selectedPart.active"
+                                     disabled ="partModel.selectedPart.active"></ipg-date-picker>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-sm-12">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Notes:</label>
+
+                <div class="col-sm-10">
+                    <textarea ng-model="partModel.selectedPart.notes" name="partNotes" class="form-control notes-textarea" rows="5"></textarea>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+

@@ -1,0 +1,73 @@
+﻿<div master-page>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Users
+                </div>
+                <div class="panel-body">
+
+                    <div class="well well-sm">
+                        <form class="form-inline">
+                            <div class="input-group col-sm-7">
+                                <input class="form-control" ng-model="param.FilterText" type="search" placeholder="Search by name" />
+                                <a class="input-group-addon" ng-click="clearFilter()">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </div>
+                            <button class="btn btn-primary col-sm-offset-1" ng-click="filterUsers()">Search</button>
+                        </form>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-2">User Login</th>
+                                <th class="col-sm-2">First Name</th>
+                                <th class="col-sm-2">Last Name</th>
+                                <th>Title</th>
+                                <th>Active</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in userResponse.data">
+                                <td>{{user.loginName}}</td>
+                                <td>{{user.firstName}}</td>
+                                <td>{{user.lastName}}</td>
+                                <td>{{user.title}}</td>
+                                <td>{{user.active | asYesNo}}</td>
+                                <td>
+                                    <a class="btn btn-info" ui-sref="userList.detail({mode:'view', userId: user.id})"
+                                       tooltip="View Detail">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pager">
+                            <li class="previous">
+                                <button ng-disabled="userResponse.pageIndex == 1" class="btn btn-info" ng-click="loadUsers({FilterText: userFilterText,  PageIndex: userResponse.pageIndex - 1, PageSize: userResponse.pageSize})">
+                                    <span aria-hidden="true">&larr;</span> Previous
+                                </button>
+                            </li>
+                            <li class="next">
+                                <button ng-disabled="userResponse.totalPages == userResponse.pageIndex" class="btn btn-info" ng-click="loadUsers({FilterText: userFilterText, PageIndex: userResponse.pageIndex + 1, PageSize: userResponse.pageSize})">
+                                    Next
+                                    <span aria-hidden="true">&rarr;</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div ui-view ng-cloak></div>
+        </div>
+
+    </div>
+</div>

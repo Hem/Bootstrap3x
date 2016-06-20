@@ -1,0 +1,174 @@
+﻿
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-11">
+                <span class="col-sm-8 margin-top-5 padding-left-5">{{model.selectedPriceBook.name}}</span>
+                <span class="col-sm-2 text-right margin-top-5">Effective: {{model.selectedPriceBook.startDate | date: 'shortDate'}}</span>
+                <span class="col-sm-2 text-right margin-top-5">Expiration: {{model.selectedPriceBook.endDate | date: 'shortDate' }}</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-warning pull-right margin-right-10" ng-click="isCollapsed = !isCollapsed">{{isCollapsed | asYesNo: '+ Show Detail': '- Hide Detail'}}</button>
+        </div>
+    </div>
+    <div collapse="isCollapsed">
+        <div class="panel-body">
+
+            <div class="col-sm-8">
+                <table class="table table-condensed table-no-border">
+                    <tbody>
+                    <tr>
+                        <td style="width: 100px" class="text-right"><strong>Manufacturer:</strong> </td>
+                        <td><span>{{model.selectedPriceBook.manufacturer.name}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Carriers:</strong></td>
+                        <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.carriers)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Distributors:</strong></td>
+                        <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.distributors)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>States:</strong></td>
+                        <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.states)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Physicians:</strong></td>
+                        <td><span>{{arrayHelper.joinToFullNameString(model.selectedPriceBook.physicians)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Facilities:</strong></td>
+                        <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.facilities)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Note:</strong></td>
+                        <td><span class="col-sm-10">{{model.selectedPriceBook.note}}</span></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="col-sm-4">
+                <table class="table table-condensed table-no-border">
+                    <tbody>
+                    <tr>
+                        <td class="text-right" style="width: 120px"><strong>Priority:</strong></td>
+                        <td><span>{{model.selectedPriceBook.selectWeight}}</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-right"><strong>Discount:</strong></td>
+                        <td><span>{{model.selectedPriceBook.discountPercent}}%</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Add Parts
+            </div>
+        </div>
+        <div class="panel-body">
+            <form name="partForm" role="form" class="form-horizontal form-group-sm col-sm-12" novalidate>
+                <div class="form-group">
+                    <label class="col-xs-1 control-label">
+                        Part:
+                    </label>
+                    <div class="col-sm-10" ng-class="{ 'has-error': partForm.unitPrpartice.$dirty && partForm.part.$invalid }">
+
+                        <ipg-part-select name="part"
+                                         required
+                                         ng-model="part"
+                                         clear-part="clearPartSelection"
+                                         entity-type="PART"
+                                         entity-id="part.id"
+                                         include-main-kit="true"
+                                         associated-entity-id="model.selectedPriceBook.mfrId"
+                                         place-holder-text="'Please select a part'"
+                                         on-part-select="onPartSelect(selectedItem)"></ipg-part-select>
+                    </div>
+
+                    <span class="glyphicon glyphicon-alert text-danger"
+                          ng-show="priceBookPartModel.partExistsInPriceBook && part"
+                          popover-trigger="mouseenter"
+                          popover="Part Exists!"
+                          style="margin-top: 5px; font-size: 1.4em;"></span>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4" style="margin-left: 8px">
+                        <label class="col-sm-2 col-sm-offset-1 control-label">
+                            MSRP:
+                        </label>
+                        <div class="col-sm-7 input-group input-group-sm" ng-class="{ 'has-error': partForm.unitPrice.$dirty && partForm.unitPrice.$invalid }">
+                            <span class="input-group-addon">$</span>
+                            <input type="text"
+                                   name="unitPrice"
+                                   ng-model="unitPrice"
+                                   class="form-control text-right"
+                                   placeholder="MSRP"
+                                   required
+                                   money
+                                   min="0"
+                                   max="999999.99"
+                                   precision="2"
+                                   ng-disabled="priceBookPartModel.partExistsInPriceBook || (!priceBookPartModel.partExistsInPriceBook && part == null)"
+                                   ng-change=" discountPrice=model.getDiscountPrice(unitPrice) " />
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-5 control-label">
+                            Discount Price:
+                        </label>
+
+                        <div class="col-sm-7 input-group input-group-sm" ng-class="{ 'has-error': partForm.discountPrice.$dirty && partForm.discountPrice.$invalid }" ng-hide="model.selectedPriceBook.discountPercent > 0">
+                            <span class="input-group-addon">$</span>
+                            <input type="text"
+                                   name="discountPrice"
+                                   ng-model="discountPrice"
+                                   placeholder="Discount Price"
+                                   class="form-control text-right"
+                                   ng-required="model.selectedPriceBook.discountPercent <= 0"
+                                   money
+                                   min="0"
+                                   max="{{unitPrice}}"
+                                   precision="2"
+                                   ng-disabled="priceBookPartModel.partExistsInPriceBook" />
+                        </div>
+                        <div class="col-sm-4 control-label text-left" ng-show="model.selectedPriceBook.discountPercent  > 0">{{discountPrice > 0 ? '$' : '' }}{{discountPrice | number: 2}}</div>
+                    </div>
+                    <div class="col-md-1 col-md-offset-2 ">
+                        <button class="btn btn-info btn-sm col-sm-8 col-sm-offset-3" ng-click="onAddNew()" ng-disabled="partForm.$invalid || priceBookPartModel.partExistsInPriceBook">
+                            <span class="glyphicon glyphicon-plus"></span> Add
+                        </button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div ng-include="'~/App/Admin/PriceBook/Views/PriceBookPartsList.html'"></div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

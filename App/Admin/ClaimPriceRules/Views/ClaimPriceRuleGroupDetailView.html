@@ -1,0 +1,167 @@
+﻿<div class="panel panel-primary" ng-cloak>
+
+    <div class="panel-heading">
+        <div class="panel-title">
+            {{ruleGroup.name}}
+        </div>
+    </div>
+
+
+    <!-- EDIT SECTION -->
+
+    <div class="panel-body">
+
+        <form class="form-horizontal" novalidate>
+
+            <div ng-hide="inViewMode" class="form-group">
+                <label class="col-sm-2 control-label">Rule Group Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="ruleGroup.name" ng-model="ruleGroup.name" class="form-control" />
+                </div>
+            </div>
+
+            <hr ng-hide="inViewMode" />
+
+            <div ng-hide="inViewMode" class="form-group">
+
+                <label class="col-sm-2 control-label">Rules:</label>
+
+                <div class="col-sm-8">
+                    <ui-select ng-model="rule.selectedRule" theme="bootstrap">
+                        <ui-select-match>
+                            <div>{{$select.selected.name}} </div>
+                        </ui-select-match>
+
+                        <ui-select-choices repeat="item in rule.rules | filter: $select.search" group-by="ruleTypeGroupByName">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <label class="col-sm-2">
+                    <button type="button" class="btn btn-info btn-sm" ng-disabled="!rule.selectedRule.name" ng-click="onClickAddRuleToSet(rule.selectedRule)">
+                        <span class="glyphicon glyphicon-plus"></span> Add
+                    </button>
+                </label>
+
+            </div>
+
+        </form>
+
+        <form novalidate name="pricingRuleListForm">
+            <div class="row">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-nowrap">Rule Type</th>
+                        <th class="text-nowrap">Rule Name</th>
+                        <th class="text-nowrap text-center">Start Date</th>
+                        <th class="text-nowrap text-center">End Date</th>
+                        <th class="text-nowrap text-center">Order By</th>
+                        <th class="text-nowrap text-center" ng-hide="inViewMode">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in detailRecords | filter: filterRecords | orderBy: ['rule.ruleType', 'executionOrder'] "
+                        ng-class="{strikeout: !item.isActive}">
+
+                        <td>{{item.rule.ruleType | ruleTypeToName}}</td>
+
+                        <td>{{item.rule.name}}</td>
+
+
+                        <td ng-show="inViewMode" class="text-center" width="120">
+                            {{ item.startDate | date: 'MM/dd/yyyy' }}
+                        </td>
+
+                        <td ng-hide="inViewMode" width="160">
+                            <span class="input-group input-group-sm" ng-show="item.isActive">
+                                    <input type="text" class="form-control"
+                                           datepicker-popup="MM/dd/yyyy"
+                                           ng-model="item.startDate"
+                                           is-open="item.startDateOpened"
+                                           ng-required="true"
+                                           close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default btn-sm"
+                                                ng-click="openDatePicker($event, item, 'startDateOpened')">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            <span ng-hide="item.isActive">{{item.startDate | date : 'MM/dd/yyyy'}}</span>
+                        </td>
+
+
+                        <td ng-show="inViewMode" class="text-center" width="120">
+                            {{ item.endDate | date: 'MM/dd/yyyy' }}
+                        </td>
+                        <td ng-hide="inViewMode" width="160">
+
+                            <span class="input-group input-group-sm" ng-show="item.isActive">
+                                    <input type="text" class="form-control"
+                                           datepicker-popup="MM/dd/yyyy"
+                                           ng-model="item.endDate"
+                                           is-open="item.endDateOpened"
+                                           ng-required="true"
+                                           close-text="Close" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default"
+                                                ng-click="openDatePicker($event, item, 'endDateOpened')">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            <span ng-hide="item.isActive">{{item.endDate | date : 'MM/dd/yyyy'}}</span>
+                        </td>
+
+
+
+                        <td ng-hide="inViewMode" width="70">
+                            <input type="number"
+                                   ng-model="item.executionOrder"
+                                   style="width: 85px;"
+                                   required ng-disabled="inViewMode"
+                                   ng-show="item.isActive"
+                                   ng-model-options="{debounce:1000}"/>
+                            <span ng-hide="item.isActive">{{item.executionOrder}}</span>
+                        </td>
+                        <td ng-show="inViewMode" class="text-right" width="70">
+                            {{item.executionOrder}}
+                        </td>
+
+
+                        <td ng-hide="inViewMode" width="100">
+
+                            <a class="btn btn-info" tooltip="Delete"
+                               ng-click="onClickDelete(item)" ng-show="item.isActive">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+
+                            <a class="btn btn-info" tooltip="Activate"
+                               ng-click="onClickUndelete(item)" ng-hide="item.isActive">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row" ng-hide="inViewMode">
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-info btn-sm" ng-disabled="isSaveDisabled()" ng-click="onClickSave()">
+                        <span class="glyphicon glyphicon-save"></span> Save
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+    </div> <!-- panel-body -->
+
+
+
+</div> <!-- panel-->

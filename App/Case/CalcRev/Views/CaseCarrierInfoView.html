@@ -1,0 +1,30 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        <span class="panel-title">Carrier Info:</span>
+    </div>
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <th width="100" class="text-nowrap text-right">Pri Carrier:</th>
+            <td colspan="3">{{primaryCarrier.name | limitTo : 30}}</td>
+        </tr>
+        <tr>
+            <th width="100" class="text-nowrap text-right">Home Plan:</th>
+            <td>{{homePlanCarrier.name | limitTo : 30}}</td>
+        </tr>
+
+        <tr>
+            <th width="125" class="text-nowrap text-right">Fee Schedule:</th>
+            <td colspan="3">{{ feeSchedule.name | limitTo : 30}}</td>
+        </tr>
+
+        <tr>
+            <th width="125" class="text-nowrap text-right">Price Model:</th>
+            <td colspan="3">{{ priceRuleGroup.name | limitTo : 30}}</td>
+        </tr>
+
+        <tr>
+            <th width="100" class="text-nowrap text-right">Sec Carrier:</th>
+            <td>{{secondaryCarrier.name | limitTo : 30}}</td>
+        </tr>
+    </table>
+</div>

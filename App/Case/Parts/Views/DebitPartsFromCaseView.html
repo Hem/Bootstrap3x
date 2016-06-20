@@ -1,0 +1,186 @@
+﻿<div class="container-fluid" master-page>
+
+    <div ng-hide="(mode == 'debit' && partsWithoutPoExists) || (mode == 'readd' && uncommittedDebitPartsExists)">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h4>
+                    <label class="label label-danger"
+                           ng-show="caseInfo.locked">
+                        <span class="glyphicon glyphicon-alert "></span>
+                        Case is in Billing/Collections. To make updates, change status to Billing Maintenance.
+                    </label>
+                </h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <h4>
+                    {{mode === 'readd' ? 'Re-add Parts To Case' : 'Debit Parts From Case'}}
+                </h4>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="btn-toolbar pull-right">
+                    <button type="button"
+                            class="btn btn-sm btn-primary"
+                            ng-click="debitParts()"
+                            ng-show="mode == 'debit'"
+                            ng-disabled="debitPartForm.$invalid || !debitPartForm.$dirty || isAddPartToCaseEnabled">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        Debit Parts
+                    </button>
+                    <button type="button"
+                            class="btn btn-sm btn-primary"
+                            ng-click="reAdd()"
+                            ng-show="mode == 'readd'"
+                            ng-disabled="!isAddPartToCaseEnabled">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Add Parts To Case
+                    </button>
+                    <button type="button"
+                            class="btn btn-sm btn-danger"
+                            ng-click="onClose()">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{caseInfo.name}}
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body" ng-form="debitPartForm">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <ipg-sortable-table-header header-text="Model Number"
+                                                       sort-by="orderByField"
+                                                       reverse="reverse"
+                                                       field-name="partSku">
+                            </ipg-sortable-table-header>
+                        </th>
+                        <th>
+                            <ipg-sortable-table-header header-text="Part Name"
+                                                       sort-by="orderByField"
+                                                       reverse="reverse"
+                                                       field-name="partName">
+                            </ipg-sortable-table-header>
+                        </th>
+                        <th>
+                            <ipg-sortable-table-header header-text="Manufacturer"
+                                                       sort-by="orderByField"
+                                                       reverse="reverse"
+                                                       field-name="manufacturer">
+                            </ipg-sortable-table-header>
+                        </th>
+                        <th>
+                            <ipg-sortable-table-header header-text="PO Number"
+                                                       sort-by="orderByField"
+                                                       reverse="reverse"
+                                                       field-name="poNumber">
+                            </ipg-sortable-table-header>
+                        </th>
+                        <th class="text-center">
+                            <ipg-sortable-table-header header-text="PO"
+                                                       sort-by="orderByField"
+                                                       reverse="reverse"
+                                                       field-name="poQuantity">
+                            </ipg-sortable-table-header>
+                        </th>
+                        <th class="text-center">
+                            <ipg-sortable-table-header header-text="Debit Memo"
+                                                       sort-by="orderByField"
+                                                       reverse="reverse"
+                                                       field-name="debitMemoQuantity">
+                            </ipg-sortable-table-header>
+                        </th>
+                        <th class="text-left" ng-show="mode == 'debit'">New Debit</th>
+                        <th ng-show="mode == 'readd'">Re-Add</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="part in parts | orderBy: orderByField : reverse">
+                        <td>{{part.partSku}}</td>
+                        <td>{{part.partName}}</td>
+                        <td>{{part.manufacturer}}</td>
+                        <td>{{part.poNumber ? part.poNumber : part.mpoNumber}}</td>
+                        <td class="text-center" width="100">{{part.poQuantity}}</td>
+                        <td class="text-center" width="120">{{part.debitMemoQuantity}}</td>
+                        <td ng-class="{'has-error': debitPartForm['newDebit' + $index].$invalid}"
+                            ng-show="mode == 'debit'">
+                            <input type="number"
+                                   class="form-control has-error input-sm"
+                                   min="0"
+                                   name="{{'newDebit' + $index}}"
+                                   data-toggle="tooltip"
+                                   tooltip="{{debitPartForm['newDebit' + $index].$error.max ? 'Max allowed debit qty: ' + part.maxNewDebit : ''}}"
+                                   tooltip-placement="left"
+                                   max="{{part.maxNewDebit}}"
+                                   required
+                                   ng-hide="part.debitNotAllowedReason"
+                                   ng-disabled="!part.allowDebit"
+                                   ng-model="part.negativeNewDebit"/>
+                            <span ng-show="part.debitNotAllowedReason">{{part.debitNotAllowedReason}}</span>
+                        </td>
+                        <td ng-show="mode == 'readd'">
+                            <input type="checkbox"
+                                   ng-model="part.reAdd"
+                                   ng-change="validateIsAddPartToCaseEnabled()"
+                                   ng-disabled="caseInfo.locked || uncommittedDebitPartsExists"
+                                   ignore-dirty/>
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="btn-toolbar pull-right">
+                    <button type="button"
+                            class="btn btn-sm btn-primary"
+                            ng-click="debitParts()"
+                            ng-show="mode == 'debit'"
+                            ng-disabled="debitPartForm.$invalid || !debitPartForm.$dirty || isAddPartToCaseEnabled">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        Debit Parts
+                    </button>
+                    <button type="button"
+                            class="btn btn-sm btn-primary"
+                            ng-click="reAdd()"
+                            ng-show="mode == 'readd'"
+                            ng-disabled="!isAddPartToCaseEnabled || uncommittedDebitPartsExists">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Add Parts To Case
+                    </button>
+                    <button type="button"
+                            class="btn btn-sm btn-danger"
+                            ng-click="onClose()">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="mode == 'debit' && partsWithoutPoExists" class="text-center">
+        <strong class="text-danger">
+            Parts cannot be debited until POs are generated for the added part(s) on the case.
+        </strong>
+    </div>
+    <div ng-show="(mode == 'readd' && uncommittedDebitPartsExists)" class="text-center">
+        <strong class="text-danger">
+            Parts cannot be added until Debit Memos are generated for the debited part(s) on the case.
+        </strong>
+    </div>
+</div>

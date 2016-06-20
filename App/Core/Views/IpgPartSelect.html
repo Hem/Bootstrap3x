@@ -1,0 +1,21 @@
+﻿
+    <ui-select ng-model="ngModel" theme="bootstrap" on-select="onSelect($item)" title="{{placeHolderText}}">
+
+        <ui-select-match placeholder="{{placeHolderText}}">
+            <div><b>{{$select.selected.partSku}}</b>, 
+                        {{$select.selected.name}}
+            </div>
+        </ui-select-match>
+
+        <ui-select-choices repeat="item in list | orderBy: 'partSku'"
+                           refresh="filterRecords($select.search)"
+                           refresh-delay="500">
+            <div style="margin-top: 5px; padding-bottom: 5px; border-bottom: 1px solid #80bfff;">
+                <small><b>{{item.partSku}}</b>, </small>
+                <small><i>{{item.manufacturer.name}}</i></small>
+                <div ng-bind-html="item.name  | highlight: $select.search"></div>
+            </div>
+        </ui-select-choices>
+
+    </ui-select>
+

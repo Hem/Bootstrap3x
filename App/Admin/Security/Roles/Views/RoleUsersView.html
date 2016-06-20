@@ -1,0 +1,78 @@
+﻿
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        USERS
+    </div>
+
+    <div class="panel-body">
+        <div class="well well-sm">
+            <form novalidate name="usersRoleForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <ipg-person-entity-select required name="user"
+                                                  ng-model="record.user"
+                                                  entity-id="record.userId"
+                                                  place-holder-text="Please select a User"
+                                                  entity-type="USER"></ipg-person-entity-select>
+                    </div>
+                    <div class="col-sm-2" ng-class="{'has-error' : usersRoleForm.startDateTime.$invalid}">
+                        <ipg-date-picker name="startDateTime" ng-model="record.startDateTime" ng-required="true"></ipg-date-picker>
+                    </div>
+                    <div class="col-sm-2" ng-class="{'has-error' : usersRoleForm.endDateTime.$invalid}">
+                        <ipg-date-picker name="endDateTime" ng-model="record.endDateTime" ng-required="true"></ipg-date-picker>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-info btn-sm text-center" ng-click="onAddUserToRole()" ng-disabled="usersRoleForm.$invalid">
+                            <span class="glyphicon glyphicon-plus"></span> Add
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <form novalidate name="userRoleListForm"><table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>User Login</th>
+                    <th width="200">Start Date</th>
+                    <th width="200">End Date</th>
+                    <td width="50"></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in records"
+                    ng-class="{strikeout: !item.isActive}">
+                    <td>{{ item.user.lastName }}</td>
+                    <td>{{ item.user.firstName }}</td>
+                    <td>{{ item.user.loginName || item.user.uniqueId }}</td>
+                    <td>
+                        <ipg-date-picker name="startDateTime" ng-model="item.startDateTime" ng-required="true"></ipg-date-picker>
+                    </td>
+                    <td>
+                        <ipg-date-picker name="startDateTime" ng-model="item.endDateTime" ng-required="true"></ipg-date-picker>
+                    </td>
+                    <td>
+                        <button class="btn btn-info btn-sm" ng-click="onClickDelete(item)" ng-show="item.isActive">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                        <button class="btn btn-info btn-sm" ng-click="onClickUndelete(item)" ng-hide="item.isActive">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+        
+    </div>
+
+    <div class="panel-footer text-center">
+        <button class="btn btn-info btn-sm" ng-click="onSaveUsersToDatabase()" ng-disabled="isSaveDisabled()">
+            <span class="glyphicon glyphicon-save"></span> Save
+        </button>
+    </div>
+
+</div>

@@ -1,0 +1,58 @@
+﻿
+<div class="form-horizontal">
+
+    <div class="panel panel-primary">
+
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-sm-12 panel-title">
+                    Manufacturer Pricing
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+
+            <table class="table table-condensed table-no-border">
+                <tbody>
+                <tr>
+                    <td class="text-right" style="width:140px"><strong>MSRP:</strong></td>
+                    <td >{{partModel.selectedPart.mfrListPrice | currency}}</td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong>Discount Price:</strong></td>
+                    <td>
+                        <span ng-show="partModel.selectedPart.mfrDiscountPrice > 0">{{partModel.selectedPart.mfrDiscountPrice | currency}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong>Discount Override:</strong></td>
+                    <td>{{partModel.selectedPart.discountOverride? "Yes": "No"}}</td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong>Cost Formula:</strong></td>
+                    <td>{{partModel.selectedPart.costFormula.name}}</td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong>MAIC:</strong></td>
+                    <td>{{partModel.selectedPart.macDisabled | asYesNo : "MAIC IS DISABLED": "MAIC IS ALLOWED"}}</td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong>AIC:</strong></td>
+                    <td>{{partModel.selectedPart.aic | currency}}</td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong>Tax Category:</strong></td>
+                    <td>{{partModel.selectedPart.taxCategory.description}}</td>
+                </tr>
+
+                </tbody>
+            </table>
+ 
+        </div>
+
+    </div>
+</div>
+
+
+

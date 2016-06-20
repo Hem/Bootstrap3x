@@ -1,0 +1,174 @@
+﻿<style type="text/css">
+    .tooltip {
+        width: 200px;
+    }
+    /*.error {
+        background-color: antiquewhite !important;
+    }*/
+</style>
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <div class="row panel-title">
+            <div class="col-sm-10  ">
+                Validate Uploaded Parts
+            </div>
+            <div class="col-sm-2 text-right">
+                <!-- ReSharper disable Html.TagNotResolved -->
+                <ipg-page-size-select ng-model="uploadModel.params.pageSize">
+
+                </ipg-page-size-select>
+                <!-- ReSharper restore Html.TagNotResolved -->
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panel-body panel-body-sm">
+
+        <form role="form">
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search part" ng-model="uploadModel.params.filterText">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button" ng-click="uploadModel.findUploadList()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="checkbox col-sm-2 text-center">
+                <label>
+                    <input type="checkbox" ng-model="uploadModel.params.invalidOnly" ng-change="uploadModel.findUploadList()"/>Invalid Only
+                </label>
+
+            </div>
+
+        </form>
+
+        <table class="table table-striped table-responsive" ng-show="uploadModel.priceBookUploadList.length">
+            <thead>
+                <tr>
+                    <th>Part Number</th>
+                    <th>Part Name</th>
+                    <th>MSRP</th>
+                    <th>Discount Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in uploadModel.priceBookUploadList" >
+
+                    <td>
+                        <span>{{item.partNumber}}</span>
+                        <!--<span ng-hide="item.editMode && !item.valid">{{item.partNumber}}</span>
+                        <div ng-class="{ 'has-error': !item.valid}">
+                            <input type="text"
+                                   ng-model="item.partNumber"
+                                   class="form-control"
+                                   ng-show="item.editMode && !item.valid"
+                                   on-enter="OnSaveItemClick(item)"/>
+                        </div>-->
+                    </td>
+                    <td>
+                        <span>{{item.partName}}</span>
+                        <!--<input type="text" ng-model="item.manufacturerName" class="form-control" ng-show="item.editMode"/>-->
+                    </td>
+                    <td>
+                        <span ng-hide="item.editMode">${{item.unitPrice | number:2}}</span>
+                        <ng-form name="partunitprice" ng-show="item.editMode">
+                            <div class="input-group input-group-sm" ng-class="{ 'has-error': partunitprice.$dirty && partunitprice.$invalid }" style="width: 115px">
+                                <span class="input-group-addon">$</span>
+                                <input type="text"
+                                       ng-model="item.unitPrice"
+                                       class="form-control"
+                                       money
+                                       required
+                                       min="0"
+                                       max="999999.99"
+                                       precision="2"
+                                       on-enter="OnSaveItemClick(item)"/>
+                            </div>
+                        </ng-form>
+                    </td>
+                    <td>
+                        <span ng-hide="item.editMode && model.selectedPriceBook.discountPercent == 0">${{item.discountPrice | number : 2}}</span>
+                        <ng-form name="partdiscountPrice" ng-show="item.editMode && model.selectedPriceBook.discountPercent == 0">
+                            <div class="input-group input-group-sm" ng-class="{ 'has-error': partdiscountPrice.$dirty && partdiscountPrice.$invalid }" style="width: 115px">
+                                <span class="input-group-addon">$</span>
+                                <input type="text"
+                                       ng-model="item.discountPrice"
+                                       class="form-control"
+                                       required
+                                       money
+                                       min="0"
+                                       max="{{item.unitPrice}}"
+                                       precision="2"
+                                       on-enter="OnSaveItemClick(item)"/>
+                            </div>
+                        </ng-form>
+                    </td>
+                    <td>
+                        <!--<span class="glyphicon glyphicon-ok text-success" ng-show="item.valid"></span>-->
+                        <span data-toggle="tooltip" class="glyphicon glyphicon-warning-sign text-danger" tooltip="{{item.reason}}" ng-show="!item.valid"></span>
+                        <span data-toggle="tooltip" class="glyphicon glyphicon-warning-sign text-warning" tooltip="{{item.reason}}" ng-show="item.valid && item.reason"></span>
+
+                    </td>
+                    <td>
+                        <span>{{item.action}}</span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-info glyphicon glyphicon-edit" ng-hide="item.editMode" ng-click="OnEditClick(item)" ng-disabled="!item.valid || item.action =='DUPLICATE'"></button>
+                        <button type="button" class="btn btn-sm btn-primary glyphicon glyphicon-floppy-save" ng-show="item.editMode" ng-click="OnSaveItemClick(item)"></button>
+
+                        <button type="button" ng-click="onDelete(item)" class="btn btn-sm btn-info">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="panel-footer" style="padding: 2px;">
+
+        <div class="clearfix">
+
+            <div class="col-sm-3 col-sm-offset-5" style="padding-top: 8px;">
+                <button type="submit" class="btn btn-success" ng-click="onSubmit()" ng-disabled="!uploadModel.priceBookUploadList.length">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                    Save
+                </button>
+
+                <button type="button" ng-click="onBack()" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-backward"> </span> Back
+                </button>
+
+                <button type="submit" class="btn btn-danger" ng-click="onCancelUpload()" ng-disabled="!uploadModel.priceBookUploadList.length">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Cancel
+                </button>
+            </div>
+            <!-- ReSharper disable Html.TagNotResolved -->
+            <pagination total-items="uploadModel.params.totalCount"
+                        items-per-page="uploadModel.params.pageSize"
+                        max-size="20"
+                        ng-model="uploadModel.params.pageIndex"
+                        ng-change="uploadModel.findUploadList()"
+                        class="pagination-sm"
+                        boundary-links="true"
+                        style="margin: 8px; float: right;">
+            </pagination>
+            <!-- ReSharper restore Html.TagNotResolved -->
+        </div>
+    </div>
+
+</div>

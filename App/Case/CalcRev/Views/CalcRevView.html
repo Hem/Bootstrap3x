@@ -1,0 +1,99 @@
+﻿<div master-page>
+
+<fieldset>
+
+    <legend>
+        <div class="row">
+                <div class="col-sm-10"> {{case.header.name}} </div>
+        </div>
+    </legend>
+
+
+    <div class="col-xl-3 col-sm-6">
+        <case-info-view ng-model="case"></case-info-view>
+    </div>
+
+    <div class="col-xl-3 col-sm-6">
+        <case-carrier-info-view ng-model="case"
+                                primary-carrier="case.header.priceSummary.primaryCarrier"
+                                home-plan-carrier="case.header.priceSummary.homePlanCarrier"
+                                fee-schedule="case.header.priceSummary.feeSchedule"
+                                price-rule-group="case.header.priceSummary.priceRuleGroup"
+                                secondary-carrier="case.header.priceSummary.secondaryCarrier">
+            
+        </case-carrier-info-view>
+    </div>
+
+    <div class="col-xl-3  col-sm-6">
+        <case-benefits-view ng-model="case"></case-benefits-view>
+    </div>
+
+        <div class="col-xl-3 pull-right col-sm-6" ng-show="activeTabs[2]">
+            <case-old-billed-charges-view ng-model="case"></case-old-billed-charges-view>
+        </div>
+
+    <div class="col-xl-3 pull-right col-sm-6" ng-hide="activeTabs[2]">
+        <case-billed-charges-view ng-model="case" ng-hide="case.showAdjustments" price-summary="case.header.priceSummary" responsibility="case.header.procedureResponsibility"></case-billed-charges-view>
+        <case-adjustment-view ng-model="case" ng-show="case.showAdjustments"></case-adjustment-view>
+    </div>
+
+    <div class="col-xl-12 clearfix pull-left">
+        <fieldset>
+            <legend>
+                Equipment List
+            </legend>
+
+            <div class="alert alert-danger text-center" ng-show="!case.header.calcRevSaved">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                CalcRev has not been Saved! Please {{case.hasPermToOvrdArEst ? 'Override AR Estimates' : 'Save &amp; Print'}}
+            </div>
+            <div class="text-center" ng-show="(case.header.locked && !case.hasPermToOvrdArEst) || caseAdjustmentModel.isInEditMode()">
+                <span class="text-danger">{{getDisableReasonForEditmode()}}</span>
+            </div>
+
+            <div class="alert alert-danger text-center" ng-show="(case.header.priceSummary.billedAmount == 0)">
+                <span class="text-danger">{{'Total billed amount is zero.'}}</span>
+            </div>
+
+            <tabset>
+                <button type="button"
+                        class="btn pull-right"
+                        ng-hide="case.caseInEditMode"
+                        ng-disabled="isEditDisabled()"
+                        ng-click="case.enableCaseEditMode()">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </button>
+
+                    <tab heading="Claim Prices" active="activeTabs[0]">
+                        <calc-rev-claim-parts-view ng-model="case" parts="case.parts" re-calculate="true" save-and-print="true"></calc-rev-claim-parts-view>
+                    </tab>
+
+                    <tab heading="PO Costs" active="activeTabs[1]">
+                        <calc-rev-po-parts-view ng-model="case" parts="case.parts"></calc-rev-po-parts-view>
+                </tab>
+
+                    <tab heading="Old CalcRev" ng-show="showOldCalcRev" active="activeTabs[2]">
+                        <calc-rev-old-actual-parts-view ng-show="showOldCalcRev" parts="case.parts"></calc-rev-old-actual-parts-view>
+                </tab>
+
+                    <div class="btn btn-default pull-right"
+                         style="margin-right: 5px"
+                         ng-click="toggleOldCalcRevView()">
+                        {{showOldCalcRev ? 'Hide Old' : 'Show Old'}}
+                    </div>
+
+            </tabset>
+
+
+        </fieldset>
+
+    </div>
+
+</fieldset>
+
+</div>
+
+
+
+
+

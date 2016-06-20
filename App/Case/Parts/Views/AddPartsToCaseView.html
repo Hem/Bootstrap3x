@@ -1,0 +1,69 @@
+﻿<div master-page class="container-fluid">
+
+    <div ng-hide="uncommittedDebitPartsExists || loadingParts">
+        <fieldset>
+
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h4>
+                        <label class="label label-danger"
+                               ng-show="(listOfPartsToAdd.length > 0) || caseInfo.locked">
+                            <span class="glyphicon glyphicon-alert "></span>
+                            {{caseInfo.locked ? 'Case is in Billing/Collections. To make updates, change status to Billing Maintenance.' : 'You have unsaved parts on this page.'}}
+                        </label>
+                    </h4>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-8 bold">
+                    <h4>{{caseInfo.name}}</h4>
+                </div>
+
+
+                <div class="col-sm-4 text-right">
+                    <add_parts_save_cancel_buttons></add_parts_save_cancel_buttons>
+                </div>
+
+            </div>
+
+            <add_parts_search_section></add_parts_search_section>
+
+            <form name="form" novalidate>
+
+                <div ng-repeat="addedPart in listOfPartsToAdd">
+                    <div class="border-bottom-2">
+                        <part_detail_form surgery_scheduled_date="caseInfo.surgeryScheduledDate"
+                                          part="addedPart"
+                                          form-name="'newPartForm' + $index"
+                                          remove="removePartFromList(addedPart)">
+                        </part_detail_form>
+                    </div>
+                </div>
+
+                <div ng-repeat="part in parts | orderBy: 'partSku'">
+                    <div class="border-bottom-2">
+                        <part_detail_form surgery_scheduled_date="caseInfo.surgeryScheduledDate"
+                                          part="part"
+                                          form-name="'existingPartForm' + $index">
+                        </part_detail_form>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="text-right">
+                    <add_parts_save_cancel_buttons></add_parts_save_cancel_buttons>
+                </div>
+
+            </form>
+
+        </fieldset>
+    </div>
+    <div ng-show="uncommittedDebitPartsExists" class="text-center">
+        <strong class="text-danger">
+            Parts cannot be added until Debit Memos are generated for the debited part(s) on the case.
+        </strong>
+    </div>
+</div>

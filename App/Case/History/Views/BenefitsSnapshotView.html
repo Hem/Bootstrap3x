@@ -1,0 +1,43 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        <span class="panel-title">Benefits:</span>
+    </div>
+
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <th class="text-nowrap text-right">Network:</th>
+            <td class="text-right">{{ header.procedureBenefit.inOutNetwork }}</td>
+            <th class="text-nowrap text-right">Product Type:</th>
+            <td  class="text-right">{{header.planType}}</td>
+        </tr>
+        <tr>
+            <th class="text-nowrap text-right">Carrier Coins:</th>
+            <td class="text-right">{{ header.procedureBenefit.carrierCoinsurancePct | number }}%</td>
+            <th class="text-nowrap text-right">Patient Coins:</th>
+            <td class="text-right">{{ header.procedureBenefit.memberCoinsurancePct | number }}%</td>
+        </tr>
+
+        <tr>
+            <th class="text-nowrap text-right">Deductible Max:</th>
+            <td class="text-right">{{ header.procedureBenefit.deductableMax | currency : '$' : 2 }}</td>
+            <th class="text-nowrap text-right">OOP Max:</th>
+            <td class="text-right">{{ header.procedureBenefit.memberOopMax | currency : '$' : 2 }}</td>
+        </tr>
+
+        <tr>
+            <th class="text-nowrap text-right">Deductible Met:</th>
+            <td class="text-right text-right">{{ header.procedureBenefit.deductableMet | currency : '$' : 2 }}</td>
+            <th class="text-nowrap text-right">OOP Met:</th>
+            <td class="text-right">{{ header.procedureBenefit.memberOopMet | currency : '$' : 2 }}</td>
+        </tr>
+
+
+        <tr>
+            <th class="text-nowrap text-right">Deductible Rem:</th>
+            <td class="text-right" ng-class="{'errorLabel' : (header.procedureBenefit.deductableMax < header.procedureBenefit.deductableMet)}">{{ header.procedureBenefit.deductableMax - header.procedureBenefit.deductableMet | currency : '$' : 2 }}</td>
+            <th class="text-nowrap text-right">OOP Rem:</th>
+            <td class="text-right" ng-class="{'errorLabel' : (header.procedureBenefit.memberOopMax < header.procedureBenefit.memberOopMet)}"> {{ header.procedureBenefit.memberOopMax - header.procedureBenefit.memberOopMet | currency : '$' : 2 }}</td>
+        </tr>
+
+    </table>
+</div>

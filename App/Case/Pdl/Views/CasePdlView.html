@@ -1,0 +1,188 @@
+﻿<div master-page>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-4 text-center">
+                <div class="panel">
+                    <table class="table-condensed">
+                        <img src="../../../../Content/Images/IPG_PDL_BannerLogo.jpg" />
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-6">
+
+                <div class="panel">
+
+                    <table class="table-condensed">
+
+                        <tr>
+                            <th class="text-nowrap text-right">
+                                Patient Name:
+                            </th>
+                            <td colspan="3">
+                                {{ header.patFirstName + ' ' + header.patLastName }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th width="100" class="text-nowrap text-right">Date of Service:</th>
+                            <td>{{header.surgeryActualDate | date : 'MM/dd/yyyy' }}</td>
+                        </tr>
+
+                        <tr>
+                            <th width="100" class="text-nowrap text-right">Procedure #:</th>
+                            <td>{{ header.caseId }}</td>
+                        </tr>
+
+                        <tr>
+                            <th width="100" class="text-nowrap text-right">Physician:</th>
+                            <td colspan="3">
+                                {{header.physician.firstName + ' ' + header.physician.lastName | limitTo: 40 }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th width="100" class="text-nowrap text-right">Facility:</th>
+                            <td colspan="3">{{header.facility.name | limitTo : 40 }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="col-sm-4 pull-right">
+
+                <div class="panel pull-right">
+
+                    <table class="table-condensed">
+
+                        <tr>
+                            <th width="100" class="text-nowrap text-right">Primary CPT:</th>
+                            <td colspan="3">
+                                {{ header.cptCode1}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th width="100" class="text-nowrap text-right">Primary Dx:</th>
+                            <td>{{ header.dxCode1 }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row text-center">
+            <h6>Products Billed on This Claim</h6>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xl-12">
+
+                <table class="table table-bordered table-striped table-condensed">
+
+                    <thead>
+
+                        <tr>
+                            <th>HCPCS Code</th>
+                            <th class="text-center">Count</th>
+                            <th>Production Description</th>
+                            <th>Part #</th>
+                            <th class="text-right">Billed Charges</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr ng-repeat="item in parts | orderBy : ['partSku', '-quantity' ]">
+                            <td>{{(showSecondary && item.hcpcsCode2) ? item.hcpcsCode2 : item.hcpcsCode}}</td>
+                            <td class="text-center">{{item.quantity}}</td>
+                            <td>{{item.partName}}</td>
+                            <td>{{item.partSku}}</td>
+                            <td class="text-right">{{item.billedLineAmt | currency:'$':2}}</td>
+                        </tr>
+
+                        <tr>
+
+                            <td colspan="4">
+                                <span class="pull-right">Total Billed</span>
+                            </td>
+
+                            <td class="text-right">
+                                {{ parts | sumByProperty: 'billedLineAmt' | currency:'$':2}}
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row hidden-print center-block">
+
+        <div class="col-md-12 text-center">
+            <a class="btn btn-default btn-sm col-md-offset-1"
+               ng-click="print()">
+                <span class="glyphicon glyphicon-print"></span> Print
+            </a>
+            <a class="btn btn-default btn-sm"
+               ng-click="closeWindow()">
+                <span class="glyphicon glyphicon-remove"></span> Close
+            </a>
+        </div>
+
+    </div>
+
+    <div class="row address">
+        <div class="col-md-12 text-center">
+            Implantable Provider Group (IPG)
+            <br />
+            NPI: 1114077419 Tax ID: 11-3667807
+            <br />
+            11605 Haynes Bridge Road * Suite 200 * Alpharetta, GA 30009
+            <br />
+            Toll Free: 1-866-753-0046 * Online at <a href="http://www.ipg.com">www.ipg.com</a>
+        </div>
+
+    </div>
+
+    <div class="row footer">
+        <div class="col-md-12 text-right">
+            {{currentDate | date : 'EEEE, MMMM d, y' }}
+        </div>
+    </div>
+
+    <hr class="border-top-black" />
+
+
+    <div class="row footer">
+        <div class="col-md-12">
+            The information contained in this document may be confidential and intended solely for the use of the individual or entity to whom it is addressed. The materials in this document
+            may contain Protected Health Information and is covered under HIPAA regulations. If you are not the intended recipient be advised that any unauthorized use, disclosure,
+            copying, distribution or the taking of any action in reliance on the contents of this information is strictly prohibited. If you have received this document in error, please
+            immediately notify the sender.
+        </div>
+    </div>
+
+
+
+</div>
+

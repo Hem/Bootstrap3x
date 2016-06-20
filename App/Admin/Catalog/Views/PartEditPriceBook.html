@@ -1,0 +1,159 @@
+﻿<div class="col-md-12 overlay" ng-hide="partModel.selectedPart.manufacturer">
+    <h4>You must specify Manufacturer first.</h4>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-12 panel-title">
+                Price Books
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="col-md-12">
+
+            <form name="FormData.priceBookForm" role="form" class="form-horizontal" novalidate>
+                <div class="row">
+                    <div class="form-group">
+
+                        <label class="col-xs-2 control-label">Price Book:</label>
+
+                        <div class="col-xs-5 form-horizontal" ng-class="{ 'has-error': FormData.priceBookForm.pricebook.$invalid && FormData.priceBookForm.pricebook.$dirty}">
+                            <div class="col-xs-11">
+                                <ipg-entity-select name="pricebook"
+                                                   ng-model="priceBook"
+                                                   place-holder-text="Please select a price book"
+                                                   ng-change="onPriceBookSelect(priceBook)"
+                                                   associated-entity-type="MANUFACTURER"
+                                                   associated-entity-id="partModel.selectedPart.manufacturer.id"
+                                                   required
+                                                   entity-type="PRICE_BOOK"
+                                                   load-all-records="true"
+                                                   filter-metadata="partModel.selectedPart.manufacturer.id"></ipg-entity-select>
+                            </div>
+                            <span class="glyphicon glyphicon-alert text-danger text-center"
+                                  ng-show="priceBookPartModel.priceBookExistsInPart"
+                                  popover-trigger="mouseenter"
+                                  popover="Price Book Exists!" style="margin-top:5px; font-size: 1.4em;"></span>
+
+                        </div>
+
+                        <div class="col-xs-2"
+                             ng-class="{ 'has-error': FormData.priceBookForm.priceBookMfrPrice.$invalid && FormData.priceBookForm.priceBookMfrPrice.$dirty}">
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input type="text"
+                                       required
+                                       name="priceBookMfrPrice"
+                                       ng-model="partPriceBook.unitPrice"
+                                       placeholder="MSRP"
+                                       class="form-control text-right"
+                                       money
+                                       min="0"
+                                       max="999999.99"
+                                       precision="2">
+                            </div>
+                        </div>
+
+                        <div class="col-xs-2"
+                             ng-class="{ 'has-error': FormData.priceBookForm.priceBookDiscPrice.$invalid && FormData.priceBookForm.priceBookDiscPrice.$dirty}">
+                            <div class="input-group" ng-hide="priceBookModel.selectedPriceBook.discountPercent  > 0">
+                                <span class="input-group-addon">$</span>
+                                <input type="text"
+                                       required
+                                       name="priceBookDiscPrice"
+                                       ng-model="partPriceBook.discountPrice"
+                                       placeholder="Discount"
+                                       class="form-control text-right"
+                                       money
+                                       min="0"
+                                       max="{{partPriceBook.unitPrice}}"
+                                       precision="2">
+                            </div>
+                            <div class="text-center margin-top-5">
+                                <span style="padding-top:15px" ng-show="priceBookModel.selectedPriceBook.discountPercent  > 0">{{partPriceBook.discountPrice | currency}}</span>    
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-xs-1">
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    ng-click="onAddPriceBook();"
+                                    ng-disabled="FormData.priceBookForm.$invalid ">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                            </button>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="row">
+                <form name="FormData.priceBookUpdateForm" role="form" class="form-horizontal" novalidate>
+                    <table class="table table-striped table-bordered priceBookTable">
+                        <thead>
+                            <tr>
+                                <th>Price Book Name</th>
+                                <th>Discount %</th>
+                                <th>Effective Date</th>
+                                <th>Expiration Date</th>
+                                <th>MSRP</th>
+                                <th>Discount Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr ng-repeat="priceBookPart in priceBookPartModel.priceBookPartList | orderBy : 'priceBookId'">
+                                <td>{{priceBookPart.priceBook.name}}</td>
+                                <td>{{priceBookPart.priceBook.discountPercent}}%</td>
+                                <td>{{priceBookPart.priceBook.startDate | date:'shortDate'}}</td>
+                                <td>{{priceBookPart.priceBook.endDate | date:'shortDate'}}</td>
+                                <td>
+                                    <ng-form name="partunitprice" class="pull-right">
+
+                                        <div class="input-group input-group-sm" ng-class="{ 'has-error': partunitprice.$invalid }" style="width: 115px">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text"
+                                                   name="partUnitPriceField"
+                                                   ng-model="priceBookPart.unitPrice"
+                                                   class="form-control text-right input-sm"
+                                                   money
+                                                   required
+                                                   min="0"
+                                                   max="999999.99"
+                                                   precision="2"
+                                                   ng-change="OnPartUnitPriceChange(priceBookPart)" />
+                                        </div>
+                                    </ng-form>
+                                </td>
+                                <td>
+                                    <ng-form name="partdiscountPrice" ng-hide="priceBookPart.priceBook.discountPercent  > 0" class="pull-right">
+                                        <div class="input-group input-group-sm" ng-class="{ 'has-error': partdiscountPrice.$invalid }" style="width: 115px">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text"
+                                                   name="partDiscountPriceField"
+                                                   ng-model="priceBookPart.discountPrice"
+                                                   class="form-control text-right input-sm"
+                                                   money
+                                                   required
+                                                   min="0"
+                                                   max="{{priceBookPart.unitPrice}}"
+                                                   precision="2"
+                                                   ng-change="OnPartDiscountPriceChange(priceBookPart)" />
+                                        </div>
+                                    </ng-form>
+                                    <span ng-show="priceBookPart.priceBook.discountPercent  > 0" class="pull-right margin-top-5">{{priceBookPart.discountPrice | currency}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

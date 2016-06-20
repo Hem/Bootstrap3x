@@ -1,0 +1,357 @@
+﻿
+<div class="modal-header">
+    <div class="modal-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 style="display: inline;">{{patientCase.name}}</h3>
+            </div>
+            <div class="col-sm-4">
+                <div class="top">
+                    <h5 style="display: inline;">Facility: {{patientCase.facility.name}}</h5>
+                </div>
+                <div class="bottom">
+                    <h5 style="display: inline;">Carrier: {{patientCase.primaryCarrier.name}}</h5>
+                </div>
+            </div>
+            <div class="col-sm-2 text-right">
+                <h5 style="display: inline;">CPT: {{patientCase.billedCptCode}}</h5>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal-body">
+
+    <div class="progress center-block text-center" style="width:300px;" ng-show="dataLoadInProgress">
+        <div class="progress-bar progress-bar-info progress-bar-striped active"
+             role="progressbar" style="width: 100%;">
+            <i>Please Wait!</i>
+        </div>
+    </div>
+
+    <tabset ng-hide="dataLoadInProgress">
+
+        <tab heading="Claim Prices">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th colspan="2" class="text-center">Paid By</th>
+                        <th colspan="6" class="text-center">PO</th>
+                        <th></th>
+                        <th colspan="3" class="text-center">Claim</th>
+                        <th colspan="2" class="text-center">Allowed</th>
+                        <th colspan="2" class="text-center">HCPCS</th>
+                    </tr>
+                    <tr>
+                        <th>Sku</th>
+                        <th>Ipg</th>
+                        <th>Ins</th>
+
+                        <th>Qty</th>
+                        <th>Unit$</th>
+                        <th>Total$</th>
+                        <th>L. Tax$</th>
+                        <th>L. Ship$</th>
+                        <th>L. Total$</th>
+
+                        <th>Mult.</th>
+                        <th>Qty</th>
+                        <th>Unit $</th>
+                        <th>Total $</th>
+
+                        <th>Unit $</th>
+                        <th>Total %</th>
+
+                        <th>Initial</th>
+                        <th>Billed</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    <tr ng-repeat="item in records | orderBy : ['partSku', 'poQuantity' ]">
+
+                        <td class="text-info cursor-help">
+                            <div popover="{{item.partName}}" popover-trigger="mouseenter">{{item.partSku}}</div>
+                        </td>
+
+                        <td>{{item.partPrice.isPaidForByIpg}}</td>
+                        <td>{{item.partPrice.isPaidForByIns}}</td>
+
+                        <td class="text-right">{{item.partPrice.poQuantity}}</td>
+                        <td class="text-right">{{item.partPrice.poUnitCost | currency:'$': 2}}</td>
+                        <td class="text-right">{{item.partCost.poLineCost | currency:'$': 2}}</td>
+
+                        <td class="text-right">{{item.partCost.poEstimatedLineTax | currency:'$': 2}}</td>
+                        <td class="text-right">{{item.partCost.poEstimatedLineShipping | currency:'$': 2}}</td>
+                        <td class="text-right">{{item.partPrice.poTotalLineCost | currency:'$': 2}}</td>
+
+                        <td class="text-right">{{item.partPrice.multiplier}}</td>
+                        <td class="text-right">{{item.partPrice.billedQuantity}}</td>
+                        <td class="text-right">{{item.partPrice.billedUnitPrice | currency:'$': 2 }}</td>
+
+                        <td class="text-right text-info cursor-help">
+                            <div popover="{{item.partPrice.processingNotes | formatProcessingNote}}" popover-trigger="mouseenter">
+                                {{item.partPrice.billedLineAmt | currency:'$': 2 }}
+                            </div>
+                        </td>
+
+                        <td class="text-right">{{item.partPrice.expReimburseUnitPrice | currency:'$': 2 }}</td>
+                        <td class="text-right">{{item.partPrice.expReimburseLineAmt| currency:'$': 2}}</td>
+
+                        <td>{{item.partPrice.hcpcsCode}}</td>
+                        <td>{{item.partPrice.billedHcpcsCodeOnPri}}</td>
+                    </tr>
+
+                    <tr>
+
+                        <td>Total:</td>
+                        <td></td>
+                        <td></td>
+
+                        <td></td>
+                        <td></td>
+                        <td class="text-info text-right">
+                            {{ records | sumByProperty: 'partCost.poLineCost' | currency:'$':2}}
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-info text-right">
+                            {{ records | sumByProperty: 'partPrice.poTotalLineCost' | currency:'$': 2 }}
+                        </td>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-info text-right">
+                            {{ records | sumByProperty: 'partPrice.billedLineAmt' | currency:'$': 2 }}
+                        </td>
+
+                        <td></td>
+                        <td class="text-info text-right">
+                            {{ records | sumByProperty: 'partPrice.expReimburseLineAmt' | currency:'$': 2 }}
+                        </td>
+
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </tab>
+
+        <tab heading="PO Costs">
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Part</th>
+                        <th>Pay Fac.</th>
+                        <th>Qty.</th>
+                        <th>Disc Cost</th>
+                        <th>Entered Unit Cost</th>
+                        <th>Maic</th>
+                        <th>Maic Amt</th>
+
+                        <th>Po Unit Cost</th>
+                        <th>Po Line Cost</th>
+                        <th>Po Line Tax</th>
+                        <th>Po Line Ship</th>
+                        <th>PO Line Total</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="item in records | orderBy : ['partSku', 'quantityUsed' ]">
+
+                        <td class="text-info cursor-help">
+                            <div popover-trigger="mouseenter" popover="{{item.partName}}">{{item.partSku}}</div>
+                        </td>
+
+                        <td>{{item.partCost.payFacilityFlag}}</td>
+
+                        <td class="text-right">{{item.partCost.quantityUsed}}</td>
+                        <td class="text-right">{{item.partCost.mfrDiscountUnitCost | currency:'$': 2}}</td>
+                        <td class="text-right">{{item.partCost.enteredUnitCost | currency:'$': 2}}</td>
+
+                        <td class="text-info cursor-help">
+                            <div popover-trigger="mouseenter" popover="{{ item.partCost.maicCalcReasons | maicEnumToText }}">
+                                {{item.partCost.maicIsEnabled}} [{{item.partCost.maicCalcReasons}}]
+                            </div>
+                        </td>
+                        <td class="text-nowrap">{{item.partCost.maicUnitCost | currency:'$': 2}} x {{item.partCost.maicReimbursePct}}%</td>
+                        <td class="text-right">{{item.partCost.poUnitCost | currency:'$': 2}}</td>
+                        <td class="text-right text-info">{{item.partCost.poLineCost | currency:'$': 2}}</td>
+                        <td class="text-right">{{item.partCost.poEstimatedLineTax | currency:'$': 2}}</td>
+                        <td class="text-right">{{item.partCost.poEstimatedLineShipping | currency:'$': 2}}</td>
+                        <td class="text-right text-info">{{item.partCost.poTotalLineCost | currency:'$': 2}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Total </td>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                        <td class="text-right text-info">
+                            {{ records | sumByProperty : 'partCost.poLineCost' | currency:'$': 2 }}
+                        </td>
+                        <td class="text-right">
+                            {{ records | sumByProperty : 'partCost.poEstimatedLineTax' | currency:'$': 2 }}
+                        </td>
+                        <td class="text-right">
+                            {{ records | sumByProperty : 'partCost.poEstimatedLineShipping' | currency:'$': 2 }}
+                        </td>
+                        <td class="text-right text-info">
+                            {{ records | sumByProperty : 'partCost.poTotalLineCost' | currency:'$': 2 }}
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+        </tab>
+
+        <tab heading="Actual Parts">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Pay</th>
+                        <th></th>
+                        <th class="text-center" colspan="2">Unit Cost</th>
+                        <th class="text-center" colspan="2">Maic</th>
+
+                        <th class="text-center" colspan="4">Calculated</th>
+
+                        <th class="text-center" colspan="3">Billed</th>
+                        <th class="text-center" colspan="2">Allowed</th>
+                        <th>HCPCS</th>
+                    </tr>
+                    <tr>
+                        <th>Sku</th>
+                        <th>Fac.</th>
+                        <th>Qty.</th>
+
+                        <th>Discount</th>
+                        <th>Entered</th>
+
+                        <th>Enabled</th>
+                        <th>Amt. $</th>
+
+                        <th>Unit $</th>
+                        <th>L. Tax $</th>
+                        <th>L. Ship $</th>
+                        <th>L. Total $</th>
+
+                        <th>Qty</th>
+                        <th>Unit $</th>
+                        <th>Line $</th>
+                        <th>Unit $</th>
+                        <th>Line $</th>
+                        <th>HCPCS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="ap in records | orderBy : ['partSku', 'quantity' ] ">
+                        <td class="text-info cursor-help">
+                            <div popover="{{ap.partName}}" popover-trigger="mouseenter">
+                                {{ap.partSku}}
+                            </div>
+                        </td>
+
+                        <td>{{ap.payFacility}}</td>
+
+                        <td class="text-right">{{ap.quantity}}</td>
+                        <td class="text-right">{{ap.mfrDiscUnitCost | currency:'$': 2}}</td>
+                        <td class="text-right">{{ap.enteredUnitCost | currency:'$': 2}}</td>
+
+                        <td class="text-info cursor-help">
+                            <div popover="{{ap.maicDisableReason | maicDisabledReasonsEnumToText}}" popover-trigger="mouseenter">
+                                {{ap.macEnabled}} [{{ap.maicDisableReason}}]
+                            </div>
+                        </td>
+                        <td class="text-right">{{ap.mac | currency:'$': 2}}</td>
+
+
+                        <td class="text-right">{{ap.calculatedUnitCost | currency:'$': 2}}</td>
+                        <td class="text-right">{{ap.calculatedLineTax | currency:'$': 2}}</td>
+                        <td class="text-right">{{ap.calculatedLineShipping | currency:'$': 2}}</td>
+                        <td class="text-right">{{ap.calculatedLineCost | currency:'$': 2}}</td>
+
+
+
+
+                        <td class="text-right">{{ap.billedQuantity}}</td>
+                        <td class="text-right">{{ap.billedUnitPrice | currency:'$':2 }}</td>
+                        <td class="text-right">{{ap.billedLineAmt | currency:'$':2 }}</td>
+
+                        <td class="text-right">{{ap.allowedUnitPrice | currency:'$':2 }}</td>
+                        <td class="text-right">{{ap.allowedLineAmt | currency:'$':2 }}</td>
+                        <td>{{ap.hcpcsCode}}</td>
+
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                        <td class="text-right text-info">
+                            {{ records | sumByProperty : 'calculatedLineCost' | currency:'$': 2 }}
+                        </td>
+
+                        <td></td>
+                        <td></td>
+                        <td class="text-right text-info">
+                            {{ records | sumByProperty : 'billedLineAmt' | currency:'$': 2 }}
+                        </td>
+                        <td></td>
+                        <td class="text-right text-info">
+                            {{ records | sumByProperty : 'allowedLineAmt' | currency:'$': 2 }}
+                        </td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+        </tab>
+
+    </tabset>
+
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+
+            <button class="btn btn-info" type="button" ng-click="reRunCalcRev()">
+                <span class="glyphicon glyphicon-refresh"></span>
+                Re-Calculate
+            </button>
+
+            <button class="btn btn-default" type="button" ng-click="cancel()">
+                <span class="glyphicon glyphicon-remove"></span>
+                Close
+            </button>
+
+        </div>
+    </div>
+</div>

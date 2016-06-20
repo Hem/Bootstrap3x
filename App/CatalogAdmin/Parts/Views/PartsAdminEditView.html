@@ -1,0 +1,129 @@
+﻿<div class="container">
+    <fieldset>
+
+        <legend>Edit: {{part.Name}}</legend>
+
+        <form name="form" role="form" class="form-horizontal" novalidate>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Part Id:</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">{{part.id}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Part Number:</label>
+
+                <div class="col-sm-4" ng-class="{ 'has-error': form.partNumber.$invalid }">
+                    <input type="text" name="partNumber" ng-model="part.partNumber" class="form-control" required="required">
+                </div>
+
+                <label class="col-sm-1 control-label">Keyword:</label>
+                <div class="col-sm-4" ng-class="{ 'has-error': form.ipgPartNumber.$invalid }">
+                    <input type="text" name="ipgPartNumber" ng-model="part.ipgPartNumber" class="form-control" required="required">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Name:
+                </label>
+                <div class="col-sm-9" ng-class="{ 'has-error': form.partName.$invalid }">
+                    <input type="text" name="partName" ng-model="part.name" class="form-control" required="required" />
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Manufacturer:</label>
+                <div class="col-sm-4" ng-class="{ 'has-error': form.manufacturer.$invalid }">
+
+                    <ipg-entity-select name="manufacturer" required ng-model="part.manufacturer" entity-id="part.manufacturerId"
+                                       place-holder-text="Please select a manufacturer"
+                                       entity-type="MANUFACTURER"></ipg-entity-select>
+
+                </div>
+
+                <label class="col-sm-1 control-label">Category:</label>
+                <div class="col-sm-4" ng-class="{ 'has-error': form.category.$invalid }">
+
+                    <ipg-entity-select name="category" required ng-model="part.category" entity-id="part.categoryId"
+                                       place-holder-text="Please select a Category"
+                                       entity-type="PART_CATEGORY"
+                                       min-chars-to-filter="1"></ipg-entity-select>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">HCPCS Code:</label>
+                <div class="col-sm-4" ng-class="{ 'has-error': form.hcpcsCode.$invalid }">
+                    <input type="text" name="hcpcsCode" ng-model="part.hcpcsCode" class="form-control">
+                </div>
+                <label class="col-sm-1 control-label">Alt HCPCS:</label>
+                <div class="col-sm-4">
+                    <input type="text" name="hcpcsCode2" ng-model="part.hcpcsCode2" class="form-control">
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">List ($):</label>
+                <div class="col-sm-4" ng-class="{ 'has-error': form.mfrListPrice.$invalid }">
+                    <input type="text" name="mfrListPrice" ng-model="part.mfrListPrice" class="form-control" required="required">
+                </div>
+                <label class="col-sm-1 control-label">Discount ($):</label>
+                <div class="col-sm-4">
+                    <input type="text" name="mfrDiscountPrice" ng-model="part.mfrDiscountPrice" class="form-control" required="required">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Description:</label>
+                <div class="col-sm-9">
+                    <textarea ng-model="part.description" name="partDescription" class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Note:</label>
+                <div class="col-sm-9">
+                    <textarea ng-model="part.notes" name="partNotes" class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Url:</label>
+                <div class="col-sm-9">
+                    <input type="url" ng-model="part.url" name="partUrl" class="form-control" placeholder="http://www.vendorsite" />
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Manufacturer:</label>
+                <div class="col-sm-9">
+                    {{part.Manufacturer}} ||
+                    {{part.ManufacturerId}}
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-sm-9 col-sm-offset-2">
+                    <button type="submit" class="btn btn-primary" ng-disabled=" form.$invalid || !form.$dirty " ng-click="save()">Submit</button>
+                    <button type="submit" class="btn btn-default" ng-disabled="!form.$dirty" ng-click="reset()">Reset</button>
+                </div>
+            </div>
+
+        </form>
+
+    </fieldset>
+</div>

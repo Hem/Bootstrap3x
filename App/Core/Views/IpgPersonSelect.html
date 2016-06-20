@@ -1,0 +1,18 @@
+﻿<span class="input-group" ng-class="{ 'input-group-sm' : 'sizing ==  displaySmall '}">
+    <ui-select ng-model="ngModel" theme="bootstrap" title="{{placeHolderText}}" on-select="onSelect($item, $model)">
+
+        <ui-select-match placeholder="{{placeHolderText}}">
+            <div>{{$select.selected.lastName + ', ' + $select.selected.firstName }}</div>
+        </ui-select-match>
+
+        <ui-select-choices repeat="item in list | filter: $select.search"
+                           refresh="filterRecords($select.search)"
+                           refresh-delay="500">
+            <div ng-bind-html="item.lastName + ', ' + item.firstName + ' (' + item.uniqueId + ')'| highlight: $select.search"></div>
+        </ui-select-choices>
+
+    </ui-select>
+    <a class="input-group-addon" ng-click="clearSelected()">
+        <span class="glyphicon glyphicon-remove"></span>
+    </a>
+</span>

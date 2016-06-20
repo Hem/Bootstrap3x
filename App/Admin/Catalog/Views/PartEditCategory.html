@@ -1,0 +1,126 @@
+﻿<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-12 panel-title">
+                Categorization
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <div class="form-group">
+
+            <label class="col-sm-3 control-label">
+                Part Type:
+            </label>
+
+            <div class="col-sm-8" ng-class="{ 'has-error': FormData.categoryForm.parttype.$invalid }">
+
+                <ipg-entity-select name="parttype"
+                                   ng-model="partModel.selectedPart.type"
+                                   entity-id="part.type.id"
+                                   place-holder-text="Please select a type"
+                                   entity-type="PART_TYPE"
+                                   min-chars-to-filter="1"
+                                   required
+                                   load-all-records="true"></ipg-entity-select>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Keyword:</label>
+            <div class="col-sm-8">
+                <ipg-entity-select name="keyword" ng-model="partModel.selectedPart.keyword"
+                                   place-holder-text="Please select a Keyword"
+                                   entity-type="PART_KEYWORD"
+                                   min-chars-to-filter="1"
+                                   load-all-records="true"></ipg-entity-select>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="col-sm-3 control-label">Body Region:</label>
+
+            <div class="col-sm-8">
+                <ipg-entity-select name="bodyRegion" ng-model="partModel.selectedPart.bodyRegion"
+                                   place-holder-text="Please select a Body Region"
+                                   entity-type="BODY_REGION"
+                                   min-chars-to-filter="1"
+                                   load-all-records="true"></ipg-entity-select>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="col-sm-3 control-label">Category:</label>
+            <div class="col-sm-8" ng-class="{ 'has-error': FormData.categoryForm.category.$invalid }">
+
+                <ipg-entity-select name="category" ng-model="partModel.selectedPart.category" entity-id="part.categoryId"
+                                   place-holder-text="Please select a Category"
+                                   entity-type="PART_CATEGORY"
+                                   min-chars-to-filter="1"
+                                   load-all-records="true"></ipg-entity-select>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="col-sm-3 control-label">Material:</label>
+
+            <div class="col-sm-8">
+                <ipg-entity-select name="material" ng-model="partModel.selectedPart.material"
+                                   place-holder-text="Please select a Part Material"
+                                   entity-type="PART_MATERIAL"
+                                   min-chars-to-filter="1"
+                                   load-all-records="true"></ipg-entity-select>
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="col-sm-3 control-label">Claim Tier:</label>
+
+            <div class="col-sm-8">
+                <ipg-entity-select name="claimPriceTier" ng-model="partModel.selectedPart.claimPriceTier"
+                                   place-holder-text="Please select a Claim Tier"
+                                   entity-type="CLAIM_PRICE_TIER"
+                                   min-chars-to-filter="1"
+                                   load-all-records="true"></ipg-entity-select>
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="col-sm-3 control-label">HCPCS:</label>
+
+            <div class="col-sm-8" ng-class="{ 'has-error': FormData.categoryForm.hcpcs.$invalid }">
+
+                <ipg-code-select name="hcpcs"
+                                 ng-model="partModel.selectedPart.hcpcsCode"
+                                 code-id="part.hcpcsId"
+                                 code="part.hcpcsCode"
+                                 place-holder-text="Please select a HCPCS code"
+                                 code-type="HCPCS"
+                                 required
+                                 min-chars-to-filter="1"></ipg-code-select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

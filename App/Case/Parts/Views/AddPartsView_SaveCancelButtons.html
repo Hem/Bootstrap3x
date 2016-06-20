@@ -1,0 +1,19 @@
+﻿<div>
+    <button type="submit" class="btn btn-sm btn-primary"
+            ng-disabled="!form.$dirty || form.$invalid || savingParts || caseInfo.locked"
+            ng-click="onSaveClick()">
+        <span class="glyphicon glyphicon-floppy-disk"></span>
+        {{savingParts ? 'Saving' : 'Save'}}
+    </button>
+    <button type="button" class="btn btn-sm btn-primary"
+            ng-click="onCancelClick()">
+        <span class="glyphicon glyphicon-ban-circle"></span>
+        Cancel
+    </button>
+
+    <button type="button" class="btn btn-sm btn-danger"
+            ng-click="onCloseClick()">
+        <span class="glyphicon glyphicon-remove"></span>
+        Close
+    </button>
+</div>

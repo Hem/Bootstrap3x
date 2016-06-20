@@ -1,0 +1,18 @@
+﻿.notes-textarea {
+    max-width: 382px;   
+}
+
+.priceBook {
+    max-height: 262px;
+    overflow: auto;
+    border-top: 1px solid #ddd;;
+}
+
+.priceBookTable > tbody > tr > td:nth-child(6) {
+    width: 10%
+}
+
+
+.priceBookTable > tbody .cached {
+    background-color: #FCF8E3 !important;
+}

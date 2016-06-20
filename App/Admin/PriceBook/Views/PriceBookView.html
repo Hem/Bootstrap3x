@@ -1,0 +1,94 @@
+﻿<div class="panel panel-primary">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-7 panel-title">
+                View - {{model.selectedPriceBook.name}} 
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="col-md-12">
+            <div class="col-sm-8">
+
+                <table class="table table-condensed table-no-border">
+                    <tbody>
+                    <tr>
+                        <td style="width: 100px" class="text-right"> Manufacturer: </td>
+                        <td><span>{{model.selectedPriceBook.manufacturer.name}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Carriers:</td>
+                        <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.carriers)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Distributors:</td>
+                        <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.distributors)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">States:</td>
+                        <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.states)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Physicians:</td>
+                        <td><span>{{arrayHelper.joinToFullNameString(model.selectedPriceBook.physicians)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Facilities:</td>
+                        <td><span>{{arrayHelper.joinToNameString(model.selectedPriceBook.facilities)}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Note:</td>
+                        <td><span class="col-sm-10">{{model.selectedPriceBook.note}}</span></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="col-sm-4">
+                <table class="table table-condensed table-no-border">
+                    <tbody>
+                    <tr>
+                        <td class="text-right" style="width: 120px">Effective:</td>
+                        <td><span>{{model.selectedPriceBook.startDate | date: 'shortDate'}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right" style="width: 120px">Expiration:</td>
+                        <td><span>{{model.selectedPriceBook.endDate | date: 'shortDate'}}</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-right" style="width: 120px">Priority Weight:</td>
+                        <td><span>{{model.selectedPriceBook.selectWeight}}</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-right">Discount:</td>
+                        <td><span>{{model.selectedPriceBook.discountPercent}}%</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="pull-right">
+                <a ng-href="/Admin/PriceBook#/detail/edit/{{model.selectedPriceBook.id}}" class="btn btn-info btn-sm"
+                   popover-trigger="mouseenter"
+                   popover="Edit" ng-show="currentUser.hasPermission('PRICE_BOOK_MANAGE')">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
+
+                <a class="btn btn-info btn-sm" ng-click="onBack()">
+                    <span class="glyphicon glyphicon-backward"></span> Back
+                </a>
+
+                <button type="button" class="btn btn-danger btn-sm" ng-click="onDelete()" ng-show="currentUser.hasPermission('PRICE_BOOK_DELETE')">
+                    <span class="glyphicon glyphicon-trash"></span> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

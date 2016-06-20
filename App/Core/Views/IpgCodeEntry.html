@@ -1,0 +1,11 @@
+﻿<div class="input-group">
+
+    <input ng-model="ngModel" ng-change="onCodeChange(ngModel)" ng-model-options="{debounce:1000}"
+           class="form-control" placeholder="{{placeHolderText}}" style="width: 150px;" />
+
+    <div class="input-group-addon" style="width: 100%" 
+         data-toggle="tooltip" tooltip="{{codeDescription}}" tooltip-placement="top">
+        {{codeDescription | limitTo: 100 }}
+    </div>
+
+</div>

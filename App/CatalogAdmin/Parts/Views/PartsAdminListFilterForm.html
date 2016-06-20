@@ -1,0 +1,43 @@
+﻿<form class="form-inline">
+    <div class="form-group">
+        <label for="partNumber">Part #:</label>
+
+        <div class="input-group">
+            <input type="text" id="partNumber" ng-model="params.partNumber" size="12" placeholder="Part #" class="form-control"/>
+            <a class="input-group-addon" ng-click=" params.partNumber = '' ">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="partName">Part:</label>
+
+        <div class="input-group">
+            <input type="text" id="partName" ng-model="params.partName" placeholder="Part Name" class="form-control" />
+            <a class="input-group-addon" ng-click=" params.partName = '' ">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="mfrName">Manufacturer:</label>
+        <!-- ReSharper disable Html.TagNotResolved -->
+        <div class="input-group">
+            <input type="text" id="mfrName" ng-model="params.mfrName" placeholder="Manufacturer" class="form-control" />
+            <a class="input-group-addon" ng-click=" params.mfrName = '' ">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </div>
+        <!-- ReSharper restore Html.TagNotResolved -->
+
+    </div>
+    <button ng-click="search()" class="btn btn-primary btn-sm right">
+        <span class="glyphicon glyphicon-search"></span> Search
+    </button>
+
+    <a ui-sref="part-new" class="btn btn-info btn-sm right pull-right">
+        <span class="glyphicon glyphicon-plus"></span> New
+    </a>
+
+</form>

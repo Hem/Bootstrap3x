@@ -1,0 +1,43 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading">
+        <span class="panel-title">
+            Procedure Info:
+        </span>
+    </div>
+    <table class="table table-striped table-bordered table-condensed">
+
+        <tr>
+            <th width="100" class="text-nowrap text-right">Patient:</th>
+            <td colspan="3">
+                {{ header.patLastName | limitTo : 3 }}, {{ header.patFirstName  | limitTo : 3}}
+            </td>
+        </tr>
+
+        <tr>
+            <th width="100" class="text-nowrap text-right">Facility:</th>
+            <td colspan="3">{{header.facilityName | limitTo : 40 }}</td>
+        </tr>
+
+
+        <tr>
+            <th width="100" class="text-nowrap text-right">Physician:</th>
+            <td colspan="3">
+                {{header.physicianLastName + ', ' + header.physicianFirstName | limitTo: 40 }}
+            </td>
+        </tr>
+
+        <tr>
+            <th width="100" class="text-nowrap text-right">Actual DOS:</th>
+            <td>{{header.surgeryActualDate | date : 'MM/dd/yyyy' }}</td>
+            <th width="100" class="text-nowrap text-right">Sch DOS:</th>
+            <td>{{header.surgeryScheduledDate | date : 'MM/dd/yyyy' }}</td>
+        </tr>
+        <tr>
+            <th width="100" class="text-nowrap text-right">Billed CPT:</th>
+            <td>{{header.billedCptCode}}</td>
+            <th class="text-right text-nowrap">Bill Patient:</th>
+            <td> {{ (header.procedureBenefit.billToPatient != null ? header.procedureBenefit.billToPatient : header.primaryCarrier.statementToPatient) | asYesNo}}</td>
+        </tr>
+
+    </table>
+</div>

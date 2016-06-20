@@ -1,0 +1,52 @@
+﻿.errorLabel {
+    background-color: #d9534f;
+    color: white;
+}
+
+#saveAdjustment {
+    margin-left: 60%;
+}
+
+.table-header-adj {
+    margin-bottom: 0 !important;
+}
+
+.table-content-adj {
+    margin-bottom: 0 !important;
+}
+
+.table-content-adj > tbody > tr > td {
+    padding-top: 3px !important;
+    padding-bottom: 0 !important;
+}
+
+.flipped-share {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+}
+
+#approvePanel .btn-primary {
+    margin-left: 5px;
+}
+
+#approvePanel {
+    margin-bottom: 0;
+}
+
+#approvePanel .center-block {
+    width: 50%;
+}
+
+#memAdjNote {
+    font-size: 10px; 
+    margin-left: 10px; 
+    width: 350px
+}
+
+.billedChargesInput {
+    max-width: 80px
+}
+
+@page { size: landscape; }

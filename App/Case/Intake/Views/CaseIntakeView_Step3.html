@@ -1,0 +1,213 @@
+﻿<div class="form-group" style="padding-top: 10px;">
+    <label class="col-sm-2 control-label">Related To:</label>
+    <div class="col-sm-4">
+        <!--<input type="text" name="relatedTo" ng-model="procedure.RelatedTo" class="form-control"/>-->
+        <select class="form-control" ng-model="procedure.RelatedTo" ng-options="o as o for o in relationToInsured" required="required"
+                ng-change="onRelatedToChanged(procedure.RelatedTo)">
+            <option value="">-- choose relationship --</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Plan Type:</label>
+    <div class="col-sm-4">
+        <select class="form-control" ng-model="procedure.PlanType" ng-options="o as o for o in carrierPlanTypes" required="required"
+                ng-change="onPlanTypeChanged(procedure.PlanType)">
+            <option value="">-- choose plan type --</option>
+        </select>
+    </div>
+</div>
+
+<div ng-show="isWorkersCompensation">
+    
+    <!-- Worker Comp -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Date of Injury:</label>
+        <div class="col-sm-10">
+            <input type="date" name="dateOfInjury" ng-model="procedure.DateOfInjury" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Area of Injury:</label>
+        <div class="col-sm-10">
+            <input type="text" name="areaOfInjury" ng-model="procedure.AreaOfInjury"
+                   class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Work Comp Claim#:</label>
+        <div class="col-sm-10">
+            <input type="text" name="wcClaimNumber" ng-model="procedure.WcClaimNumber"
+                   class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Adjuster Name:</label>
+        <div class="col-sm-10">
+            <input type="text" name="adjusterName" ng-model="procedure.AdjusterName"
+                   class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Adjuster Phone:</label>
+        <div class="col-sm-4">
+            <input type="text" name="adjusterPhone" ng-model="procedure.AdjusterPhone"
+                   class="form-control"/>
+        </div>
+        <label class="col-sm-2 control-label">Fax:</label>
+        <div class="col-sm-4">
+            <input type="text" name="adjusterFax" ng-model="procedure.AdjusterFax"
+                   class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">NCM Name:</label>
+        <div class="col-sm-10">
+            <input type="text" name="ncmName" ng-model="procedure.NcmName" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">NCM Phone:</label>
+        <div class="col-sm-4">
+            <input type="text" name="ncmPhone" ng-model="procedure.NcmPhone" class="form-control"/>
+        </div>
+        <label class="col-sm-2 control-label">Fax:</label>
+        <div class="col-sm-4">
+            <input type="text" name="ncmFax" ng-model="procedure.NcmFax" class="form-control"/>
+        </div>
+    </div>
+</div>
+
+
+<div ng-hide="isWorkersCompensation">
+    <!-- Commercial -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Carrier:</label>
+        <div class="col-sm-10">
+            
+            <ipg-entity-select required ng-model="procedure.PrimaryCarrier" entity-id="procedure.PrimaryCarrierId"
+                               place-holder-text="Please select a primary carrier"
+                               entity-type="CARRIER"></ipg-entity-select>
+        </div>
+    </div>
+    
+    <div class="form-group">
+
+        <label class="col-sm-2 control-label">Primary Member Id:</label>
+        <div class="col-sm-4">
+            <input type="text" ng-model="procedure.PrimaryMemberId" class="form-control"/>
+        </div>
+
+        <label class="col-sm-2 control-label">Primary Group Id:</label>
+        <div class="col-sm-4">
+            <input type="text" ng-model="procedure.PrimaryGroupId" class="form-control"/>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Secondary Carrier:</label>
+        <div class="col-sm-10">
+            
+            <ipg-entity-select ng-model="procedure.SecondaryCarrier" entity-id="procedure.SecondaryCarrierId"
+                               place-holder-text="Please select a secondary carrier"
+                               entity-type="CARRIER"></ipg-entity-select>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Secondary Member Id:</label>
+        <div class="col-sm-4">
+            <input type="text" ng-model="procedure.SecondaryMemberId" class="form-control"/>
+        </div>
+        <label class="col-sm-2 control-label">Secondary Group Id:</label>
+        <div class="col-sm-4">
+            <input type="text" ng-model="procedure.SecondaryGroupId" class="form-control"/>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Insured Employer:</label>
+        <div class="col-sm-10">
+            <input type="text" name="insuredEmployer" ng-model="procedure.InsuredEmployer"
+                   class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Insured Name:</label>
+        <div class="col-sm-4">
+            <input type="text" ng-model="procedure.InsuredFirstName" class="form-control"/>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" ng-model="procedure.InsuredMiddleName" class="form-control"/>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" ng-model="procedure.InsuredLastName" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Insured DOB:</label>
+        <div class="col-sm-4">
+            <input type="date" ng-model="procedure.InsuredDob" class="form-control" />
+        </div>
+        <label class="col-sm-2 control-label">Insured Gender:</label>
+        <div class="col-sm-4">
+            <label class="radio-inline">
+                <input type="radio" ng-model="procedure.InsuredGender" value="Male">Male
+            </label>
+            <label class="radio-inline">
+                <input type="radio" ng-model="procedure.InsuredGender" value="Female">Female
+            </label>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Insured SSN:</label>
+        <div class="col-sm-4">
+            <input type="text" name="insuredSsn" ng-model="procedure.InsuredSsn"
+                   class="form-control"/>
+        </div>
+        <label class="col-sm-2 control-label">Insured Phone:</label>
+        <div class="col-sm-4">
+            <input type="text" name="insuredPhone" ng-model="procedure.InsuredPhone"
+                   class="form-control"/>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Insured Address:</label>
+        <div class="col-sm-10">
+            <input type="text" name="insuredAddress" ng-model="procedure.InsuredAddress" class="form-control"
+                   placeholder="Insured Address"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Address:</label>
+        <div class="col-sm-4">
+            <input type="text" name="insuredCity" ng-model="procedure.InsuredCity" class="form-control"
+                   placeholder="Insured City"/>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" name="insuredState" ng-model="procedure.InsuredState" class="form-control"
+                   placeholder="Insured State"/>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" name="insuredZipcode" ng-model="procedure.InsuredZipCode" class="form-control"
+                   placeholder="Insured Zip"/>
+        </div>
+    </div>
+</div>

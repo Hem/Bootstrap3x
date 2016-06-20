@@ -1,0 +1,128 @@
+﻿
+<form name="FormData.manufacturerSummaryForm" role="form" class="form-horizontal" novalidate>
+
+    <div class="panel panel-primary">
+
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-sm-12 panel-title">
+                    Manufacturer Pricing
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">
+                    MSRP:
+                </label>
+                <div class="col-sm-8" ng-class="{'has-error': FormData.manufacturerSummaryForm.unitMsrp.$invalid}">
+                    <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text"
+                               name="unitMsrp"
+                               ng-model="partModel.selectedPart.mfrListPrice"
+                               class="form-control"
+                               required
+                               money
+                               min="0"
+                               max="999999.99"
+                               precision="2" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Discount Price:</label>
+                <div class="col-sm-8">
+                    <div ng-class="{'has-error': FormData.manufacturerSummaryForm.mfrDiscountPrice.$invalid}">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text"
+                                   name="mfrDiscountPrice"
+                                   ng-model="partModel.selectedPart.mfrDiscountPrice"
+                                   class="form-control"
+                                   ng-required="partModel.selectedPart.discountOverride && partModel.selectedPart.costFormulaId === 'Fixed'"
+                                   money
+                                   max="{{partModel.selectedPart.mfrListPrice}}"
+                                   precision="2"
+                                    popover-trigger="mouseenter"
+                                    popover="{{FormData.manufacturerSummaryForm.mfrDiscountPrice.$error.max? 'Discount Price must be less than MSRP.' : ''}}"/>
+                        </div>
+
+                        </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Discount Override:</label>
+                <div class="checkbox col-sm-8">
+                    <label>
+                        <input type="checkbox"
+                               ng-change="onDiscountOverrideChange()"
+                               ng-model="partModel.selectedPart.discountOverride">{{partModel.selectedPart.discountOverride? "Yes": "No"}}
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Cost Formula:</label>
+                <div class="col-sm-8" ng-class="{'has-error': FormData.manufacturerSummaryForm.costFormula.$invalid}">
+                    <ipg-entity-select name="costFormula"
+                                       ng-model="partModel.selectedPart.costFormula"
+                                       place-holder-text="Cost Formula"
+                                       min-chars-to-filter="1"
+                                       entity-type="COST_FORMULA"
+                                       load-all-records="true"
+                                       disabled="!partModel.selectedPart.discountOverride"
+                                       ng-required="partModel.selectedPart.discountOverride"></ipg-entity-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">MAIC:</label>
+                <div class="checkbox col-sm-8">
+                    <label>
+                        <input type="checkbox" ng-model="partModel.selectedPart.macDisabled">{{partModel.selectedPart.macDisabled ? "MAIC IS DISABLED": "MAIC IS ALLOWED"}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">AIC:</label>
+                <div class="col-sm-8">
+                    
+                    <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text"
+                               name="aic"
+                               ng-model="partModel.selectedPart.aic"
+                               class="form-control"
+                               money
+                               precision="2">
+                    </div>
+</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Tax Category:</label>
+                <div class="col-sm-8" ng-class="{ 'has-error': FormData.manufacturerSummaryForm.taxCategory.$invalid }">
+                    <ipg-entity-select name="taxCategory"
+                                       required
+                                       ng-model="partModel.selectedPart.taxCategory"
+                                       place-holder-text="Please select a tax category"
+                                       min-chars-to-filter="1"
+                                       display-member="'description'"
+                                       entity-type="TAX_CATEGORY"
+                                       load-all-records="true">
+
+                    </ipg-entity-select>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</form>
+
+
