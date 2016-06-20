@@ -18,7 +18,7 @@
                 {
                     name: 'Case',
                     subNavItems: [
-                        { name: 'Case Search', href: '/Case#/Search', permissions: ['VIEW_CASE'] }
+                        { name: 'Case Search', href: '/Case.html#/search', permissions: ['VIEW_CASE'] }
                     ]
                 },
                 {

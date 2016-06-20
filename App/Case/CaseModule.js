@@ -12,12 +12,12 @@
             $stateProvider
                 .state('case-search', {
                     url: '/search',
-                    templateUrl: '~/App/Case/Search/Views/CaseSearch.html',
+                    templateUrl: '/App/Case/Search/Views/CaseSearch.html',
                     controller: 'CaseSearchController'
                 })
                 .state('case-intake', {
                     url: '/intake',
-                    templateUrl: '~/App/Case/Intake/Views/CaseIntakeView.html',
+                    templateUrl: '/App/Case/Intake/Views/CaseIntakeView.html',
                     controller: 'CaseIntakeController'
                 });
 

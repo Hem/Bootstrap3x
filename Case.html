@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-cloak>
+<!--
+Machine Name: @Server.MachineName :
+SERVER_NAME: @Request.ServerVariables["SERVER_NAME"] :
+HTTP_HOST: @Request.ServerVariables["HTTP_HOST"] :
+X-Real-IP: @Request.Headers["X-Real-IP"] :
+X-Forwarded-Proto: @Request.Headers["X-Forwarded-Proto"] :
+X-Forwarded-For: @Request.Headers["X-Forwarded-For"]
+-->
+<head>
+
+
+    <base href="@Url.Content(" ~/" + route + "/" + action)">
+
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.1, maximum-scale=1.25">
+
+
+
+    <title>Insight NG</title>
+
+    
+    <script src="/Content/app/IEShim.js?@JsVersionId"></script>
+
+
+    <link href="/Content/bootstrap/css/bootstrap.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/select2/select2.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/ui-select/ui-select.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/selectize-js/css/selectize.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/angular-wizard/angular-wizard.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/angular-ui-notification/angular-ui-notification.min.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/app/angular-ui-router.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/app/ui-select.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/angular-flippy/flippy.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/Style/common.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/App/Navigation/Style/leftNav.css?@JsVersionId" rel="stylesheet"/>
+    <link href="/Content/angular-material/angular-material.min.css?@JsVersionId" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div ui-view ng-animate="'view'" class="no-animate"></div>
+
+
+<script src="/Content/angular/angular.js?@JsVersionId"></script>
+<script src="/Content/angular-cookies/angular-cookies.min.js?@JsVersionId"></script>
+<script src="/Content/Jquery/jquery-2.2.1.min.js"></script>
+<script src="/Content/bootstrap/js/bootstrap.js"></script>
+
+<script src="/Content/ui-router/angular-ui-router.js?@JsVersionId"></script>
+<script src="/Content/ui-router-css/ui-router-styles.js?@JsVersionId"></script>
+
+<script src="/Content/angular-sanitize/angular-sanitize.js?@JsVersionId"></script>
+<script src="/Content/angular-animate/angular-animate.min.js?@JsVersionId"></script>
+<script src="/Content/angular-aria/angular-aria.min.js"></script>
+<script src="/Content/angular-messages/angular-messages.min.js?@JsVersionId"></script>
+
+<script src="/Content/angular-bootstrap/ui-bootstrap-tpls.js?@JsVersionId"></script>
+<script src="/Content/angular-ui/angular-ui.js?@JsVersionId"></script>
+<script src="/Content/angular-ui-notification/angular-ui-notification.min.js?@JsVersionId"></script>
+<script src="/Content/ui-select/ui-select.js?@JsVersionId"></script>
+<script src="/Content/angular-wizard/angular-wizard.js?@JsVersionId"></script>
+
+<script src="/Content/DateJs/date.min.js?@JsVersionId"></script>
+<script src="/Content/lodash/lodash.min.js?@JsVersionId"></script>
+<script src="/Content/angular-flippy/flippy.js?@JsVersionId"></script>
+<script src="/Content/bootbox/bootbox.min.js?@JsVersionId"></script>
+<script src="/Content/angular-money-directive/angular-money-directive.min.js?@JsVersionId"></script>
+<script src="/Content/angular-material/angular-material.min.js?@JsVersionId"></script>
+<script src="/Content/angular-filter/angular-filter.min.js"></script>
+<script src="/Content/angular-file-upload/angular-file-upload.min.js?@JsVersionId"></script>
+
+
+<script language="javascript">
+    window.MyApp = {}; // Create a global static placeholder!
+</script>
+
+<script src="/App/App.js?@JsVersionId"></script>
+<script src="/App/Common/common.ViewModelHelper.js?@JsVersionId"></script>
+<script src="/App/Common/common.js?@JsVersionId"></script>
+<script src="/App/Common/common.CurrentUserService.js?@JsVersionId"></script>
+<script src="/App/MainController.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgCodeEntry.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgCodeSelect.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgEntitySelect.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgPersonEntitySelect.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgDatePicker.js?@JsVersionId"></script>
+<script src="/App/Case/Pdl/Js/CasePdlController.js?@JsVersionId"></script>
+<script src="/App/Navigation/Js/leftNavigationController.js?@JsVersionId"></script>
+<script src="/App/Navigation/Js/navigationDirectives.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgEntityMultiSelect.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgPersonMultiSelect.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgPartSelect.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgEntitiesView.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgPersonsView.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgPageSizeSelect.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgMaxDigits.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgSortableTableHeader.js?@JsVersionId"></script>
+
+<script src="/App/Core/Js/IpgErrorToolTip.js?@JsVersionId"></script>
+<script src="/App/Common/common.Dialog.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgCheckDuplicateName.js?@JsVersionId"></script>
+<script src="/App/Common/common.ArrayHelper.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgOnEnter.js?@JsVersionId"></script>
+<script src="/App/Common/common.IpgVariables.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgWholeNumber.js?@JsVersionId"></script>
+<script src="/App/Core/Js/IpgPositiveInteger.js?@JsVersionId"></script>
+
+    <script src="/App/Case/CaseModule.js?@JsVersionId"></script>
+
+    <script src="/App/Case/Js/formatProcessingNote.js?@JsVersionId"></script>
+    <script src="/App/Case/Js/MaicEnumFilter.js?@JsVersionId"></script>
+
+    <script src="/App/Case/Search/Js/CaseSearchController.js?@JsVersionId"></script>
+    <script src="/App/Case/Search/Js/ActualPartDetailsController.js?@JsVersionId"></script>
+
+    <script src="/App/Case/Intake/Js/CaseIntakeController.js?@JsVersionId"></script>
+
+    <script src="/App/Case/History/Js/CaseHistoryController.js?@JsVersionId"></script>
+    <script src="/App/Case/History/Js/CaseSnapshotController.js?@JsVersionId"></script>
+
+<script type="text/javascript" language="javascript">
+    angular.module('app').constant('APP_CONSTANTS', {
+        app_root_path: '@Url.Content("~")',
+        insight_url: '@ConfigurationManager.AppSettings["insight_url"]',
+        "app_version_number": '@JsVersionId'
+    });
+
+    angular.module('app').constant('APP_USER', {
+
+    });
+
+</script>
+
+</body>
+</html>
