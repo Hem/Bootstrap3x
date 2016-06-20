@@ -39,6 +39,16 @@
                     if (rejection.status === 500) {
                         //window.alert("An Error Occured, Please Contact an Administrator!!!");
                     }
+                },
+
+                'request': function(request) {
+                    console.log(request);
+                    if(request.url.contains('undefinedapi'))
+                    {
+                    request.url = 'http://insightng.localdev.ipg.local' + request.url.replace('undefinedapi', '/api');
+
+                }
+                    return request;
                 }
             };
 
