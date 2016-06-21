@@ -47,6 +47,11 @@
                         request.url = request.url.replace('undefinedapi', '/api');
 
                     }
+                    if (request.url.contains('undefinedapp')) {
+                        request.url = request.url.replace('undefinedapp', '/App');
+
+                    }
+
                     if (request.url.contains('undefinedApp')) {
                         request.url = request.url.replace('undefinedApp', '/App');
 
@@ -59,20 +64,5 @@
             return httpInterceptor;
         }
     );
-
-    app.config(function ($urlMatcherFactoryProvider, $stateProvider) {
-
-        $urlMatcherFactoryProvider.caseInsensitive(true);
-        $urlMatcherFactoryProvider.strictMode(false);
-
-
-        $stateProvider
-            .state('home', {
-                url: '',
-                templateUrl: '/App/Home.html'
-            });
-
-    });
-
 
 })();

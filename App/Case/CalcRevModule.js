@@ -10,7 +10,7 @@
 
             $stateProvider
                 .state('calc-rev-view', {
-                    url: "/:ppId",
+                    url: "",
                     templateUrl: '~/App/Case/CalcRev/Views/CalcRevView.html',
                     controller: "CaseController",
                     data: {

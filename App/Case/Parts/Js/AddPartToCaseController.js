@@ -38,8 +38,10 @@
             };
 
             var loadParts = function() {
-                return $http.get("~/api/ProcedureParts/GetParts/" + $stateParams.ppId).then(function(response) {
-                    self.parts = _.filter(response.data, function(value) {
+
+                var data = [{'hcpcsCode2':null,'hcpcsId2':null,'discountOptions':null,'enteredLineShipping':null,'calculatedUnitCost':0.00,'calculatedLineTax':0.00,'calculatedLineShipping':0.00,'calculatedLineCost':0.00,'mac':null,'serialNumber':null,'lotNumber':null,'macEnabled':false,'maicDisableReason':0,'poType':{'id':'','name':'','description':''},'payFacility':false,'partTypeName':null,'partTaxCategory':null,'poId':null,'multiPackPoId':null,'poDateAdd':null,'debitActualPartId':null,'debitedQuantity':0.0,'displaySortOrder':11,'partCost':null,'partPrice':null,'enteredLineTax':0.0000,'wastedQuantity':0,'printOnPo':{'id':'1','name':'Yes: Paid by IPG'},'printOnClaim':{'id':'1','name':'Yes'},'boxQuantity':0,'ipgPartNumber':null,'poName':null,'linkedPatientProcedureId':null,'linkedActualPartId':null,'documentId':null,'enforceMaxQuantity':false,'maxQuantityPerCase':null,'id':'b40c63e4-9cb3-484a-bad6-ecc219a0ee23','patientProcedureId':'34714039-8cf6-5d54-2281-571a630daaea','partId':'5ACE485B-D8E1-0C9F-F883-4B7B27F84F7F','partSku':'admin_fee','partName':'Admin Fee','manufacturerId':null,'manufacturer':{'id':'','name':''},'hcpcsCode':'A9900','hcpcsId':'DB0463BD-A4BD-41C3-B347-13A0B4530465','quantity':1.0,'enteredUnitCost':0.00,'mfrUnitCost':null,'mfrDiscUnitCost':0.00,'multiplier':1,'billedQuantity':1,'billedUnitPrice':50.00,'billedLineAmt':50.00,'allowedUnitPrice':50.00,'allowedLineAmt':50.00},{'hcpcsCode2':null,'hcpcsId2':null,'discountOptions':null,'enteredLineShipping':3.00,'calculatedUnitCost':13.00,'calculatedLineTax':null,'calculatedLineShipping':3.00,'calculatedLineCost':42.00,'mac':null,'serialNumber':null,'lotNumber':null,'macEnabled':false,'maicDisableReason':0,'poType':{'id':'1','name':'C','description':'CPA - Pay Facility'},'payFacility':true,'partTypeName':'Implantables','partTaxCategory':null,'poId':null,'multiPackPoId':null,'poDateAdd':null,'debitActualPartId':null,'debitedQuantity':0.0,'displaySortOrder':21,'partCost':null,'partPrice':null,'enteredLineTax':0.0000,'wastedQuantity':0,'printOnPo':{'id':'1','name':'Yes: Paid by IPG'},'printOnClaim':{'id':'1','name':'Yes'},'boxQuantity':0,'ipgPartNumber':'plate','poName':null,'linkedPatientProcedureId':null,'linkedActualPartId':null,'documentId':null,'enforceMaxQuantity':false,'maxQuantityPerCase':null,'id':'dcdf4f34-223b-4c59-a98a-dc72d85755c6','patientProcedureId':'34714039-8cf6-5d54-2281-571a630daaea','partId':'4cd0adfc-580c-71f5-64c0-5665a8bc6b12','partSku':'55-06708','partName':'Straight Plate, 8 Hole','manufacturerId':'5d5b0257-bbc2-9974-0321-4901a746d6dc','manufacturer':{'id':'5d5b0257-bbc2-9974-0321-4901a746d6dc','name':'Synthes'},'hcpcsCode':'C1713','hcpcsId':'41E64F58-5FCD-4FCC-AAB3-7F1EB0E78807','quantity':3.0,'enteredUnitCost':13.00,'mfrUnitCost':267.47,'mfrDiscUnitCost':0.00,'multiplier':1,'billedQuantity':3,'billedUnitPrice':null,'billedLineAmt':null,'allowedUnitPrice':null,'allowedLineAmt':null},{'hcpcsCode2':null,'hcpcsId2':null,'discountOptions':null,'enteredLineShipping':null,'calculatedUnitCost':484.00,'calculatedLineTax':null,'calculatedLineShipping':null,'calculatedLineCost':484.00,'mac':null,'serialNumber':null,'lotNumber':null,'macEnabled':false,'maicDisableReason':0,'poType':{'id':'2','name':'M','description':'MPO - Mfg Rep Delivery - Bill Only PO'},'payFacility':false,'partTypeName':'Implantables','partTaxCategory':null,'poId':null,'multiPackPoId':null,'poDateAdd':null,'debitActualPartId':null,'debitedQuantity':0.0,'displaySortOrder':31,'partCost':null,'partPrice':null,'enteredLineTax':0.0000,'wastedQuantity':0,'printOnPo':{'id':'1','name':'Yes: Paid by IPG'},'printOnClaim':{'id':'1','name':'Yes'},'boxQuantity':0,'ipgPartNumber':'plate','poName':null,'linkedPatientProcedureId':null,'linkedActualPartId':null,'documentId':null,'enforceMaxQuantity':false,'maxQuantityPerCase':null,'id':'f720c1be-eeec-4325-81c9-dc0393546fca','patientProcedureId':'34714039-8cf6-5d54-2281-571a630daaea','partId':'860dc03b-11eb-6373-61e8-541c94ece587','partSku':'7005-08003','partName':'0.8 mm T-Plate','manufacturerId':'eb8d33f6-1c6e-4574-d7f4-48dcd5e33eb3','manufacturer':{'id':'eb8d33f6-1c6e-4574-d7f4-48dcd5e33eb3','name':'Acumed'},'hcpcsCode':'C1713','hcpcsId':'41E64F58-5FCD-4FCC-AAB3-7F1EB0E78807','quantity':1.0,'enteredUnitCost':null,'mfrUnitCost':718.00,'mfrDiscUnitCost':484.00,'multiplier':1,'billedQuantity':1,'billedUnitPrice':null,'billedLineAmt':null,'allowedUnitPrice':null,'allowedLineAmt':null}];
+
+                    self.parts = _.filter(data, function(value) {
                         return !value.poId && !value.multiPackPoId && value.quantity > 0 && value.partSku !== 'admin_fee';
                     });
                     _.forEach(self.parts, function(value) {
@@ -48,7 +50,18 @@
                             patientProcedureId:  $stateParams.ppId
                         };
                     });
-                    self.$$childHead.form.$setPristine();
+                    //self.$$childHead.form.$setPristine();
+                return $http.get("~/api/ProcedureParts/GetParts/" + $stateParams.ppId).then(function(response) {
+                    // self.parts = _.filter(response.data, function(value) {
+                    //     return !value.poId && !value.multiPackPoId && value.quantity > 0 && value.partSku !== 'admin_fee';
+                    // });
+                    // _.forEach(self.parts, function(value) {
+                    //     value.metadata = {
+                    //         partId: value.partId,
+                    //         patientProcedureId:  $stateParams.ppId
+                    //     };
+                    // });
+                    // self.$$childHead.form.$setPristine();
                 });
             };
           
