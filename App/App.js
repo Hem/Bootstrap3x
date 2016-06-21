@@ -2,9 +2,9 @@
 
     'use strict';
 
-    var app = angular.module('app', 
-            ['common', 'ui.router', 'ngSanitize', 'ui.bootstrap', 'ui.select', 'mgo-angular-wizard', 'ui-notification', 'uiRouterStyles', 'angular-flippy', 'ngMessages', 'ngAnimate', 'ngCookies', 'fiestah.money', 'ngMaterial', 'angular.filter', 'angularFileUpload']
-                );
+    var app = angular.module('app',
+        ['common', 'ui.router', 'ngSanitize', 'ui.bootstrap', 'ui.select', 'mgo-angular-wizard', 'ui-notification', 'uiRouterStyles', 'angular-flippy', 'ngMessages', 'ngAnimate', 'ngCookies', 'fiestah.money', 'ngMaterial', 'angular.filter', 'angularFileUpload']
+    );
     // needs 
     app.filter('ipgReplaceConstants', ['APP_CONSTANTS',
         function (constants) {
@@ -31,8 +31,8 @@
     ]);
 
 
-    app.factory('HttpInterceptor', 
-        function() {
+    app.factory('HttpInterceptor',
+        function () {
             var httpInterceptor = {
                 'responseError': function (rejection) {
                     console.log(rejection);
@@ -41,13 +41,17 @@
                     }
                 },
 
-                'request': function(request) {
-                    console.log(request);
-                    if(request.url.contains('undefinedapi'))
-                    {
-                    request.url = 'http://insightng.localdev.ipg.local' + request.url.replace('undefinedapi', '/api');
+                'request': function (request) {
 
-                }
+                    if (request.url.contains('undefinedapi')) {
+                        request.url = request.url.replace('undefinedapi', '/api');
+
+                    }
+                    if (request.url.contains('undefinedApp')) {
+                        request.url = request.url.replace('undefinedApp', '/App');
+
+                    }
+
                     return request;
                 }
             };
@@ -56,19 +60,19 @@
         }
     );
 
-        app.config(function ($urlMatcherFactoryProvider, $stateProvider) {
+    app.config(function ($urlMatcherFactoryProvider, $stateProvider) {
 
-            $urlMatcherFactoryProvider.caseInsensitive(true);
-            $urlMatcherFactoryProvider.strictMode(false);
+        $urlMatcherFactoryProvider.caseInsensitive(true);
+        $urlMatcherFactoryProvider.strictMode(false);
 
 
-            $stateProvider
-                .state('home', {
-                    url: '',
-                    templateUrl: '/App/Home.html'
-                });
+        $stateProvider
+            .state('home', {
+                url: '',
+                templateUrl: '/App/Home.html'
+            });
 
-        });
+    });
 
 
 })();

@@ -9,7 +9,7 @@
             scope: {
                 ngModel: '='
             },
-            templateUrl: '~/App/Case/CalcRev/Views/CaseInfoView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CaseInfoView.html'
         };
     });
 
@@ -20,7 +20,7 @@
             scope: {
                 ngModel: '='
             },
-            templateUrl: '~/App/Case/CalcRev/Views/CaseFeeScheduleView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CaseFeeScheduleView.html'
         };
     });
 
@@ -35,7 +35,7 @@
                 feeSchedule: '=',
                 priceRuleGroup: '='
             },
-            templateUrl: '~/App/Case/CalcRev/Views/CaseCarrierInfoView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CaseCarrierInfoView.html'
         };
     });
 
@@ -53,7 +53,7 @@
                     };
                 }
             ],
-            templateUrl: '~/App/Case/CalcRev/Views/CaseBenefitsView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CaseBenefitsView.html'
         };
     });
 
@@ -135,7 +135,7 @@
                     };
                 }
             ],
-            templateUrl: '~/App/Case/CalcRev/Views/CaseAdjustmentView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CaseAdjustmentView.html'
         };
     });
 
@@ -149,7 +149,7 @@
                 responsibility: '=',
                 editInline: '='
             },
-            templateUrl: '~/App/Case/CalcRev/Views/CaseBilledChargesView.html',
+            templateUrl: '/App/Case/CalcRev/Views/CaseBilledChargesView.html',
             controller: [
                 '$scope', '$modal', 'CaseAdjustmentModel', '$http', 'EstimatedCaseModel', 'currentUser', function($scope, $modal, caseAdjustmentModel, $http, estimatedCaseModel, currentUser) {
 
@@ -181,7 +181,7 @@
                     self.open = function(size) {
 
                         var modalInstance = $modal.open({
-                            templateUrl: '~/App/Case/CalcRev/Views/ApproveCaseInBandingView.html',
+                            templateUrl: '/App/Case/CalcRev/Views/ApproveCaseInBandingView.html',
                             controller: 'ApproveCaseInBandingController',
                             size: size,
                             resolve: {
@@ -207,7 +207,7 @@
             scope: {
                 ngModel: "="
             },
-            templateUrl: '~/App/Case/CalcRev/Views/CaseOldBilledChargesView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CaseOldBilledChargesView.html'
         };
     });
 
@@ -332,7 +332,7 @@
                     };
                 }
             ],
-            templateUrl: '~/App/Case/CalcRev/Views/CalcRevPoPartsView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CalcRevPoPartsView.html'
         };
     });
 
@@ -466,7 +466,7 @@
                     };
                 }
             ],
-            templateUrl: '~/App/Case/CalcRev/Views/CalcRevClaimPartsView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CalcRevClaimPartsView.html'
         };
     });
 
@@ -477,7 +477,7 @@
             scope: {
                 parts: '='
             },
-            templateUrl: '~/App/Case/CalcRev/Views/CalcRevOldActualPartsView.html'
+            templateUrl: '/App/Case/CalcRev/Views/CalcRevOldActualPartsView.html'
         };
     });
 
